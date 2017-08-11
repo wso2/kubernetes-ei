@@ -12,16 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
+apiVersion: v1
+kind: Service
+metadata:
+  name: wso2ei-analytics-mod-stdln-srv
+spec:
+  type: NodePort
+  selector:
+    dpl: wso2ei-analytics-mod-stdln
+  ports:
+  - name: 'servlet-http'
+    port: 9764
+    targetPort: 9764
+    nodePort: 31031
+    protocol: TCP
+  - name: 'servlet-https'
+    port: 9444
+    targetPort: 9444
+    nodePort: 31032
+    protocol: TCP
+  - name: 'thrift-http'
+    port: 7612
+    targetPort: 7612
+    nodePort: 31033
+    protocol: TCP
+  - name: 'thrift-https'
+    port: 7712
+    targetPort: 7712
+    nodePort: 31034
+    protocol: TCP
 
-# Backup files
-*~
-*.bck
 
-# Required-image-building-artifacts
-*.tar.gz
-*.zip

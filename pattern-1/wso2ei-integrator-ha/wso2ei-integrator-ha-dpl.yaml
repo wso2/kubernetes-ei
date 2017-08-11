@@ -12,16 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: wso2ei-integrator-ha-dpl
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        dpl: wso2ei-integrator-ha
+    spec:
+      containers:
+      - name: wso2ei-integrator-ha
+        image: wso2ei-integrator-ha:6.1.1
+        ports:
+        - containerPort: 8280
+          protocol: "TCP"
+        - containerPort: 8243
+          protocol: "TCP"
+        - containerPort: 9763
+          protocol: "TCP"
+        - containerPort: 9443
+          protocol: "TCP"
 
-# Backup files
-*~
-*.bck
 
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
+
