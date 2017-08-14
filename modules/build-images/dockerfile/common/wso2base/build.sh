@@ -1,4 +1,7 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+#!/bin/bash
+# ------------------------------------------------------------------------
+#
+# Copyright 2016 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10,19 +13,14 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.
+# limitations under the License
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
+# ------------------------------------------------------------------------
 
-# Backup files
-*~
-*.bck
+set -e
 
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+self_path=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "${self_path}/../common/scripts/base.sh"
+
+echoBold "Building docker base image..."
+docker build -t wso2/wso2base ${self_path}

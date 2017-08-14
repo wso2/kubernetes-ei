@@ -12,17 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
-
-# Backup files
-*~
-*.bck
-
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+apiVersion: v1
+kind: Service
+metadata:
+  name: wso2ei-integrator-mod-ha-srv
+spec:
+  type: NodePort
+  selector:
+    dpl: wso2ei-integrator-mod-ha
+  ports:
+  - name: 'pass-through-http'
+    port: 8280
+    targetPort: 8280
+    nodePort: 31027
+    protocol: TCP
+  - name: 'pass-through-https'
+    port: 8243
+    targetPort: 8243
+    nodePort: 31028
+    protocol: TCP
+  - name: 'servlet-http'
+    port: 9763
+    targetPort: 9763
+    nodePort: 31029
+    protocol: TCP
+  - name: 'servlet-https'
+    port: 9443
+    targetPort: 9443
+    nodePort: 31030
+    protocol: TCP

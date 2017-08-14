@@ -12,17 +12,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
-
-# Backup files
-*~
-*.bck
-
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: wso2ei-analytics-mod-stdln-dpl
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        dpl: wso2ei-analytics-mod-stdln
+    spec:
+      containers:
+      - name: wso2ei-analytics-mod-stdln
+        image: wso2ei-p1-analytics:6.1.1
+        ports:
+        - containerPort: 9764
+          protocol: "TCP"
+        - containerPort: 9444
+          protocol: "TCP"
+        - containerPort: 7612
+          protocol: "TCP"
+        - containerPort: 7712
+          protocol: "TCP"

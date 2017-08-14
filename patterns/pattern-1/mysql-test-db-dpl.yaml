@@ -12,17 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
-
-# Backup files
-*~
-*.bck
-
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mysql-test-db-dpl
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        dpl: mysql-test-db
+    spec:
+      containers:
+      - name: mysql-test-db
+        image: wso2ei-p1-mysql:5.5
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        ports:
+        - containerPort: 3306
+          protocol: "TCP"
+          

@@ -12,17 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-test-db-srv
+spec:
+  type: NodePort
+  selector:
+    dpl: mysql-test-db
+  ports:
+  - name: 'mysql-port'
+    port: 3306
+    targetPort: 3306
+    nodePort: 31035
+    protocol: TCP
 
-# Backup files
-*~
-*.bck
 
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+
+    
