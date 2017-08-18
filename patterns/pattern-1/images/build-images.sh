@@ -22,11 +22,15 @@
 product=wso2ei
 version=6.1.1
 patternNumber=1
-# MySQL parameters
-rdbms=mysql
-sqlVersion=5.5
 
-# Source
-echo "Creating MySQL Test Database for pattern ${patternNumber} ..."
-docker build -t ${product}-p${patternNumber}-${rdbms}:${sqlVersion} .
-echo "Image created: ${product}-p${patternNumber}-${rdbms}:${sqlVersion}"
+pushd ./mysql-test-node/ > /dev/null 2>&1
+/bin/bash build-image.sh
+popd > /dev/null 2>&1
+
+pushd ./analytics-node/ > /dev/null 2>&1
+/bin/bash build-image.sh
+popd > /dev/null 2>&1
+
+pushd ./integrator-node/ > /dev/null 2>&1
+/bin/bash build-image.sh
+popd > /dev/null 2>&1
