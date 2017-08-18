@@ -91,7 +91,7 @@
             <!-- The type used with Data Publisher -->
             <Type>thrift</Type>
             <!-- Data Receiver URL used by the Data Publisher -->
-            <ReceiverURL>tcp://wso2ei-analytics-mod-stdln-srv:7612</ReceiverURL>
+            <ReceiverURL>tcp://wso2ei-analytics-service:7612</ReceiverURL>
             <!-- Authentication URL for the Data Publisher -->
             <!-- <AuthURL>ssl://localhost:7711</AuthURL> -->
             <Username>admin</Username>

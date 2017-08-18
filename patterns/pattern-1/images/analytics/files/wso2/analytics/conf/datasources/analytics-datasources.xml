@@ -13,7 +13,7 @@
             <description>The datasource used for analytics record store</description>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://mysql-test-db-srv:3306/WSO2EI_ANALYTICS_EVENT_STORE_DB</url>
+                    <url>jdbc:mysql://mysql-service:3306/WSO2EI_ANALYTICS_EVENT_STORE_DB</url>
                     <username>root</username>
                     <password>root</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
@@ -34,7 +34,7 @@
             <description>The datasource used for analytics record store</description>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://mysql-test-db-srv:3306/WSO2EI_ANALYTICS_PROCESSED_DATA_STORE_DB</url>
+                    <url>jdbc:mysql://mysql-service:3306/WSO2EI_ANALYTICS_PROCESSED_DATA_STORE_DB</url>
                     <username>root</username>
                     <password>root</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
