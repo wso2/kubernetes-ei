@@ -26,7 +26,3 @@ spec:
     targetPort: 3306
     nodePort: 31035
     protocol: TCP
-
-
-
-    
