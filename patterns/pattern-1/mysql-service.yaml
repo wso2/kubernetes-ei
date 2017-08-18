@@ -12,26 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: wso2ei-integrator-mod-ha-dpl
+  name: mysql-service
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        dpl: wso2ei-integrator-mod-ha
-    spec:
-      containers:
-      - name: wso2ei-integrator-mod-ha
-        image: wso2ei-p1-integrator:6.1.1
-        ports:
-        - containerPort: 8280
-          protocol: "TCP"
-        - containerPort: 8243
-          protocol: "TCP"
-        - containerPort: 9763
-          protocol: "TCP"
-        - containerPort: 9443
-          protocol: "TCP"
+  type: NodePort
+  selector:
+    deployment: mysql
+  ports:
+  - name: 'mysql-port'
+    port: 3306
+    targetPort: 3306
+    protocol: TCP

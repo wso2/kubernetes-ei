@@ -12,24 +12,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: mysql-test-db-dpl
+  name: wso2ei-analytics-service
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        dpl: mysql-test-db
-    spec:
-      containers:
-      - name: mysql-test-db
-        image: wso2ei-p1-mysql:5.5
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: root
-        ports:
-        - containerPort: 3306
-          protocol: "TCP"
-          
+  type: NodePort
+  selector:
+    deployment: wso2ei-analytics
+  ports:
+  - name: 'servlet-http'
+    port: 9764
+    targetPort: 9764
+    protocol: TCP
+  - name: 'servlet-https'
+    port: 9444
+    targetPort: 9444
+    protocol: TCP
+  - name: 'thrift-http'
+    port: 7612
+    targetPort: 7612
+    protocol: TCP
+  - name: 'thrift-https'
+    port: 7712
+    targetPort: 7712
+    protocol: TCP

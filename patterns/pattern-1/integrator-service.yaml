@@ -15,14 +15,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-test-db-srv
+  name: wso2ei-integrator-service
 spec:
   type: NodePort
   selector:
-    dpl: mysql-test-db
+    deployment: wso2ei-integrator
   ports:
-  - name: 'mysql-port'
-    port: 3306
-    targetPort: 3306
-    nodePort: 31035
+  - name: 'pass-through-http'
+    port: 8280
+    targetPort: 8280
+    protocol: TCP
+  - name: 'pass-through-https'
+    port: 8243
+    targetPort: 8243
+    protocol: TCP
+  - name: 'servlet-http'
+    port: 9763
+    targetPort: 9763
+    protocol: TCP
+  - name: 'servlet-https'
+    port: 9443
+    targetPort: 9443
     protocol: TCP
