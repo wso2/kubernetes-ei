@@ -24,5 +24,6 @@ version=6.1.1
 profile=analytics
 patternNumber=1
 
-# Image building - Needs to be updated with simple docker command approach
+echo "Creating ${profile} profile for pattern ${patternNumber} ..."
+docker build -t ${product}-p${patternNumber}-${profile}:${version} . --squash
 echo "Image created: ${product}-p${patternNumber}-${profile}:${version}"

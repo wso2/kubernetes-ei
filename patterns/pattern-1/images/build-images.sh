@@ -23,14 +23,14 @@ product=wso2ei
 version=6.1.1
 patternNumber=1
 
-pushd ./mysql-test-node/ > /dev/null 2>&1
+pushd ./mysql/ > /dev/null 2>&1
 /bin/bash build-image.sh
 popd > /dev/null 2>&1
 
-pushd ./analytics-node/ > /dev/null 2>&1
+pushd ./analytics/ > /dev/null 2>&1
 /bin/bash build-image.sh
 popd > /dev/null 2>&1
 
-pushd ./integrator-node/ > /dev/null 2>&1
+pushd ./integrator/ > /dev/null 2>&1
 /bin/bash build-image.sh
 popd > /dev/null 2>&1

@@ -27,6 +27,6 @@ rdbms=mysql
 sqlVersion=5.5
 
 # Source
-echo "Creating MySQL Test Database for pattern ${patternNumber} ..."
-docker build -t ${product}-p${patternNumber}-${rdbms}:${sqlVersion} .
+echo "Creating ${rdbms} database for pattern ${patternNumber} ..."
+docker build -t ${product}-p${patternNumber}-${rdbms}:${sqlVersion} . --squash
 echo "Image created: ${product}-p${patternNumber}-${rdbms}:${sqlVersion}"
