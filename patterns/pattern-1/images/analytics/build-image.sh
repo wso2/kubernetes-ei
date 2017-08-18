@@ -23,40 +23,6 @@ product=wso2ei
 version=6.1.1
 profile=analytics
 patternNumber=1
-# Image Build Context
-imageBuildModule=../../../../modules/build-images
-tmp=${imageBuildModule}/tmp
-srcFiles=${imageBuildModule}/source-files
-addedFiles=./files
-dstFiles=${imageBuildModule}/dockerfile/common/provision/default/files
 
-# Source
-if [ -d "${tmp}" ]
-    then
-        rm -rf ${tmp}/*
-    else
-        mkdir ${tmp}
-fi
-
-echo "Creating WSO2 Distribution for ${profile} - pattern ${patternNumber} ..."
-unzip -q ${srcFiles}/${product}-*.zip -d ${tmp}/
-
-cp -r ${addedFiles}/* ${tmp}/${product}-*/
-
-pushd ${tmp}/ > /dev/null 2>&1
-
-zip -r ${product}-${version}.zip ${product}-* > /dev/null 2>&1
-
-popd > /dev/null 2>&1
-
-echo "Moving both JDK and ${profile} Distribution to dockerfile build context ..."
-mv ${tmp}/${product}-*.zip ${dstFiles}/
-cp -r ${srcFiles}/jdk-*.tar.gz ${dstFiles}/
-
-rm -rf ${tmp}
-
-/bin/bash ${imageBuildModule}/dockerfile/build.sh -l ${profile} -t ${product}-p${patternNumber}
-
-rm ${dstFiles}/*.zip ${dstFiles}/*.tar.gz
-
+# Image building - Needs to be updated with simple docker command approach
 echo "Image created: ${product}-p${patternNumber}-${profile}:${version}"
