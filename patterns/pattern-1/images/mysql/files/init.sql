@@ -14,21 +14,9 @@
 -- limitations under the License.
 --
 
-drop database IF EXISTS WSO2EI_ANALYTICS_EVENT_STORE_DB;
-drop database IF EXISTS WSO2EI_ANALYTICS_PROCESSED_DATA_STORE_DB;
-drop database IF EXISTS WSO2EI_METRICS_DB;
 drop database IF EXISTS WSO2EI_SHARED_REGISTRY_DB;
 drop database IF EXISTS WSO2_USER_DB;
 
-create database WSO2EI_ANALYTICS_EVENT_STORE_DB;
-create database WSO2EI_ANALYTICS_PROCESSED_DATA_STORE_DB;
-create database WSO2EI_METRICS_DB;
 create database WSO2EI_SHARED_REGISTRY_DB;
 create database WSO2_USER_DB;
 
-use WSO2EI_SHARED_REGISTRY_DB;
-source /home/user-registry.sql;
-use WSO2_USER_DB;
-source /home/user-registry.sql;
-use WSO2EI_METRICS_DB;
-source /home/metrics.sql;

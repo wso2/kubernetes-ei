@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # ------------------------------------------------------------------------
 #
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
@@ -16,14 +18,17 @@
 #
 # ------------------------------------------------------------------------
 
-FROM mysql:5.5
-MAINTAINER WSO2 Docker Maintainers "dev@wso2.org"
+# Product Context
+product=wso2ei
+productVersion=6.1.1
+patternNumber=1
+# MySQL parameters
+rdbms=mysql
+sqlVersion=5.5
+# Image Info
+repository=${product}-pattern${patternNumber}-${rdbms}
+tag=${sqlVersion}
 
-# Arguments
-ARG FILES=./files
-
-# Copy Files
-COPY ["${FILES}/init.sql", "/docker-entrypoint-initdb.d/"]
-
-# Expose transport ports
-EXPOSE 3306
+# Source
+echo "Creating ${rdbms} database for pattern ${patternNumber} ..."
+docker build -t ${repository}:${tag} .
