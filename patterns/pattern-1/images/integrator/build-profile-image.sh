@@ -20,10 +20,14 @@
 
 # Product Context
 product=wso2ei
-version=6.1.1
+productVersion=6.1.1
 profile=integrator
 patternNumber=1
+# Image Info
+repository=${product}-pattern${patternNumber}-${profile}
+tag=${productVersion}
 
 echo "Creating ${profile} profile for pattern ${patternNumber} ..."
-docker build -t ${product}-p${patternNumber}-${profile}:${version} . --squash
-echo "Image created: ${product}-p${patternNumber}-${profile}:${version}"
+docker login docker.wso2.com
+docker build -t ${repository}:${tag} . --squash
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1

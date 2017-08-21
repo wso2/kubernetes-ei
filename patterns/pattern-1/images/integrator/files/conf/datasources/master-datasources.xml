@@ -58,7 +58,7 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://mysql-service:3306/WSO2EI_SHARED_REGISTRY_DB</url>
+                    <url>jdbc:mysql://wso2ei-pattern1-mysql-service:3306/WSO2EI_SHARED_REGISTRY_DB</url>
                     <username>root</username>
                     <password>root</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
@@ -80,7 +80,7 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://mysql-service:3306/WSO2_USER_DB</url>
+                    <url>jdbc:mysql://wso2ei-pattern1-mysql-service:3306/WSO2_USER_DB</url>
                     <username>root</username>
                     <password>root</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>

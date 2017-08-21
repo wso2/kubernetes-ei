@@ -16,20 +16,19 @@
 #
 # ------------------------------------------------------------------------
 
-FROM docker.wso2.com/wso2ei:6.1.1
+FROM docker.wso2.com/wso2ei-integrator:6.1.1
 
 # Arguments
 ARG FILES=./files
 ARG ROOT_USER=root
 ARG ORDINARY_USER=wso2user
-ARG WORK_DIRECTORY=/mnt
-ARG SERVER_DIRECTORY=wso2ei-6.1.1
 
 USER ${ROOT_USER}
 
 # Copy Files
-COPY ["${FILES}/.", "${WORK_DIRECTORY}/${SERVER_DIRECTORY}/"]
+COPY ["${FILES}/.", "${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/"]
 
-RUN chown -R ${ORDINARY_USER} ${WORK_DIRECTORY}/
+RUN chown -R ${ORDINARY_USER} ${USER_HOME} \
+    && chmod -R 0774 ${USER_HOME}
 
 USER ${ORDINARY_USER}

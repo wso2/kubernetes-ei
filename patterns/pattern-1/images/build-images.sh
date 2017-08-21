@@ -24,13 +24,9 @@ version=6.1.1
 patternNumber=1
 
 pushd ./mysql/ > /dev/null 2>&1
-/bin/bash build-image.sh
-popd > /dev/null 2>&1
-
-pushd ./analytics/ > /dev/null 2>&1
-/bin/bash build-image.sh
+/bin/bash build-profile-image.sh
 popd > /dev/null 2>&1
 
 pushd ./integrator/ > /dev/null 2>&1
-/bin/bash build-image.sh
+/bin/bash build-profile-image.sh
 popd > /dev/null 2>&1
