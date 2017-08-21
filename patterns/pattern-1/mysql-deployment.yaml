@@ -15,21 +15,22 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: wso2ei-pattern1-mysql-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: mysql
+        deployment: wso2ei-pattern1-mysql
     spec:
       containers:
-      - name: mysql-database
+      - name: wso2ei-pattern1-mysql
         image: wso2ei-pattern1-mysql:5.5
+        imagePullPolicy: IfNotPresent
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: root
         ports:
         - containerPort: 3306
-          protocol: "TCP"
+          protocol: TCP
           

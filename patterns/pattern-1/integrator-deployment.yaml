@@ -15,23 +15,24 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: wso2ei-integrator-deployment
+  name: wso2ei-pattern1-integrator-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: wso2ei-integrator
+        deployment: wso2ei-pattern1-integrator
     spec:
       containers:
-      - name: wso2ei-integrator
+      - name: wso2ei-pattern1-integrator
         image: wso2ei-pattern1-integrator:6.1.1
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8280
-          protocol: "TCP"
+          protocol: TCP
         - containerPort: 8243
-          protocol: "TCP"
+          protocol: TCP
         - containerPort: 9763
-          protocol: "TCP"
+          protocol: TCP
         - containerPort: 9443
-          protocol: "TCP"
+          protocol: TCP
