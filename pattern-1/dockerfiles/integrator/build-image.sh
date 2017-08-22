@@ -18,14 +18,17 @@
 #
 # ------------------------------------------------------------------------
 
-# Product Info
+# Product Context
 product=wso2ei
 productVersion=6.1.1
-profile=analytics
+profile=integrator
+patternNumber=1
+# Container Cluster Manager Info
+platform=kubernetes
 # Image Info
-repository=${product}-${profile}
+repository=${product}-${platform}-pattern${patternNumber}-${profile}
 tag=${productVersion}
 
-echo "Creating ${profile} base profile for ${product}-${productVersion} ..."
-docker build -t ${repository}:${tag} .
+echo "Creating ${profile} profile for pattern ${patternNumber} ..."
+docker build -t ${repository}:${tag} . --squash
 docker rmi $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1

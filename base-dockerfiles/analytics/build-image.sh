@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # ------------------------------------------------------------------------
 #
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
@@ -16,19 +18,16 @@
 #
 # ------------------------------------------------------------------------
 
-FROM docker.wso2.com/wso2ei-integrator:6.1.1
+# Product Info
+product=wso2ei
+productVersion=6.1.1
+profile=analytics
+# Container Cluster Manager Info
+platform=kubernetes
+# Image Info
+repository=${product}-${platform}-${profile}
+tag=${productVersion}
 
-# Arguments
-ARG FILES=./files
-ARG ROOT_USER=root
-ARG ORDINARY_USER=wso2user
-
-USER ${ROOT_USER}
-
-# Copy Files
-COPY ["${FILES}/.", "${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/"]
-
-RUN chown -R ${ORDINARY_USER} ${USER_HOME} \
-    && chmod -R 0774 ${USER_HOME}
-
-USER ${ORDINARY_USER}
+echo "Creating ${profile} base profile for ${product}-${productVersion} ..."
+docker build -t ${repository}:${tag} .
+docker rmi $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1

@@ -18,15 +18,19 @@
 #
 # ------------------------------------------------------------------------
 
-# Product Info
+# Product Context
 product=wso2ei
 productVersion=6.1.1
-profile=integrator
+patternNumber=1
+# MySQL parameters
+rdbms=mysql
+sqlVersion=5.5
+# Container Cluster Manager Info
+platform=kubernetes
 # Image Info
-repository=docker.wso2.com/${product}-${profile}
-tag=${productVersion}
+repository=${product}-${platform}-pattern${patternNumber}-${rdbms}
+tag=${sqlVersion}
 
-echo "Creating ${profile} base profile for ${product}-${productVersion} ..."
-docker login docker.wso2.com
+# Source
+echo "Creating ${rdbms} database for pattern ${patternNumber} ..."
 docker build -t ${repository}:${tag} .
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1
