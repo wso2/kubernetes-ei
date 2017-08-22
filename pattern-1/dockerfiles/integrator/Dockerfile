@@ -16,7 +16,7 @@
 #
 # ------------------------------------------------------------------------
 
-FROM wso2ei-integrator:6.1.1
+FROM wso2ei-kubernetes-integrator:6.1.1
 
 # Arguments
 ARG FILES=./files
