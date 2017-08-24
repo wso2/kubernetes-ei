@@ -4,7 +4,7 @@ Container-based Deployment Patterns
 of WSO2 Enterprise Integrator
 
 This initial version (V0.1) contains the deployment of a single integrator container instance 
-running with one [h2] local registry database and an external [MySQL] user management database.
+running with one local [h2] registry database and one external [MySQL] user management database.
  
 ## Getting Started
 
@@ -30,10 +30,10 @@ sh deploy-kubernetes.sh
 ```
 
 ##### 5. Access Management Console
-To access the console, try `https://<node-ip>:<node-port>/carbon` in your favorite browser.
+To access the console, try navigating to `https://<node-ip>:<node-port>/carbon` in your favorite browser.
 
 ##### 6. Un-deploy Kubernetes Artifacts
-Be on directory `KUBERNETES_HOME/pattern-1` and run `undeploy-kubernetes.sh` shell script on the terminal.
+Be on the same directory `KUBERNETES_HOME/pattern-1` and run `undeploy-kubernetes.sh` shell script on the terminal.
 ```
 sh undeploy-kubernetes.sh
 ```
