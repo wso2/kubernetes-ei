@@ -30,10 +30,10 @@ sh deploy-kubernetes.sh
 ```
 
 ##### 5. Access Management Console
-To access the console, try https://[node-ip]:[node-port]/carbon in your favorite browser.
+To access the console, try `https://<node-ip>:<node-port>/carbon` in your favorite browser.
 
 ##### 6. Un-deploy Kubernetes Artifacts
-Run `undeploy-kubernetes.sh` shell script on the terminal.
+Be on directory `KUBERNETES_HOME`/pattern-1 and run `undeploy-kubernetes.sh` shell script on the terminal.
 ```
-sh deploy-kubernetes.sh
+sh undeploy-kubernetes.sh
 ```
