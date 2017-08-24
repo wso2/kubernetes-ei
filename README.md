@@ -1,7 +1,7 @@
 # kubernetes-EI 
-Kubernetes Artifacts for 
+*Kubernetes Artifacts for 
 Container-based Deployment Patterns
-of WSO2 Enterprise Integrator
+of WSO2 Enterprise Integrator*
 
 This initial version contains the deployment of a single integrator container instance 
 running with one local [h2] registry database and one external [MySQL] user management database.
@@ -31,4 +31,7 @@ sh deploy-kubernetes.sh
 >To un-deploy, be on the same directory and run `undeploy-kubernetes.sh` shell script on the terminal.
 
 ##### 5. Access Management Console :
-To access the console, try navigating to `https://<node-ip>:<node-port>/carbon` in your favorite browser.
+To access the console, try navigating to `https://**<node-ip>**:**<node-port>**/carbon` in your favorite browser.
+
+**node-ip** is the physical IP of any kubernetes node including the kubernetes master.
+**node-port** is any externally exposed port connecting to 9443 service port.
