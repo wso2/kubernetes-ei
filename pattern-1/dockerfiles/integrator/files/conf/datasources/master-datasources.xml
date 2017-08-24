@@ -51,28 +51,6 @@
         <!--</datasource>-->
 
         <datasource>
-            <name>WSO2EI_SHARED_REGISTRY_DB</name>
-            <description>The datasource used for shared registry of wso2 ei-integrator</description>
-            <jndiConfig>
-                <name>jdbc/WSO2EISharedRegistryDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:mysql://wso2ei-pattern1-mysql-service:3306/WSO2EI_SHARED_REGISTRY_DB</url>
-                    <username>root</username>
-                    <password>root</password>
-                    <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                    <defaultAutoCommit>false</defaultAutoCommit>
-                </configuration>
-            </definition>
-        </datasource>
-
-        <datasource>
             <name>WSO2_USER_DB</name>
             <description>The datasource used for user manager</description>
             <jndiConfig>
