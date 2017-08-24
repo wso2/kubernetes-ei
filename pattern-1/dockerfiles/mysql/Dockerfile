@@ -1,4 +1,6 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# ------------------------------------------------------------------------
+#
+# Copyright 2017 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -10,19 +12,18 @@
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
-# limitations under the License.
+# limitations under the License
+#
+# ------------------------------------------------------------------------
 
-# IntelliJ IDEA Project Files
-.idea/
-*.ipr
-*.iws
-*.swp
+FROM mysql:5.5
+MAINTAINER WSO2 Docker Maintainers "dev@wso2.org"
 
-# Backup files
-*~
-*.bck
+# Arguments
+ARG FILES=./files
 
-# Required-image-building-artifacts
-*.tar.gz
-*.zip
-*jar
+# Copy Files
+COPY ["${FILES}/init.sql", "/docker-entrypoint-initdb.d/"]
+
+# Expose transport ports
+EXPOSE 3306
