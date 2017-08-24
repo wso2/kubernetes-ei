@@ -24,7 +24,7 @@ docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-mysql:5.5
 Copy the required Docker images over to the Kubernetes Nodes (ex: use `docker save` to create a tarball of the required image, `scp` the tarball to each node, and use `docker load` to reload the images from the copied tarballs on the nodes). Alternatively, if a private Docker registry is used, transfer the images there.
 
 ##### 4. Deploy Kubernetes Artifacts
-Change directory to `KUBERNETES_HOME`/pattern-1 and run `deploy-kubernetes.sh` shell script on the terminal.
+Change directory to `KUBERNETES_HOME/pattern-1` and run `deploy-kubernetes.sh` shell script on the terminal.
 ```
 sh deploy-kubernetes.sh
 ```
@@ -33,7 +33,7 @@ sh deploy-kubernetes.sh
 To access the console, try `https://<node-ip>:<node-port>/carbon` in your favorite browser.
 
 ##### 6. Un-deploy Kubernetes Artifacts
-Be on directory `KUBERNETES_HOME`/pattern-1 and run `undeploy-kubernetes.sh` shell script on the terminal.
+Be on directory `KUBERNETES_HOME/pattern-1` and run `undeploy-kubernetes.sh` shell script on the terminal.
 ```
 sh undeploy-kubernetes.sh
 ```
