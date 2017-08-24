@@ -14,9 +14,6 @@
 -- limitations under the License.
 --
 
-drop database IF EXISTS WSO2EI_SHARED_REGISTRY_DB;
 drop database IF EXISTS WSO2_USER_DB;
 
-create database WSO2EI_SHARED_REGISTRY_DB;
 create database WSO2_USER_DB;
-
