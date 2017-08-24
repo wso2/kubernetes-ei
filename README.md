@@ -8,7 +8,7 @@ running with one local [h2] registry database and one external [MySQL] user mana
  
 ## Getting Started
 
->In the context of this document, `KUBERNETES_HOME` will refer to a local copy of [`wso2/kubernetes-ei artifacts`](https://github.com/wso2/kubernetes-ei/) and you have to have git, docker and Kubernetes client, kubectl installed in your local machine to execute following steps.
+>In the context of this document, `KUBERNETES_HOME` will refer to a local copy of [`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/) artifacts and you have to have git, docker and Kubernetes client, kubectl installed in your local machine to execute following steps.
 
 ##### 1. Checkout WSO2 kubernetes-ei repository using `git clone`
 ```
