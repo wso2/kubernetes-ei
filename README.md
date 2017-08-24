@@ -3,7 +3,7 @@ Kubernetes Artifacts for
 Container-based Deployment Patterns
 of WSO2 Enterprise Integrator
 
-This initial version (V0.1) contains the deployment of a single integrator container instance 
+This initial version contains the deployment of a single integrator container instance 
 running with one local [h2] registry database and one external [MySQL] user management database.
  
 ## Getting Started
