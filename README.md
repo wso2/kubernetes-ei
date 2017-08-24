@@ -28,12 +28,7 @@ Change directory to `KUBERNETES_HOME/pattern-1` and run `deploy-kubernetes.sh` s
 ```
 sh deploy-kubernetes.sh
 ```
+>To un-deploy, be on the same directory `KUBERNETES_HOME/pattern-1` and run `undeploy-kubernetes.sh` shell script on the terminal.
 
 ##### 5. Access Management Console
 To access the console, try navigating to `https://<node-ip>:<node-port>/carbon` in your favorite browser.
-
-##### 6. Un-deploy Kubernetes Artifacts
-Be on the same directory `KUBERNETES_HOME/pattern-1` and run `undeploy-kubernetes.sh` shell script on the terminal.
-```
-sh undeploy-kubernetes.sh
-```
