@@ -33,5 +33,5 @@ sh deploy-kubernetes.sh
 ##### 5. Access Management Console :
 To access the console, try navigating to `https://**<node-ip>**:**<node-port>**/carbon` in your favorite browser.
 
-**node-ip** is the physical IP of any kubernetes node including the kubernetes master._
+**node-ip** is the physical IP of any kubernetes node including the kubernetes master.<br>
 **node-port** is any externally exposed port connecting to 9443 service port.
