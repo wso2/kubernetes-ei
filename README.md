@@ -8,7 +8,7 @@ running with one [h2] local registry database and an external [MySQL] user manag
  
 ## Getting Started
 
->You have to have git, docker and Kubernetes client, kubectl installed in your local machine to execute following steps.
+>In the context of this document, `KUBERNETES_HOME` will refer to a local copy of [`wso2/kubernetes-ei artifacts`](https://github.com/wso2/kubernetes-ei/) and you have to have git, docker and Kubernetes client, kubectl installed in your local machine to execute following steps.
 
 ##### 1. Checkout WSO2 kubernetes-ei repository using `git clone`
 ```
@@ -24,16 +24,16 @@ docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-mysql:5.5
 Copy the required Docker images over to the Kubernetes Nodes (ex: use `docker save` to create a tarball of the required image, `scp` the tarball to each node, and use `docker load` to reload the images from the copied tarballs on the nodes). Alternatively, if a private Docker registry is used, transfer the images there.
 
 ##### 4. Deploy Kubernetes Artifacts
-To deploy artifacts, run `deploy-kubernetes.sh` shell script on terminal.
+Change directory to `KUBERNETES_HOME`/pattern-1 and run `deploy-kubernetes.sh` shell script on the terminal to deploy artifacts.
 ```
 sh deploy-kubernetes.sh
 ```
 
 ##### 5. Access Management Console
-To access the console, try https://<node-ip>:<node-port>/carbon in your favorite browser.
+To access the console, try https://[<node-ip>]:<node-port>/carbon in your favorite browser.
 
 ##### 6. Un-deploy Kubernetes Artifacts
-To un-deploy artifacts, run `undeploy-kubernetes.sh` shell script on the terminal.
+Run `undeploy-kubernetes.sh` shell script on the terminal to un-deploy artifacts.
 ```
 sh deploy-kubernetes.sh
 ```

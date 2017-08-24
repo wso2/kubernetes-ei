@@ -9,7 +9,7 @@ sleep 40s
 # rdbms
 echo '[2] un-deploying external databases ...'
 kubectl delete deployment wso2ei-pattern1-mysql-deployment
-kubectl delete service wso2ei-pattern1-rdbms-service
+kubectl delete service wso2ei-pattern1-mysql-service
 sleep 30s
 
 echo 'finished ...'
