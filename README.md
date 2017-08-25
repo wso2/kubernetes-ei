@@ -9,7 +9,9 @@ running with one local [h2] registry database and one external [MySQL] user mana
  
 ## Getting Started
 
->In the context of this document, `KUBERNETES_HOME` will refer to a local copy of [`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/) artifacts and you have to have git, docker and Kubernetes client, kubectl installed in your local machine to execute following steps.
+>In the context of this document, `KUBERNETES_HOME` will refer to a local copy of 
+[`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/) artifacts and you have to have git, docker and 
+Kubernetes client, kubectl installed in your local machine to execute following steps.
 
 ##### 1. Checkout WSO2 kubernetes-ei repository using `git clone` :
 ```
@@ -22,7 +24,9 @@ docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-integrator:6.1.1
 docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-mysql:5.5
 ```
 ##### 3. Copy the Images to Kubernetes Nodes / Registry :
-Copy the required Docker images over to the Kubernetes Nodes (ex: use `docker save` to create a tarball of the required image, `scp` the tarball to each node, and use `docker load` to reload the images from the copied tarballs on the nodes). Alternatively, if a private Docker registry is used, transfer the images there.
+Copy the required Docker images over to the Kubernetes Nodes (ex: use `docker save` to create a tarball of the required image, 
+`scp` the tarball to each node, and use `docker load` to reload the images from the copied tarballs on the nodes). 
+Alternatively, if a private Docker registry is used, transfer the images there.
 
 ##### 4. Deploy Kubernetes Artifacts :
 Change directory to `KUBERNETES_HOME/pattern-1` and run `deploy-kubernetes.sh` shell script on the terminal.
@@ -36,3 +40,15 @@ To access the console, try navigating to `https://<node-ip>:<node-port>/carbon` 
 
 >**node-ip** here is the physical IP of any kubernetes node including the kubernetes master.<br>
 **node-port** is any externally exposed kubernetes port connecting to 9443 servlet-https service port.
+
+For example, if you are testing this deployment on [`Minikube`](https://kubernetes.io/docs/tasks/tools/install-minikube), 
+execute following `minikube` command to obtain the `node-ip` of its single kubernetes master node.
+```
+minikube ip
+```
+Let's say that the resulting node-ip is `192.168.99.100`. 
+Then to retrieve the `node-port` connecting to 9443 servlet-https service port, execute following kubectl command.
+```
+kubectl get service
+```
+
