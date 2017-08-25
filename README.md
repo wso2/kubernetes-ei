@@ -41,14 +41,19 @@ To access the console, try navigating to `https://<node-ip>:<node-port>/carbon` 
 >**node-ip** here is the physical IP of any kubernetes node including the kubernetes master.<br>
 **node-port** is any externally exposed kubernetes port connecting to 9443 servlet-https service port.
 
-For example, if you are testing this deployment on [`Minikube`](https://kubernetes.io/docs/tasks/tools/install-minikube), 
-execute following `minikube` command to obtain the `node-ip` of its single kubernetes master node.
+For example, if you are testing this deployment on **[`Minikube`](https://kubernetes.io/docs/tasks/tools/install-minikube)**, 
+execute following minikube command on the terminal to obtain the `node-ip` of its single kubernetes master node.
 ```
 minikube ip
 ```
 Let's say that the resulting node-ip is `192.168.99.100`. 
-Then to retrieve the `node-port` connecting to 9443 servlet-https service port, execute following kubectl command.
+Then to retrieve the `node-port` connecting to 9443 servlet-https service port, 
+execute following kubectl command on the terminal.
 ```
 kubectl get service
 ```
 
+```
+NAME                                 CLUSTER-IP   EXTERNAL-IP   PORT(S)                                                       AGE
+wso2ei-pattern1-integrator-service   10.0.0.34    <nodes>       8280:31599/TCP,8243:32620/TCP,9763:30853/TCP,9443:30158/TCP   8h
+```
