@@ -25,8 +25,8 @@ ARG HOME=/home
 ARG USER=wso2user
 ARG USER_ID=1000000000
 ARG USER_HOME=${HOME}/${USER}
-# source-files
-ARG SOURCE_FILES=./source-files
+# files
+ARG FILES=./files
 # Product Info
 ARG WSO2_SERVER=wso2ei
 ARG WSO2_SERVER_VERSION=6.1.1
@@ -43,7 +43,7 @@ RUN apt-get update \
 RUN useradd --system --uid ${USER_ID} --gid 0 --create-home --home-dir ${USER_HOME} --no-log-init ${USER}
 
 # copy the jdk and product packs
-COPY ${SOURCE_FILES}/${JDK_ARCHIVE} ${SOURCE_FILES}/${WSO2_SERVER_PACK} ${USER_HOME}/
+COPY ${FILES}/${JDK_ARCHIVE} ${FILES}/${WSO2_SERVER_PACK} ${USER_HOME}/
 
 # and creates the init script
 RUN unzip -q ${USER_HOME}/${WSO2_SERVER_PACK} -d ${USER_HOME}/ \
