@@ -52,8 +52,9 @@ execute following kubectl command on the terminal.
 ```
 kubectl get service
 ```
-
+This would result in an output as follows.
 ```
-NAME                                 CLUSTER-IP   EXTERNAL-IP   PORT(S)                                                       AGE
-wso2ei-pattern1-integrator-service   10.0.0.34    <nodes>       8280:31599/TCP,8243:32620/TCP,9763:30853/TCP,9443:30158/TCP   8h
+NAME                                 PORT(S)
+wso2ei-pattern1-integrator-service   8280:31599/TCP,8243:32620/TCP,9763:30853/TCP,9443:30158/TCP
 ```
+From the resulting output, if you look at the PORT(S) section corresponding to `wso2ei-pattern1-integrator-service`,
