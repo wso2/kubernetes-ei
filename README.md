@@ -18,7 +18,7 @@ Kubernetes client, kubectl installed in your local machine to execute following 
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Pull required Docker images from [`WSO2 Docker Repositories`](https://docker.wso2.com) using docker :
+##### 2. Pull required Docker images from [`WSO2 Docker Repositories`](https://docker.wso2.com) using `docker pull` :
 ```
 docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-integrator:6.1.1
 docker pull docker.wso2.com/wso2ei-kubernetes-pattern1-mysql:5.5
