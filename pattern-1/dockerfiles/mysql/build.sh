@@ -25,14 +25,14 @@ product=wso2ei
 productVersion=6.1.1
 patternNumber=1
 # MySQL parameters
-database=mysql
+rdbms=mysql
 sqlVersion=5.5
 # Container Cluster Manager Info
 platform=kubernetes
 # Image Info
-repository=${product}-${platform}-pattern${patternNumber}-${database}
+repository=${product}-${platform}-pattern${patternNumber}-${rdbms}
 tag=${sqlVersion}
 
 # Source
-echo "Creating ${database} database for pattern ${patternNumber} ..."
+echo "Creating ${repository}:${tag}..."
 docker build -t ${repository}:${tag} .

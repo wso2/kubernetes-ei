@@ -31,6 +31,6 @@ platform=kubernetes
 repository=${product}-${platform}-pattern${patternNumber}-${profile}
 tag=${productVersion}
 
-echo "Creating ${profile} profile for pattern ${patternNumber} ..."
+echo "Creating ${repository}:${tag}..."
 docker build -t ${repository}:${tag} . --squash
 docker images --filter "dangling=true" -q --no-trunc | xargs docker rmi

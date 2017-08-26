@@ -12,5 +12,5 @@ kubectl create -f integrator-service.yaml
 kubectl create -f integrator-deployment.yaml
 sleep 60s
 
-echo 'Finished ...'
+echo 'Finished'
 echo 'To access the console, try https://<node-ip>:<node-port>/carbon in your browser.
