@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
 # ------------------------------------------------------------------------
-#
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,22 +13,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License
-#
 # ------------------------------------------------------------------------
 
-# Product Context
-product=wso2ei
-productVersion=6.1.1
-patternNumber=1
-# MySQL parameters
-rdbms=mysql
-sqlVersion=5.5
-# Container Cluster Manager Info
-platform=kubernetes
-# Image Info
-repository=${product}-${platform}-pattern${patternNumber}-${rdbms}
-tag=${sqlVersion}
+set -e
 
-# Source
-echo "Creating ${rdbms} database for pattern ${patternNumber} ..."
-docker build -t ${repository}:${tag} .
+pushd base
+./build.sh
+popd
+
+pushd integrator
+./build.sh
+popd
+
+pushd analytics
+./build.sh
+popd

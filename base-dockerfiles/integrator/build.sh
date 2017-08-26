@@ -18,16 +18,18 @@
 #
 # ------------------------------------------------------------------------
 
+set -e
+
 # Product Info
 product=wso2ei
 productVersion=6.1.1
-profile=base
+profile=integrator
 # Container Cluster Manager Info
 platform=kubernetes
 # Image Info
 repository=${product}-${platform}-${profile}
 tag=${productVersion}
 
-echo "Creating ${profile} profile for ${product}-${productVersion} ..."
-docker build -t ${repository}:${tag} . --squash
-docker rmi $(docker images --filter "dangling=true" -q --no-trunc) > /dev/null 2>&1
+echo "Creating ${repository}:${tag}..."
+docker build -t ${repository}:${tag} .
+docker images --filter "dangling=true" -q --no-trunc | xargs docker rmi
