@@ -2,9 +2,9 @@
 
 # mysql
 echo 'Deploying WSO2 Integrator Databases...'
-kubectl create -f rdbms-service.yaml
-kubectl create -f rdbms-deployment.yaml
-sleep 60s
+kubectl create -f mysql-service.yaml
+kubectl create -f mysql-deployment.yaml
+sleep 10s
 
 # integrator
 echo 'Deploying WSO2 Integrator...'
@@ -13,4 +13,4 @@ kubectl create -f integrator-deployment.yaml
 sleep 60s
 
 echo 'Finished'
-echo 'To access the console, try https://<node-ip>:<node-port>/carbon in your browser.
+echo 'To access the console, try https://<node-ip>:<node-port>/carbon in your browser.'
