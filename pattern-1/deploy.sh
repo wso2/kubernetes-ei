@@ -29,8 +29,16 @@ sleep 10s
 # integrator
 echo 'Deploying WSO2 Integrator...'
 kubectl create -f integrator-service.yaml
+kubectl create -f integrator-gateway-service.yaml
 kubectl create -f integrator-deployment.yaml
 sleep 60s
+
+# NGINX INGRESS Controller
+echo 'Deploying NGINX INGRESS Controller...'
+kubectl create -f nginx-default-backend.yaml
+kubectl create -f nginx-ingress-controller.yaml
+kubectl create -f integrator-ingress.yaml
+sleep 20s
 
 echo 'Finished'
 echo 'To access the console, try https://<node-ip>:<node-port>/carbon in your browser.'

@@ -20,9 +20,16 @@
 
 set -e
 
+# NGINX INGRESS Controller
+echo 'Un-deploying NGINX INGRESS Controller...'
+kubectl delete deployment nginx-default-http-backend
+kubectl delete deployment nginx-ingress-controller
+kubectl delete ingress wso2ei-pattern1-integrator-ingress
+
 # Integrator
 echo 'Un-deploying WSO2 Integrator...'
 kubectl delete deployment wso2ei-pattern1-integrator-deployment
+kubectl delete service wso2ei-pattern1-integrator-gateway-service
 kubectl delete service wso2ei-pattern1-integrator-service
 
 # Databases
