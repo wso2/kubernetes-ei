@@ -32,4 +32,4 @@ tag=${productVersion}
 
 echo "Creating ${repository}:${tag}..."
 docker build -t ${repository}:${tag} .
-docker images --filter "dangling=true" -q --no-trunc | xargs docker rmi
+docker images --filter "dangling=true" -q --no-trunc | xargs docker rmi > /dev/null 2>&1
