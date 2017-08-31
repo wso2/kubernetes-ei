@@ -16,27 +16,32 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
+# methods
+function echoBold () {
+    echo $'\e[1m'"${1}"$'\e[0m'
+}
+
 set -e
 
 # mysql
-echo 'Deploying WSO2 Integrator Databases...'
+echoBold 'Deploying WSO2 Integrator Databases...'
 kubectl create -f mysql-service.yaml
 kubectl create -f mysql-deployment.yaml
 sleep 10s
 
 # integrator
-echo 'Deploying WSO2 Integrator...'
+echoBold 'Deploying WSO2 Integrator...'
 kubectl create -f integrator-service.yaml
 kubectl create -f integrator-gateway-service.yaml
 kubectl create -f integrator-deployment.yaml
 sleep 60s
 
 # NGINX INGRESS Controller
-echo 'Deploying NGINX INGRESS Controller...'
+echoBold 'Deploying NGINX INGRESS Controller...'
 kubectl create -f nginx-default-backend.yaml
 kubectl create -f nginx-ingress-controller.yaml
 kubectl create -f integrator-ingress.yaml
 sleep 20s
 
-echo 'Finished'
-echo 'To access the console, try https://<node-ip>:<node-port>/carbon in your browser.'
+echoBold 'Finished'
+echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'

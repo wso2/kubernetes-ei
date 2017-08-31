@@ -16,23 +16,26 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
-set -e
+# methods
+function echoBold () {
+    echo $'\e[1m'"${1}"$'\e[0m'
+}
 
 # NGINX INGRESS Controller
-echo 'Un-deploying NGINX INGRESS Controller...'
-kubectl delete deployment nginx-default-http-backend
-kubectl delete deployment nginx-ingress-controller
-kubectl delete ingress wso2ei-pattern1-integrator-ingress
+echoBold 'Un-deploying NGINX INGRESS Controller...'
+kubectl delete -f integrator-ingress.yaml
+kubectl delete -f nginx-ingress-controller.yaml
+kubectl delete -f nginx-default-backend.yaml
 
 # Integrator
-echo 'Un-deploying WSO2 Integrator...'
-kubectl delete deployment wso2ei-pattern1-integrator-deployment
-kubectl delete service wso2ei-pattern1-integrator-gateway-service
-kubectl delete service wso2ei-pattern1-integrator-service
+echoBold 'Un-deploying WSO2 Integrator...'
+kubectl delete -f integrator-deployment.yaml
+kubectl delete -f integrator-gateway-service.yaml
+kubectl delete -f integrator-service.yaml
 
 # Databases
-echo 'Un-deploying WSO2 Integrator Databases...'
-kubectl delete deployment wso2ei-pattern1-mysql-deployment
-kubectl delete service wso2ei-pattern1-mysql-service
+echoBold 'Un-deploying WSO2 Integrator Databases...'
+kubectl delete -f mysql-deployment.yaml
+kubectl delete -f mysql-service.yaml
 
-echo 'Finished'
+echoBold 'Finished'
