@@ -37,19 +37,19 @@ spec:
         - containerPort: 9443
           protocol: TCP
         volumeMounts:
-        - name: apim-conf
+        - name: integrator-conf
           mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf
-        - name: apim-conf-axis2
+        - name: integrator-conf-axis2
           mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-axis2
-        - name: apim-conf-datasources
+        - name: integrator-conf-datasources
           mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-datasources
       volumes:
-      - name: apim-conf
+      - name: integrator-conf
         configMap:
-          name: apim-conf
-      - name: apim-conf-axis2
+          name: integrator-conf
+      - name: integrator-conf-axis2
         configMap:
-          name: apim-conf-axis2
-      - name: apim-conf-datasources
+          name: integrator-conf-axis2
+      - name: integrator-conf-datasources
         configMap:
-          name: apim-conf-datasources
+          name: integrator-conf-datasources

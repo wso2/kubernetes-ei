@@ -40,8 +40,8 @@ kubectl delete -f mysql-service.yaml
 
 # configuration maps
 echoBold 'Deleting Configuation Maps...'
-kubectl delete configmap apim-conf
-kubectl delete configmap apim-conf-axis2
-kubectl delete configmap apim-conf-datasources
+kubectl delete configmap integrator-conf
+kubectl delete configmap integrator-conf-axis2
+kubectl delete configmap integrator-conf-datasources
 
 echoBold 'Finished'
