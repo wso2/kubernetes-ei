@@ -21,21 +21,27 @@ function echoBold () {
     echo $'\e[1m'"${1}"$'\e[0m'
 }
 
-# NGINX INGRESS Controller
-echoBold 'Un-deploying NGINX INGRESS Controller...'
+# NGINX ingress controller
+echoBold 'Un-deploying NGINX Ingress Controller...'
 kubectl delete -f integrator-ingress.yaml
 kubectl delete -f nginx-ingress-controller.yaml
 kubectl delete -f nginx-default-backend.yaml
 
-# Integrator
+# integrator
 echoBold 'Un-deploying WSO2 Integrator...'
 kubectl delete -f integrator-deployment.yaml
 kubectl delete -f integrator-gateway-service.yaml
 kubectl delete -f integrator-service.yaml
 
-# Databases
+# databases
 echoBold 'Un-deploying WSO2 Integrator Databases...'
 kubectl delete -f mysql-deployment.yaml
 kubectl delete -f mysql-service.yaml
+
+# configuration maps
+echoBold 'Deleting Configuation Maps...'
+kubectl delete configmap integrator-conf
+kubectl delete configmap integrator-conf-axis2
+kubectl delete configmap integrator-conf-datasources
 
 echoBold 'Finished'

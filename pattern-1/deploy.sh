@@ -23,6 +23,12 @@ function echoBold () {
 
 set -e
 
+# configuration maps
+echoBold 'Creating Configuation Maps...'
+kubectl create configmap integrator-conf --from-file=conf/
+kubectl create configmap integrator-conf-axis2 --from-file=conf/axis2/
+kubectl create configmap integrator-conf-datasources --from-file=conf/datasources/
+
 # mysql
 echoBold 'Deploying WSO2 Integrator Databases...'
 kubectl create -f mysql-service.yaml
@@ -36,8 +42,8 @@ kubectl create -f integrator-gateway-service.yaml
 kubectl create -f integrator-deployment.yaml
 sleep 60s
 
-# NGINX INGRESS Controller
-echoBold 'Deploying NGINX INGRESS Controller...'
+# nginx ingress controller
+echoBold 'Deploying NGINX Ingress Controller...'
 kubectl create -f nginx-default-backend.yaml
 kubectl create -f nginx-ingress-controller.yaml
 kubectl create -f integrator-ingress.yaml
