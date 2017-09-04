@@ -22,7 +22,7 @@ function echoBold () {
 }
 
 # NGINX ingress controller
-echoBold 'Deleting NGINX INGRESS Controller...'
+echoBold 'Deleting NGINX Ingress Controller...'
 kubectl delete -f integrator-ingress.yaml
 kubectl delete -f nginx-ingress-controller.yaml
 kubectl delete -f nginx-default-backend.yaml

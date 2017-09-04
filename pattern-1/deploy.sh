@@ -25,9 +25,9 @@ set -e
 
 # configuration maps
 echoBold 'Creating Configuation Maps...'
-kubectl create configmap apim-conf --from-file=files/conf/
-kubectl create configmap apim-conf-axis2 --from-file=files/conf/axis2/
-kubectl create configmap apim-conf-datasources --from-file=files/conf/datasources/
+kubectl create configmap apim-conf --from-file=conf/
+kubectl create configmap apim-conf-axis2 --from-file=conf/axis2/
+kubectl create configmap apim-conf-datasources --from-file=conf/datasources/
 
 # mysql
 echoBold 'Creating WSO2 Integrator Databases...'
