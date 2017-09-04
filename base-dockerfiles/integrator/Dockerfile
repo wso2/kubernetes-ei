@@ -21,4 +21,7 @@ FROM wso2ei-kubernetes-base:6.1.1
 # expose ports
 EXPOSE 8280 8243 9763 9443
 
-CMD ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/bin/integrator.sh -Dsetup
+CMD cp ${USER_HOME}/conf/* ${CARBON_HOME}/conf/ \
+    && cp ${USER_HOME}/conf-axis2/* ${CARBON_HOME}/conf/axis2/ \
+    && cp ${USER_HOME}/conf-datasources/* ${CARBON_HOME}/conf/datasources/ \
+    && ${CARBON_HOME}/bin/integrator.sh -Dsetup

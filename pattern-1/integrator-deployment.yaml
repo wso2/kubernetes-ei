@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-pattern1-integrator
-        image: docker.wso2.com/wso2ei-kubernetes-pattern1-integrator:6.1.1
+        image: docker.wso2.com/wso2ei-kubernetes-integrator:6.1.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8280
@@ -36,3 +36,20 @@ spec:
           protocol: TCP
         - containerPort: 9443
           protocol: TCP
+        volumeMounts:
+        - name: apim-conf
+          mountPath: /home/wso2user/conf
+        - name: apim-conf-axis2
+          mountPath: /home/wso2user/conf-axis2
+        - name: apim-conf-datasources
+          mountPath: /home/wso2user/conf-datasources
+      volumes:
+      - name: apim-conf
+        configMap:
+          name: apim-conf
+      - name: apim-conf-axis2
+        configMap:
+          name: apim-conf-axis2
+      - name: apim-conf-datasources
+        configMap:
+          name: apim-conf-datasources
