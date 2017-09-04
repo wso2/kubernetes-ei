@@ -30,20 +30,20 @@ kubectl create configmap apim-conf-axis2 --from-file=conf/axis2/
 kubectl create configmap apim-conf-datasources --from-file=conf/datasources/
 
 # mysql
-echoBold 'Creating WSO2 Integrator Databases...'
+echoBold 'Deploying WSO2 Integrator Databases...'
 kubectl create -f mysql-service.yaml
 kubectl create -f mysql-deployment.yaml
 sleep 10s
 
 # integrator
-echoBold 'Creating WSO2 Integrator...'
+echoBold 'Deploying WSO2 Integrator...'
 kubectl create -f integrator-service.yaml
 kubectl create -f integrator-gateway-service.yaml
 kubectl create -f integrator-deployment.yaml
 sleep 60s
 
 # nginx ingress controller
-echoBold 'Creating NGINX Ingress Controller...'
+echoBold 'Deploying NGINX Ingress Controller...'
 kubectl create -f nginx-default-backend.yaml
 kubectl create -f nginx-ingress-controller.yaml
 kubectl create -f integrator-ingress.yaml

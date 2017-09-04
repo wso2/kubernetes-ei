@@ -22,19 +22,19 @@ function echoBold () {
 }
 
 # NGINX ingress controller
-echoBold 'Deleting NGINX Ingress Controller...'
+echoBold 'Un-deploying NGINX Ingress Controller...'
 kubectl delete -f integrator-ingress.yaml
 kubectl delete -f nginx-ingress-controller.yaml
 kubectl delete -f nginx-default-backend.yaml
 
 # integrator
-echoBold 'Deleting WSO2 Integrator...'
+echoBold 'Un-deploying WSO2 Integrator...'
 kubectl delete -f integrator-deployment.yaml
 kubectl delete -f integrator-gateway-service.yaml
 kubectl delete -f integrator-service.yaml
 
 # databases
-echoBold 'Deleting WSO2 Integrator Databases...'
+echoBold 'Un-deploying WSO2 Integrator Databases...'
 kubectl delete -f mysql-deployment.yaml
 kubectl delete -f mysql-service.yaml
 
