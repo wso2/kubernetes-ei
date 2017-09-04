@@ -38,11 +38,11 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: apim-conf
-          mountPath: /home/wso2user/conf
+          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf
         - name: apim-conf-axis2
-          mountPath: /home/wso2user/conf-axis2
+          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-axis2
         - name: apim-conf-datasources
-          mountPath: /home/wso2user/conf-datasources
+          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-datasources
       volumes:
       - name: apim-conf
         configMap:
