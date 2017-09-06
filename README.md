@@ -18,10 +18,11 @@ git clone https://github.com/wso2/kubernetes-ei.git
 ##### 2. Pull required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com) using `docker pull`:
 ```
 docker login docker.wso2.com
+
 docker pull docker.wso2.com/wso2ei-kubernetes-integrator:6.1.1
 docker pull docker.wso2.com/wso2ei-kubernetes-mysql:5.7
 ```
-##### 3. Copy the Image in to Kubernetes Nodes or Registry:
+##### 3. Copy the Images in to Kubernetes Nodes or Registry:
 Copy the required Docker images over to the Kubernetes Nodes (ex: use `docker save` to create a tarfile of the 
 required image, `scp` the tarfile to each node, and use `docker load` to load the image from the copied tarfile 
 on the nodes). Alternatively, if a private Docker registry is used, transfer the images there.
@@ -34,7 +35,13 @@ sh deploy.sh
 >To un-deploy, be on the same directory and run `undeploy.sh` shell script on the terminal.
 
 ##### 5. Access Management Console:
-To access the console, try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.
+Default deployment will expose two publicly accessible hosts, namely: <br>
+1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
+2. `wso2ei-pattern1-integrator-gateway` - To expose Mediation Gateway <br>
+
+To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to <br> 
+one of your kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from <br>
+your favorite browser.
 
 ##### 6. How to scale using `kubectl scale`:
 Default deployment runs only one replica (or pod) of WSO2 EI integrator profile. To scale this deployment into <br>
