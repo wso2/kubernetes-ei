@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # ------------------------------------------------------------------------
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
 #
@@ -16,20 +14,21 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
-set -e
+FROM mysql:5.7
+MAINTAINER WSO2 Docker Maintainers "dev@wso2.org"
 
-pushd base
-./build.sh
-popd
+# files
+ARG FILES=./files
+# database scripts
+ARG HOME=/home
+ARG WSO2_SERVER=wso2ei
+ARG WSO2_SERVER_VERSION=6.1.1
+ARG WSO2_SERVER_DB_SCRIPTS=${HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-db-scripts
 
-pushd integrator
-./build.sh
-popd
+# Copy Files
+COPY ["${FILES}/my.cnf", "/etc/mysql/conf.d/"]
+COPY ["${FILES}/init.sql", "/docker-entrypoint-initdb.d/"]
+COPY ["${FILES}/config-user-mgt.sql", "${WSO2_SERVER_DB_SCRIPTS}/"]
 
-pushd analytics
-./build.sh
-popd
-
-pushd mysql
-./build.sh
-popd
+# Expose transport ports
+EXPOSE 3306
