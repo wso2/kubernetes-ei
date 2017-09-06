@@ -24,7 +24,7 @@ function echoBold () {
 set -e
 
 # configuration maps
-echoBold 'Creating Configuation Maps...'
+echoBold 'Creating Configuration Maps...'
 kubectl create configmap integrator-conf --from-file=conf/
 kubectl create configmap integrator-conf-axis2 --from-file=conf/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=conf/datasources/

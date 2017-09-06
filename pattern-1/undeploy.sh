@@ -39,7 +39,7 @@ kubectl delete -f mysql-deployment.yaml
 kubectl delete -f mysql-service.yaml
 
 # configuration maps
-echoBold 'Deleting Configuation Maps...'
+echoBold 'Deleting Configuration Maps...'
 kubectl delete configmap integrator-conf
 kubectl delete configmap integrator-conf-axis2
 kubectl delete configmap integrator-conf-datasources

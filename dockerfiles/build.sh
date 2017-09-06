@@ -29,3 +29,7 @@ popd
 pushd analytics
 ./build.sh
 popd
+
+pushd mysql
+./build.sh
+popd
