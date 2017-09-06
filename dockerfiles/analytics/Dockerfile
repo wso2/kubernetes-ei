@@ -21,4 +21,4 @@ FROM wso2ei-kubernetes-base:6.1.1
 # expose ports
 EXPOSE 8280 8243 9764 9444 7712 7612 9712 9612
 
-CMD ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/bin/analytics.sh -Dsetup
+CMD ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/bin/analytics.sh

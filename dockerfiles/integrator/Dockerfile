@@ -25,4 +25,4 @@ CMD mkdir -p ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/
     && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf/* ${WSO2_SERVER_HOME}/conf/ \
     && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf-axis2/* ${WSO2_SERVER_HOME}/conf/axis2/ \
     && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf-datasources/* ${WSO2_SERVER_HOME}/conf/datasources/ \
-    && ${WSO2_SERVER_HOME}/bin/integrator.sh -Dsetup
+    && ${WSO2_SERVER_HOME}/bin/integrator.sh
