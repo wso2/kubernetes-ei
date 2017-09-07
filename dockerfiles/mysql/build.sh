@@ -25,7 +25,7 @@ platform=kubernetes
 rdbms=mysql
 sqlVersion=5.7
 # Image Info
-repository=${product}-${platform}-${rdbms}
+repository=docker.wso2.com/${product}-${platform}-${rdbms}
 tag=${sqlVersion}
 
 echo "Creating ${repository}:${tag}..."
