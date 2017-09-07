@@ -16,8 +16,6 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
-set -e
-
 pushd base
 ./build.sh
 popd

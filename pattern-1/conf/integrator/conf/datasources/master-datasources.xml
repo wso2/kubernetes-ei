@@ -48,27 +48,6 @@
             </definition>
         </datasource>
         <datasource>
-            <name>WSO2_GOV_DB</name>
-            <description>The datasource used for gov registry</description>
-            <jndiConfig>
-                <name>jdbc/WSO2GovDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:mysql://wso2ei-pattern1-mysql-service:3306/WSO2EI_INTEGRATOR_CONFIG_GOV_DB?
-                         autoReconnect=true&amp;verifyServerCertificate=false&amp;useSSL=true</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-        <datasource>
             <name>WSO2_USER_DB</name>
             <description>The datasource is used for user mangement and userstore</description>
             <jndiConfig>

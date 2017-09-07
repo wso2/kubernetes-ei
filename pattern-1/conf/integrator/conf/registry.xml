@@ -33,7 +33,7 @@
         <dataSource>jdbc/WSO2CarbonDB</dataSource>
     </dbConfig>
 
-    <!-- Configuration registry config [start] -->
+    <!-- Configuration registry mount [start] -->
     <dbConfig name="wso2config">
         <dataSource>jdbc/WSO2ConfigDB</dataSource>
     </dbConfig>
@@ -47,33 +47,21 @@
         <instanceId>wso2config</instanceId>
         <targetPath>/_system/config</targetPath>
     </mount>
-    <!-- Configuration registry config [end] -->
-
-    <!-- Governance registry config [start] -->
-    <dbConfig name="wso2gov">
-        <dataSource>jdbc/WSO2GovDB</dataSource>
-    </dbConfig>
-    <remoteInstance url="https://localhost:9453/registry">
-        <id>wso2gov</id>
-        <dbConfig>wso2gov</dbConfig>
-        <readOnly>false</readOnly>
-        <registryRoot>/</registryRoot>
-    </remoteInstance>
     <mount path="/_system/governance" overwrite="true">
-        <instanceId>wso2gov</instanceId>
+        <instanceId>wso2config</instanceId>
         <targetPath>/_system/governance</targetPath>
     </mount>
-    <!-- Governance registry config [end] -->
+    <!-- Configuration registry mount [end] -->
 
     <indexingConfiguration>
         <skipCache>true</skipCache>
         <startIndexing>true</startIndexing>
         <startingDelayInSeconds>35</startingDelayInSeconds>
-        <indexingFrequencyInSeconds>3</indexingFrequencyInSeconds>
+        <indexingFrequencyInSeconds>5</indexingFrequencyInSeconds>
         <!--number of resources submit for given indexing thread -->
-        <batchSize>50</batchSize>
+        <batchSize>10</batchSize>
         <!--number of worker threads for indexing -->
-        <indexerPoolSize>50</indexerPoolSize>
+        <indexerPoolSize>10</indexerPoolSize>
         <!-- location storing the time the indexing took place-->
         <lastAccessTimeLocation>/_system/local/repository/components/org.wso2.carbon.registry/indexing/lastaccesstime</lastAccessTimeLocation>
         <!-- the indexers that implement the indexer interface for a relevant media type/(s) -->
@@ -149,7 +137,6 @@
         <instanceId>instanceid</instanceId>
         <targetPath>/_system/nodes</targetPath>
     </mount-->
-
 
     <versionResourcesOnChange>false</versionResourcesOnChange>
 
