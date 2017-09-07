@@ -25,7 +25,7 @@ profile=integrator
 # Container Cluster Manager Info
 platform=kubernetes
 # Image Info
-repository=${product}-${platform}-${profile}
+repository=docker.wso2.com/${product}-${platform}-${profile}
 tag=${productVersion}
 
 echo "Creating ${repository}:${tag}..."

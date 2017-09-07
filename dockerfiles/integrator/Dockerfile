@@ -16,7 +16,7 @@
 #
 # ------------------------------------------------------------------------
 
-FROM wso2ei-kubernetes-base:6.1.1
+FROM docker.wso2.com/wso2ei-kubernetes-base:6.1.1
 
 # expose ports
 EXPOSE 8280 8243 9763 9443
