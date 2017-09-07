@@ -30,7 +30,7 @@ on the nodes). Alternatively, if a private Docker registry is used, transfer the
 ##### 4. Deploy Kubernetes Resources:
 Change directory to `KUBERNETES_HOME/pattern-1` and run `deploy.sh` shell script on the terminal.
 ```
-sh deploy.sh
+./deploy.sh
 ```
 >To un-deploy, be on the same directory and run `undeploy.sh` shell script on the terminal.
 
