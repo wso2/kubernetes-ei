@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-pattern1-integrator
-        image: docker.wso2.com/wso2ei-kubernetes-integrator:6.1.1
+        image: wso2ei-integrator:6.1.1
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8280
@@ -38,11 +38,11 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: integrator-conf
-          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf
+          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf
         - name: integrator-conf-axis2
-          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-axis2
+          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-axis2
         - name: integrator-conf-datasources
-          mountPath: /home/wso2user/wso2ei-6.1.1-conf/integrator/conf-datasources
+          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-datasources
       volumes:
       - name: integrator-conf
         configMap:
