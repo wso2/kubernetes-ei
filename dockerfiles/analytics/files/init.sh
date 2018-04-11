@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # ------------------------------------------------------------------------
 # Copyright 2018 WSO2, Inc. (http://wso2.com)
 #
@@ -68,5 +67,5 @@ sed -i "s#<parameter\ name=\"localMemberHost\".*<\/parameter>#<parameter\ name=\
 # set the ownership of the WSO2 product server home
 chown -R ${user}:${group} ${wso2_server_home}
 
-# start the WSO2 Carbon server
+# start the WSO2 Carbon server profile
 sh ${wso2_server_home}/bin/${wso2_server_profile}.sh

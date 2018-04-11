@@ -29,4 +29,4 @@ COPY --chown=wso2carbon:wso2 ${FILES}/init.sh ${WORKDIR}/
 EXPOSE 9444 9612 9712 7612 7712
 
 # set entrypoint to init script
-ENTRYPOINT ${WORKDIR}/init.sh
+ENTRYPOINT ["/home/wso2carbon/init.sh"]

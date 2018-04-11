@@ -1,5 +1,4 @@
 #!/bin/sh
-
 # ------------------------------------------------------------------------
 # Copyright 2018 WSO2, Inc. (http://wso2.com)
 #
@@ -59,14 +58,14 @@ fi
 # check if any changed configuration files have been mounted, using K8s ConfigMap volumes
 # since, K8s does not support building ConfigMaps recursively from a directory, each folder has been separately
 # mounted in the form of a K8s ConfigMap volume
-# yet, only files with configuration changes mounted at <WSO2_USER_HOME>/volumes will be copied into the product pack
+# yet, only files mounted at <WSO2_USER_HOME>/volumes will be copied into the product pack
 # hence, the files that were originally mounted using K8s ConfigMap volumes, need to be copied into <WSO2_USER_HOME>/volumes
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf; then
     # if a ConfigMap volume containing WSO2 configuration files has been mounted
     if ! test -d ${volumes}/repository/conf; then
         mkdir -p ${volumes}/repository/conf
     fi
-    cp -r ${k8s_volumes}/${wso2_server_profile}/conf/* ${volumes}/repository/conf
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf/* ${volumes}/repository/conf
 fi
 
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf-axis2; then
@@ -74,7 +73,7 @@ if test -d ${k8s_volumes}/${wso2_server_profile}/conf-axis2; then
     if ! test -d ${volumes}/repository/conf/axis2; then
         mkdir -p ${volumes}/repository/conf/axis2
     fi
-    cp -r ${k8s_volumes}/${wso2_server_profile}/conf-axis2/* ${volumes}/repository/conf/axis2
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-axis2/* ${volumes}/repository/conf/axis2
 fi
 
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf-datasources; then
@@ -82,20 +81,12 @@ if test -d ${k8s_volumes}/${wso2_server_profile}/conf-datasources; then
     if ! test -d ${volumes}/repository/conf/datasources; then
         mkdir -p ${volumes}/repository/conf/datasources
     fi
-    cp -r ${k8s_volumes}/${wso2_server_profile}/conf-datasources/* ${volumes}/repository/conf/datasources
-fi
-
-if test -d ${k8s_volumes}/${wso2_server_profile}/lib; then
-    # if a ConfigMap volume containing external libraries has been mounted
-    if ! test -d ${volumes}/repository/components/lib; then
-        mkdir -p ${volumes}/repository/components/lib
-    fi
-    cp -r ${k8s_volumes}/${wso2_server_profile}/lib/* ${volumes}/repository/components/lib
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-datasources/* ${volumes}/repository/conf/datasources
 fi
 
 # check if any changed configuration files have been mounted
 if test -d ${volumes}/repository/conf; then
-    # if a ConfigMap volume has been mounted, copy the WSO2 configuration files recursively
+    # if any file changes have been mounted, copy the WSO2 configuration files recursively
     cp -r ${volumes}/repository/conf/* ${wso2_server_home}/conf
 fi
 
@@ -119,5 +110,5 @@ sed -i "s#<parameter\ name=\"localMemberHost\".*<\/parameter>#<parameter\ name=\
 # set the ownership of the WSO2 product server home
 chown -R ${user}:${group} ${wso2_server_home}
 
-# start the WSO2 Carbon server
-sh ${wso2_server_home}/bin/integrator.sh
+# start the WSO2 Carbon server profile
+sh ${wso2_server_home}/bin/${wso2_server_profile}.sh
