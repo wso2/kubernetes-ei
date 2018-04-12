@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------
 #
-# Copyright 2017 WSO2, Inc. (http://wso2.com)
+# Copyright 2018 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,13 +16,17 @@
 #
 # ------------------------------------------------------------------------
 
-FROM docker.wso2.com/wso2ei-kubernetes-base:6.1.1
+# set to product base image
+FROM wso2ei-base:6.1.1
 
-# expose ports
-EXPOSE 8280 8243 9763 9443
+# set dependant files directory
+ARG FILES=./files
 
-CMD mkdir -p ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/ \
-    && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf/* ${WSO2_SERVER_HOME}/conf/ \
-    && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf-axis2/* ${WSO2_SERVER_HOME}/conf/axis2/ \
-    && cp ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}-conf/integrator/conf-datasources/* ${WSO2_SERVER_HOME}/conf/datasources/ \
-    && ${WSO2_SERVER_HOME}/bin/integrator.sh
+# copy mysql connector jar to product distribution
+COPY --chown=wso2carbon:wso2 ${FILES}/init.sh ${WORKDIR}/
+
+# expose integrator ports
+EXPOSE 8280 8243 9443
+
+# set entrypoint to init script
+ENTRYPOINT ["/home/wso2carbon/init.sh"]

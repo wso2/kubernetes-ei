@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------
 #
-# Copyright 2017 WSO2, Inc. (http://wso2.com)
+# Copyright 2018 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,9 +16,17 @@
 #
 # ------------------------------------------------------------------------
 
-FROM docker.wso2.com/wso2ei-kubernetes-base:6.1.1
+# set to product base image
+FROM wso2ei-base:6.1.1
 
-# expose ports
-EXPOSE 8280 8243 9764 9444 7712 7612 9712 9612
+# set dependant files directory
+ARG FILES=./files
 
-CMD ${USER_HOME}/${WSO2_SERVER}-${WSO2_SERVER_VERSION}/bin/analytics.sh
+# copy mysql connector jar to product distribution
+COPY --chown=wso2carbon:wso2 ${FILES}/init.sh ${WORKDIR}/
+
+# expose analytics ports
+EXPOSE 9444 9612 9712 7612 7712
+
+# set entrypoint to init script
+ENTRYPOINT ["/home/wso2carbon/init.sh"]
