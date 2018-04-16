@@ -43,5 +43,7 @@ echoBold 'Deleting Configuration Maps...'
 kubectl delete configmap integrator-conf
 kubectl delete configmap integrator-conf-axis2
 kubectl delete configmap integrator-conf-datasources
+kubectl delete configmap mysql-conf
+kubectl delete configmap mysql-dbscripts
 
 echoBold 'Finished'
