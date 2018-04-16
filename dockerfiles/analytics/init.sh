@@ -16,9 +16,7 @@
 # ------------------------------------------------------------------------
 set -e
 
-# product related variables
-wso2_server=wso2ei
-wso2_server_version=6.1.1
+# product profile variable
 wso2_server_profile=analytics
 
 # custom WSO2 non-root user and group variables
@@ -26,46 +24,35 @@ user=wso2carbon
 group=wso2
 
 # file path variables
-working_directory=/home/${user}
-wso2_server_home=${working_directory}/${wso2_server}-${wso2_server_version}
-wso2_server_profile_home=${wso2_server_home}/wso2/${wso2_server_profile}
-volumes=${working_directory}/volumes
+volumes=${WORKING_DIRECTORY}/volumes
+wso2_server_profile_home=${WSO2_SERVER_HOME}/wso2/${wso2_server_profile}
 
 # capture the Docker container IP from the container's /etc/hosts file
 docker_container_ip=$(awk 'END{print $1}' /etc/hosts)
 
 # check if the WSO2 non-root user has been created
-id ${user} >/dev/null 2>&1
+! getent passwd ${user} >/dev/null 2>&1 && echo "WSO2 Docker non-root user does not exist" && exit 1
 
 # check if the WSO2 non-root group has been created
-if ! [ $(getent group ${group}) ]; then
-    echo "WSO2 Docker non-root group does not exist"
-    exit 1
-fi
+! getent group ${group} >/dev/null 2>&1 && echo "WSO2 Docker non-root group does not exist" && exit 1
 
 # check if the WSO2 non-root user home exists
-if test ! -d ${working_directory}; then
-    echo "WSO2 Docker non-root user home does not exist"
-    exit 1
-fi
+test ! -d ${WORKING_DIRECTORY} && echo "WSO2 Docker non-root user home does not exist" && exit 1
 
 # check if the WSO2 product home exists
-if test ! -d ${wso2_server_profile_home}; then
-    echo "WSO2 Docker product home does not exist"
-    exit 1
-fi
+test ! -d ${WSO2_SERVER_HOME} && echo "WSO2 Docker product home does not exist" && exit 1
+
+# copy configuration changes and external libraries
 
 # check if any changed configuration files have been mounted
-if test -d ${volumes}/repository/conf; then
-    # if any file changes have been mounted, copy the WSO2 configuration files recursively
-    cp -r ${volumes}/repository/conf/* ${wso2_server_profile_home}/conf
-fi
+# if any file changes have been mounted, copy the WSO2 configuration files recursively
+test -d ${volumes}/repository/conf && cp -r ${volumes}/repository/conf/* ${wso2_server_profile_home}/repository/conf
+
+# make any runtime or node specific configuration changes
+# for example, setting container IP in relevant configuration files
 
 # set the Docker container IP as the `localMemberHost` under axis2.xml clustering configurations (effective only when clustering is enabled)
 sed -i "s#<parameter\ name=\"localMemberHost\".*<\/parameter>#<parameter\ name=\"localMemberHost\">${docker_container_ip}<\/parameter>#" ${wso2_server_profile_home}/conf/axis2/axis2.xml
 
-# set the ownership of the WSO2 product server home
-chown -R ${user}:${group} ${wso2_server_home}
-
 # start the WSO2 Carbon server profile
-sh ${wso2_server_home}/bin/${wso2_server_profile}.sh
+sh ${WSO2_SERVER_HOME}/bin/${wso2_server_profile}.sh

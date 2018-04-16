@@ -20,7 +20,7 @@
 FROM wso2ei-base:6.1.1
 
 # copy entrypoint bash script to user home
-COPY --chown=wso2carbon:wso2 init.sh ${WORKDIR}/
+COPY --chown=wso2carbon:wso2 init.sh ${WORKING_DIRECTORY}/
 
 # expose integrator ports
 EXPOSE 8280 8243 9443
