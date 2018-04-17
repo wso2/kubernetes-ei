@@ -19,11 +19,8 @@
 # set to product base image
 FROM wso2ei-base:6.1.1
 
-# set dependant files directory
-ARG FILES=./files
-
-# copy mysql connector jar to product distribution
-COPY --chown=wso2carbon:wso2 ${FILES}/init.sh ${WORKDIR}/
+# copy entrypoint bash script to user home
+COPY --chown=wso2carbon:wso2 init.sh ${WORKING_DIRECTORY}/
 
 # expose analytics ports
 EXPOSE 9444 9612 9712 7612 7712
