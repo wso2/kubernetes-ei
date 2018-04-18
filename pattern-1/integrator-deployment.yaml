@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-pattern1-integrator
-        image: wso2ei-integrator:6.1.1
+        image: wso2ei-integrator:6.2.0
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8280

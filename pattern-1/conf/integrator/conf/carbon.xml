@@ -36,7 +36,7 @@
     <!--
        Product Version
     -->
-    <Version>6.1.1</Version>
+    <Version>6.2.0</Version>
 
     <!--
        Host name or IP address of the machine hosting this server
@@ -54,7 +54,7 @@
     <!--
         The URL of the back end server. This is where the admin services are hosted and
         will be used by the clients in the front end server.
-        This is required only for the Front-end server. This is used when separating BE server from FE server
+        This is required only for the Front-end server. This is used when seperating BE server from FE server
        -->
     <ServerURL>local:/${carbon.context}/services/</ServerURL>
     <!--
@@ -76,7 +76,6 @@
         <Role>EnterpriseIntegrator</Role>
         <Role>EnterpriseServiceBus</Role>
         <Role>DataServicesServer</Role>
-        <Role>ApplicationServer</Role>
     </ServerRoles>
 
     <!-- uncommnet this line to subscribe to a bam instance automatically -->
