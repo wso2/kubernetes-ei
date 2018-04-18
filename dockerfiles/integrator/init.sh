@@ -50,33 +50,33 @@ test ! -d ${WSO2_SERVER_HOME} && echo "WSO2 Docker product home does not exist" 
 # hence, the files that were originally mounted using K8s ConfigMap volumes, need to be copied into <WSO2_USER_HOME>/volumes
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf; then
     # if a ConfigMap volume containing WSO2 configuration files has been mounted
-    test ! -d ${volumes}/repository/conf && mkdir -p ${volumes}/repository/conf
-    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf/* ${volumes}/repository/conf
+    test ! -d ${volumes}/conf && mkdir -p ${volumes}/conf
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf/* ${volumes}/conf
 fi
 
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf-axis2; then
     # if a ConfigMap volume containing WSO2 axis2 configuration files has been mounted
-    test ! -d ${volumes}/repository/conf/axis2 && mkdir -p ${volumes}/repository/conf/axis2
-    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-axis2/* ${volumes}/repository/conf/axis2
+    test ! -d ${volumes}/conf/axis2 && mkdir -p ${volumes}/conf/axis2
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-axis2/* ${volumes}/conf/axis2
 fi
 
 if test -d ${k8s_volumes}/${wso2_server_profile}/conf-datasources; then
     # if a ConfigMap volume containing WSO2 data source configuration files has been mounted
-    test ! -d ${volumes}/repository/conf/datasources && mkdir -p ${volumes}/repository/conf/datasources
-    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-datasources/* ${volumes}/repository/conf/datasources
+    test ! -d ${volumes}/conf/datasources && mkdir -p ${volumes}/conf/datasources
+    cp -rL ${k8s_volumes}/${wso2_server_profile}/conf-datasources/* ${volumes}/conf/datasources
 fi
 
 # copy configuration changes and external libraries
 
 # check if any changed configuration files have been mounted
 # if any file changes have been mounted, copy the WSO2 configuration files recursively
-test -d ${volumes}/repository/conf && cp -r ${volumes}/repository/conf/* ${WSO2_SERVER_HOME}/conf
+test -d ${volumes}/conf && cp -r ${volumes}/conf/* ${WSO2_SERVER_HOME}/conf
 
 # check if the external library directories have been mounted
 # if mounted, recursively copy the external libraries to original directories within the product home
-test -d ${volumes}/repository/dropins && cp -r ${volumes}/repository/components/dropins/* ${WSO2_SERVER_HOME}/dropins
-test -d ${volumes}/repository/extensions && cp -r ${volumes}/repository/components/extensions/* ${WSO2_SERVER_HOME}/extensions
-test -d ${volumes}/repository/lib && cp -r ${volumes}/repository/components/lib/* ${WSO2_SERVER_HOME}/lib
+test -d ${volumes}/dropins && cp -r ${volumes}/dropins/* ${WSO2_SERVER_HOME}/dropins
+test -d ${volumes}/extensions && cp -r ${volumes}/extensions/* ${WSO2_SERVER_HOME}/extensions
+test -d ${volumes}/lib && cp -r ${volumes}/lib/* ${WSO2_SERVER_HOME}/lib
 
 # make any runtime or node specific configuration changes
 # for example, setting container IP in relevant configuration files

@@ -46,7 +46,7 @@ test ! -d ${WSO2_SERVER_HOME} && echo "WSO2 Docker product home does not exist" 
 
 # check if any changed configuration files have been mounted
 # if any file changes have been mounted, copy the WSO2 configuration files recursively
-test -d ${volumes}/repository/conf && cp -r ${volumes}/repository/conf/* ${wso2_server_profile_home}/repository/conf
+test -d ${volumes}/conf && cp -r ${volumes}/conf/* ${wso2_server_profile_home}/conf
 
 # make any runtime or node specific configuration changes
 # for example, setting container IP in relevant configuration files
