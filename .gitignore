@@ -26,3 +26,5 @@
 *.tar.gz
 *.zip
 *jar
+
+**/dockerfiles/**/files/*
