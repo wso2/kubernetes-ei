@@ -25,30 +25,30 @@ set -e
 
 # configuration maps
 echoBold 'Creating Configuration Maps...'
-kubectl create configmap integrator-conf --from-file=conf/integrator/conf/
-kubectl create configmap integrator-conf-axis2 --from-file=conf/integrator/conf/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=conf/integrator/conf/datasources/
-kubectl create configmap mysql-conf --from-file=conf/mysql/conf/
-kubectl create configmap mysql-dbscripts --from-file=conf/mysql/dbscripts/
+kubectl create configmap integrator-conf --from-file=../conf/integrator/conf/
+kubectl create configmap integrator-conf-axis2 --from-file=../conf/integrator/conf/axis2/
+kubectl create configmap integrator-conf-datasources --from-file=../conf/integrator/conf/datasources/
+kubectl create configmap mysql-conf --from-file=../conf/mysql/conf/
+kubectl create configmap mysql-dbscripts --from-file=../conf/mysql/dbscripts/
 
 # mysql
 echoBold 'Deploying WSO2 Integrator Databases...'
-kubectl create -f mysql-service.yaml
-kubectl create -f mysql-deployment.yaml
+kubectl create -f rdbms/mysql/mysql-service.yaml
+kubectl create -f rdbms/mysql/mysql-deployment.yaml
 sleep 10s
 
 # integrator
 echoBold 'Deploying WSO2 Integrator...'
-kubectl create -f integrator-service.yaml
-kubectl create -f integrator-gateway-service.yaml
-kubectl create -f integrator-deployment.yaml
+kubectl create -f ../integrator/integrator-service.yaml
+kubectl create -f ../integrator/integrator-gateway-service.yaml
+kubectl create -f ../integrator/integrator-deployment.yaml
 sleep 60s
 
 # nginx ingress controller
 echoBold 'Deploying NGINX Ingress Controller...'
-kubectl create -f nginx-default-backend.yaml
-kubectl create -f nginx-ingress-controller.yaml
-kubectl create -f integrator-ingress.yaml
+kubectl create -f ../ingresses/nginx-default-backend.yaml
+kubectl create -f ../ingresses/nginx-ingress-controller.yaml
+kubectl create -f ../ingresses/integrator-ingress.yaml
 sleep 20s
 
 echoBold 'Finished'
