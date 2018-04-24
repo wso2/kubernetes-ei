@@ -34,7 +34,7 @@ Alternatively, if a private Docker registry is used, transfer the images there.
 
 ##### 4. Deploy Kubernetes test resources:
 
-Change directory to `KUBERNETES_HOME/pattern-1/test` and execute the `deploy.sh` shell script on the terminal.
+Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh` shell script on the terminal.
 
 ```
 ./deploy.sh

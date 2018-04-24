@@ -39,13 +39,13 @@ Setup the external product databases. Please refer to WSO2 Enterprise Integrator
 on creating the required databases for the deployment.
 
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
-`KUBERNETES_HOME/pattern-1/conf/integrator/conf/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
+`KUBERNETES_HOME/integrator/conf/integrator/conf/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
 [official documentation](https://docs.wso2.com/display/EI620/Configuring+master-datasources.xml) on configuring data sources.
 
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`KUBERNETES_HOME/pattern-1/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`KUBERNETES_HOME/integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
@@ -53,39 +53,39 @@ Provide appropriate connection URLs, corresponding to the created external datab
     first create the Kubernetes ConfigMaps for passing MySQL configurations and database scripts to the deployment.
     
     ```
-    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/pattern-1/conf/mysql/conf/
-    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/pattern-1/conf/mysql/dbscripts/
+    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/integrator/conf/mysql/conf/
+    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator/conf/mysql/dbscripts/
     ```
 
     Then, create a Kubernetes service (accessible only within the Kubernetes cluster) and followed by the MySQL Kubernetes deployment, as follows:
     
     ```
-    kubectl create -f <KUBERNETES_HOME>/pattern-1/test/rdbms/mysql/mysql-service.yaml
-    kubectl create -f <KUBERNETES_HOME>/pattern-1/test/rdbms/mysql/mysql-deployment.yaml
+    kubectl create -f <KUBERNETES_HOME>/integrator/test/rdbms/mysql/mysql-service.yaml
+    kubectl create -f <KUBERNETES_HOME>/integrator/test/rdbms/mysql/mysql-deployment.yaml
     ```
     
 ##### 5. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster:
 
 ```
-kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/pattern-1/conf/integrator/conf/
-kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/pattern-1/conf/integrator/conf/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/pattern-1/conf/integrator/conf/datasources/
+kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/integrator/conf/integrator/conf/
+kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator/conf/integrator/conf/axis2/
+kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator/conf/integrator/conf/datasources/
 ```
 
 ##### 6. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/pattern-1/integrator/integrator-service.yaml
-kubectl create -f <KUBERNETES_HOME>/pattern-1/integrator/integrator-gateway-service.yaml
-kubectl create -f <KUBERNETES_HOME>/pattern-1/integrator/integrator-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-service.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-gateway-service.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.yaml
 ```
 
 ##### 7. Deploy NGNIX Ingress Controller:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/pattern-1/ingresses/nginx-default-backend.yaml
-kubectl create -f <KUBERNETES_HOME>/pattern-1/ingresses/nginx-ingress-controller.yaml
-kubectl create -f <KUBERNETES_HOME>/pattern-1/ingresses/integrator-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/nginx-default-backend.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/nginx-ingress-controller.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/integrator-ingress.yaml
 ```
 
 ##### 8. Access Management Console:
@@ -103,6 +103,6 @@ Default deployment runs only one replica (or pod) of Integrator profile. To scal
 any `<n>` number of container replicas, necessary to suite your requirement, simply run following kubectl 
 command on the terminal. 
 ```
-kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/pattern-1/integrator/integrator-deployment.yaml
+kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.yaml
 ```
 For example, If `<n>` is 3, you are here scaling up this deployment from 1 to 3 container replicas.
