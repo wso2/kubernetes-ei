@@ -46,8 +46,8 @@ sleep 60s
 
 # nginx ingress controller
 echoBold 'Deploying NGINX Ingress Controller...'
-kubectl create -f ../ingresses/nginx-default-backend.yaml
-kubectl create -f ../ingresses/nginx-ingress-controller.yaml
+kubectl create -f ingresses/nginx-default-backend.yaml
+kubectl create -f ingresses/nginx-ingress-controller.yaml
 kubectl create -f ../ingresses/integrator-ingress.yaml
 sleep 20s
 
