@@ -82,7 +82,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.
 
 ##### 7. Deploy Kubernetes Ingress resource:
 
-The ingress resources use NGINX Ingress Controller. Hence, the user should enable NGINX Ingress controller
+The ingress resource uses NGINX Ingress Controller. Hence, the user should enable NGINX Ingress controller
 in the particular environment.
 
 Alternatively, they can deploy the NGINX Ingress Controller and default HTTP backend using the Kubernetes
