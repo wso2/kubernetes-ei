@@ -24,8 +24,8 @@ function echoBold () {
 # NGINX ingress controller
 echoBold 'Un-deploying NGINX Ingress Controller...'
 kubectl delete -f ../ingresses/integrator-ingress.yaml
-kubectl delete -f ../ingresses/nginx-ingress-controller.yaml
-kubectl delete -f ../ingresses/nginx-default-backend.yaml
+kubectl delete -f ingresses/nginx-ingress-controller.yaml
+kubectl delete -f ingresses/nginx-default-backend.yaml
 
 # integrator
 echoBold 'Un-deploying WSO2 Integrator...'
