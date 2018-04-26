@@ -80,11 +80,22 @@ kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-gateway-ser
 kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.yaml
 ```
 
-##### 7. Deploy NGNIX Ingress Controller:
+##### 7. Deploy Kubernetes Ingress resource:
+
+The ingress resources use NGINX Ingress Controller. Hence, the user should enable NGINX Ingress controller
+in the particular environment.
+
+Alternatively, they can deploy the NGINX Ingress Controller and default HTTP backend using the Kubernetes
+evaluation resources provided in this repository.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/nginx-default-backend.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/nginx-ingress-controller.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/test/ingresses/nginx-default-backend.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/test/ingresses/nginx-ingress-controller.yaml
+```
+
+Finally, deploy the Kubernetes Ingress resource as follows:
+
+```
 kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/integrator-ingress.yaml
 ```
 
