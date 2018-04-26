@@ -5,6 +5,10 @@ Kubernetes resources provided for deployment of a "scalable" unit of WSO2 Enterp
 
 ## Prerequisites
 
+* In order to use these Kubernetes resources, you will need an active [Free Trial Subscription](https://wso2.com/free-trial-subscription)
+from WSO2 since the referring Docker images hosted at docker.wso2.com contains the latest updates and fixes for WSO2 Enterprise Integrator.
+You can sign up for a Free Trial Subscription [here](https://wso2.com/free-trial-subscription).<br><br>
+
 * Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [Docker](https://www.docker.com/get-docker)
 (version 17.09.0 or above) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 in order to run the steps provided<br>in the following quick start guide.<br><br>
@@ -22,17 +26,22 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Build the Docker images using the [`Docker resources`](../../dockerfiles) provided in this repository.
+##### 2. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com):
 
-##### 3. Copy the Docker images into the Kubernetes Nodes or Registry:
+Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 
-Copy the required Docker images over to the Kubernetes Nodes (e.g. use `docker save` to create a tarfile of the 
-required image, `scp` the tarfile to each node and use `docker load` to load the image from the copied tarfile 
-within the nodes).
+```
+kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+```
 
-Alternatively, if a private Docker registry is used, transfer the images there.
+`username`: Username of your Free Trial Subscription<br>
+`password`: Password of your Free Trial Subscription<br>
+`email`: Docker email
 
-##### 4. Deploy Kubernetes test resources:
+Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
+for further details.
+
+##### 3. Deploy Kubernetes test resources:
 
 Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh` shell script on the terminal.
 
@@ -41,7 +50,7 @@ Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh
 ```
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 5. Access Management Console:
+##### 4. Access Management Console:
 
 Default deployment will expose two publicly accessible hosts, namely: <br>
 1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
