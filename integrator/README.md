@@ -6,6 +6,10 @@ Core Kubernetes resources for deployment of a "scalable" unit of WSO2 Enterprise
 
 ## Prerequisites
 
+* In order to use these Kubernetes resources, you will need an active [Free Trial Subscription](https://wso2.com/free-trial-subscription)
+from WSO2 since the referring Docker images hosted at docker.wso2.com contains the latest updates and fixes for WSO2 Enterprise Integrator.
+You can sign up for a Free Trial Subscription [here](https://wso2.com/free-trial-subscription).<br><br>
+
 * Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [Docker](https://www.docker.com/get-docker)
 (version 17.09.0 or above) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 in order to run the steps provided<br>in the following quick start guide.<br><br>
@@ -23,7 +27,20 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Build the Docker images using the [`Docker resources`](../dockerfiles) provided in this repository.
+##### 2. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com):
+
+Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
+
+```a
+kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+```
+
+`username`: Username of your Free Trial Subscription<br>
+`password`: Password of your Free Trial Subscription<br>
+`email`: Docker email
+
+Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
+for further details.
 
 ##### 3. Copy the Docker images into the Kubernetes Nodes or Registry:
 
