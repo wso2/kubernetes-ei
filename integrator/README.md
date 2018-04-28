@@ -62,8 +62,8 @@ Provide appropriate connection URLs, corresponding to the created external datab
     first create the Kubernetes ConfigMaps for passing MySQL configurations and database scripts to the deployment.
     
     ```
-    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/integrator/conf/mysql/conf/
-    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator/conf/mysql/dbscripts/
+    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/integrator/test/conf/mysql/conf/
+    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator/test/conf/mysql/dbscripts/
     ```
 
     Then, create a Kubernetes service (accessible only within the Kubernetes cluster) and followed by the MySQL Kubernetes deployment, as follows:
