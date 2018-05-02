@@ -28,8 +28,8 @@ echoBold 'Creating Configuration Maps...'
 kubectl create configmap integrator-conf --from-file=../conf/integrator/conf/
 kubectl create configmap integrator-conf-axis2 --from-file=../conf/integrator/conf/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=../conf/integrator/conf/datasources/
-kubectl create configmap mysql-conf --from-file=../conf/mysql/conf/
-kubectl create configmap mysql-dbscripts --from-file=../conf/mysql/dbscripts/
+kubectl create configmap mysql-conf --from-file=conf/mysql/conf/
+kubectl create configmap mysql-dbscripts --from-file=conf/mysql/dbscripts/
 
 # mysql
 echoBold 'Deploying WSO2 Integrator Databases...'
