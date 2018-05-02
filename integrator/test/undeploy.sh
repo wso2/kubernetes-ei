@@ -21,11 +21,9 @@ function echoBold () {
     echo $'\e[1m'"${1}"$'\e[0m'
 }
 
-# NGINX ingress controller
-echoBold 'Un-deploying NGINX Ingress Controller...'
+# removing the ingress resource
+echoBold 'Un-deploying Ingress...'
 kubectl delete -f ../ingresses/integrator-ingress.yaml
-kubectl delete -f ingresses/nginx-ingress-controller.yaml
-kubectl delete -f ingresses/nginx-default-backend.yaml
 
 # integrator
 echoBold 'Un-deploying WSO2 Integrator...'
