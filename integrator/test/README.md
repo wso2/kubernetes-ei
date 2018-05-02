@@ -41,7 +41,14 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
 for further details.
 
-##### 3. Deploy Kubernetes test resources:
+##### 3. Deploy Kubernetes Ingress resource:
+
+The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
+
+In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
+please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+##### 4. Deploy Kubernetes test resources:
 
 Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh` shell script on the terminal.
 
@@ -50,7 +57,7 @@ Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh
 ```
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 4. Access Management Console:
+##### 5. Access Management Console:
 
 Default deployment will expose two publicly accessible hosts, namely: <br>
 1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
