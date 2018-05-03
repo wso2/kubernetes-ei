@@ -91,18 +91,12 @@ kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.
 
 ##### 6. Deploy Kubernetes Ingress resource:
 
-The ingress resource uses NGINX Ingress Controller. Hence, the user should enable NGINX Ingress controller
-in the particular environment.
+The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
 
-Alternatively, they can deploy the NGINX Ingress Controller and default HTTP backend using the Kubernetes
-evaluation resources provided in this repository.
+In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
+please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
 
-```
-kubectl create -f <KUBERNETES_HOME>/integrator/test/ingresses/nginx-default-backend.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator/test/ingresses/nginx-ingress-controller.yaml
-```
-
-Finally, deploy the Kubernetes Ingress resource as follows:
+Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resource as follows:
 
 ```
 kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/integrator-ingress.yaml
