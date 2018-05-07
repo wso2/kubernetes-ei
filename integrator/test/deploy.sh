@@ -23,6 +23,17 @@ function echoBold () {
 
 set -e
 
+# create a new Kubernetes Namespace
+kubectl create namespace wso2
+
+# create a new service account in 'wso2' Kubernetes Namespace
+kubectl create serviceaccount wso2svc-account -n wso2
+
+# switch the context to new 'wso2' namespace
+kubectl config set-context $(kubectl config current-context) --namespace=wso2
+
+kubectl create --username=admin --password=<cluster-admin-password> -f ../rbac/rbac.yaml
+
 # configuration maps
 echoBold 'Creating Configuration Maps...'
 kubectl create configmap integrator-conf --from-file=../conf/integrator/conf/

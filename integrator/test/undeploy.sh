@@ -44,4 +44,11 @@ kubectl delete configmap integrator-conf-datasources
 kubectl delete configmap mysql-conf
 kubectl delete configmap mysql-dbscripts
 
+# delete the created Kubernetes Namespace
+kubectl delete namespace wso2
+sleep 40s
+
+# switch the context to default namespace
+kubectl config set-context $(kubectl config current-context) --namespace=default
+
 echoBold 'Finished'
