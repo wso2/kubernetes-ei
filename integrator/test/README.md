@@ -26,9 +26,19 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com):
+##### 2. Deploy Kubernetes Ingress resource:
 
-Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
+The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
+
+In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
+please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
+
+Replace the relevant placeholders in `KUBERNETES_HOME/integrator/test/deploy.sh` file with appropriate details, as described below.
+
+* A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
+The following details need to be replaced in the relevant command.
 
 ```
 kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
@@ -38,15 +48,9 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 `password`: Password of your Free Trial Subscription<br>
 `email`: Docker email
 
-Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
-for further details.
+* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
 
-##### 3. Deploy Kubernetes Ingress resource:
-
-The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
-
-In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
-please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
+`cluster-admin-password`: Kubernetes cluster admin password
 
 ##### 4. Deploy Kubernetes test resources:
 

@@ -44,6 +44,11 @@ kubectl delete configmap integrator-conf-datasources
 kubectl delete configmap mysql-conf
 kubectl delete configmap mysql-dbscripts
 
+# persistent storage
+echoBold 'Deleting persistent volume and volume claim...'
+kubectl delete -f ../integrator/integrator-volume-claim.yaml
+kubectl delete -f ../storage/persistent-volumes.yaml
+
 # delete the created Kubernetes Namespace
 kubectl delete namespace wso2
 sleep 40s

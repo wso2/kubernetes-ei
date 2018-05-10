@@ -43,6 +43,8 @@ spec:
           mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-axis2
         - name: integrator-conf-datasources
           mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-datasources
+        - name: shared-pd
+          mountPath: /home/wso2carbon/wso2ei-6.2.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
       imagePullSecrets:
       - name: wso2creds
@@ -56,3 +58,6 @@ spec:
       - name: integrator-conf-datasources
         configMap:
           name: integrator-conf-datasources
+      - name: shared-pd
+        persistentVolumeClaim:
+          claimName: shared-volume-claim

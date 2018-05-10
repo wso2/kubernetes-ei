@@ -27,7 +27,20 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com):
+##### 2. Create a namespace named `wso2` and a service account named `wso2svc-account`, within the namespace `wso2`.
+
+```
+kubectl create namespace wso2
+kubectl create serviceaccount wso2svc-account -n wso2
+```
+
+Then, switch the context to new `wso2` namespace from `default` namespace.
+
+```
+kubectl config set-context $(kubectl config current-context) --namespace=wso2
+```
+
+##### 3. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com):
 
 Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 
@@ -42,7 +55,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
 for further details.
 
-##### 3. Setup and configure external product database(s):
+##### 4. Setup and configure external product database(s):
 
 Setup the external product databases. Please refer to WSO2 Enterprise Integrator's [official documentation](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases)
 on creating the required databases for the deployment.
@@ -73,7 +86,24 @@ Provide appropriate connection URLs, corresponding to the created external datab
     kubectl create -f <KUBERNETES_HOME>/integrator/test/rdbms/mysql/mysql-deployment.yaml
     ```
     
-##### 4. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster:
+##### 5. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
+
+```
+kubectl create --username=admin --password=<cluster-admin-password> -f <KUBERNETES_HOME>/integrator/rbac/rbac.yaml
+```
+
+##### 6. Setup a Network File System (NFS) to be used for the persistent volume required for artifact sharing between Enterprise Integrator servers.
+
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) in `<KUBERNETES_HOME>/integrator/storage/persistent-volumes.yaml` file.
+
+Then, deploy the persistent volume resource and volume claim as follows:
+
+```
+kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-volume-claim.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator/storage/persistent-volumes.yaml
+```
+    
+##### 7. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster:
 
 ```
 kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/integrator/conf/integrator/conf/
@@ -81,7 +111,7 @@ kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/int
 kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator/conf/integrator/conf/datasources/
 ```
 
-##### 5. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator:
+##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator:
 
 ```
 kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-service.yaml
@@ -89,7 +119,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-gateway-ser
 kubectl create -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.yaml
 ```
 
-##### 6. Deploy Kubernetes Ingress resource:
+##### 9. Deploy Kubernetes Ingress resource:
 
 The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
 
@@ -102,7 +132,7 @@ Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resource as fo
 kubectl create -f <KUBERNETES_HOME>/integrator/ingresses/integrator-ingress.yaml
 ```
 
-##### 7. Access Management Console:
+##### 10. Access Management Console:
 
 Default deployment will expose two publicly accessible hosts, namely: <br>
 1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
@@ -111,7 +141,7 @@ Default deployment will expose two publicly accessible hosts, namely: <br>
 To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to one of<br>
 your Kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.
 
-##### 8. How to scale using `kubectl scale`:
+##### 11. How to scale using `kubectl scale`:
 
 Default deployment runs only one replica (or pod) of Integrator profile. To scale this deployment into <br>
 any `<n>` number of container replicas, necessary to suite your requirement, simply run following kubectl 
