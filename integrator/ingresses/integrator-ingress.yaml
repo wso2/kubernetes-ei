@@ -23,6 +23,7 @@ spec:
   tls:
   - hosts:
     - wso2ei-pattern1-integrator
+    - wso2ei-pattern1-integrator-gateway
   rules:
   - host: wso2ei-pattern1-integrator
     http:
@@ -38,7 +39,3 @@ spec:
         backend:
           serviceName: wso2ei-pattern1-integrator-gateway-service
           servicePort: 8243
-      - path: /
-        backend:
-          serviceName: wso2ei-pattern1-integrator-gateway-service
-          servicePort: 8280
