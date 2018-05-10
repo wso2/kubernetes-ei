@@ -1,6 +1,6 @@
 # Kubernetes Resources for deployment of Integrator profile of WSO2 Enterprise Integrator
 
-Core Kubernetes resources for deployment of a "scalable" unit of WSO2 Enterprise Integrator's Integrator profile.
+Core Kubernetes resources for a clustered deployment of WSO2 Enterprise Integrator's Integrator profile.
 
 ![A "scalable" unit of WSO2 Enterprise Integrator's Integrator profile](integrator-cluster.png)
 
@@ -140,13 +140,3 @@ Default deployment will expose two publicly accessible hosts, namely: <br>
 
 To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to one of<br>
 your Kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.
-
-##### 11. How to scale using `kubectl scale`:
-
-Default deployment runs only one replica (or pod) of Integrator profile. To scale this deployment into <br>
-any `<n>` number of container replicas, necessary to suite your requirement, simply run following kubectl 
-command on the terminal. 
-```
-kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/integrator/integrator/integrator-deployment.yaml
-```
-For example, If `<n>` is 3, you are here scaling up this deployment from 1 to 3 container replicas.
