@@ -2,7 +2,7 @@
 
 Core Kubernetes resources for deployment of a "scalable" unit of WSO2 Enterprise Integrator's Integrator profile.
 
-![A "scalable" unit of WSO2 Enterprise Integrator's Integrator profile](integrator.png)
+![A "scalable" unit of WSO2 Enterprise Integrator's Integrator profile](integrator-cluster.png)
 
 ## Prerequisites
 
