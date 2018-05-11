@@ -1,4 +1,4 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,18 +13,15 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: Service
+kind: PersistentVolume
 metadata:
-  name: wso2ei-pattern1-integrator-service
+  name: shared-persistent-volume
 spec:
-  selector:
-    deployment: wso2ei-pattern1-integrator
-  ports:
-  - name: servlet-http
-    port: 9763
-    targetPort: 9763
-    protocol: TCP
-  - name: servlet-https
-    port: 9443
-    targetPort: 9443
-    protocol: TCP
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: <NFS_SERVER_IP>
+    path: "<NFS_LOCATION_APTH>"

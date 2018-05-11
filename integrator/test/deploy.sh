@@ -17,11 +17,25 @@
 # ------------------------------------------------------------------------
 
 # methods
+set -e
+
 function echoBold () {
     echo $'\e[1m'"${1}"$'\e[0m'
 }
 
-set -e
+# create a new Kubernetes Namespace
+kubectl create namespace wso2
+
+# create a new service account in 'wso2' Kubernetes Namespace
+kubectl create serviceaccount wso2svc-account -n wso2
+
+# switch the context to new 'wso2' namespace
+kubectl config set-context $(kubectl config current-context) --namespace=wso2
+
+kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+
+# create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
+kubectl create --username=admin --password=<cluster-admin-password> -f ../rbac/rbac.yaml
 
 # configuration maps
 echoBold 'Creating Configuration Maps...'
@@ -31,11 +45,16 @@ kubectl create configmap integrator-conf-datasources --from-file=../conf/integra
 kubectl create configmap mysql-conf --from-file=conf/mysql/conf/
 kubectl create configmap mysql-dbscripts --from-file=conf/mysql/dbscripts/
 
-# mysql
+# MySQL
 echoBold 'Deploying WSO2 Integrator Databases...'
 kubectl create -f rdbms/mysql/mysql-service.yaml
 kubectl create -f rdbms/mysql/mysql-deployment.yaml
 sleep 10s
+
+# persistent storage
+echoBold 'Creating persistent volume and volume claim...'
+kubectl create -f ../integrator/integrator-volume-claim.yaml
+kubectl create -f ../storage/persistent-volumes.yaml
 
 # integrator
 echoBold 'Deploying WSO2 Integrator...'
@@ -46,6 +65,7 @@ sleep 60s
 
 # deploying the ingress resource
 echoBold 'Deploying Ingress...'
+kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
 kubectl create -f ../ingresses/integrator-ingress.yaml
 sleep 20s
 

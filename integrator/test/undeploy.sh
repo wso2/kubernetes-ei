@@ -23,6 +23,7 @@ function echoBold () {
 
 # removing the ingress resource
 echoBold 'Un-deploying Ingress...'
+kubectl delete -f ../ingresses/integrator-gateway-ingress.yaml
 kubectl delete -f ../ingresses/integrator-ingress.yaml
 
 # integrator
@@ -43,5 +44,17 @@ kubectl delete configmap integrator-conf-axis2
 kubectl delete configmap integrator-conf-datasources
 kubectl delete configmap mysql-conf
 kubectl delete configmap mysql-dbscripts
+
+# persistent storage
+echoBold 'Deleting persistent volume and volume claim...'
+kubectl delete -f ../integrator/integrator-volume-claim.yaml
+kubectl delete -f ../storage/persistent-volumes.yaml
+
+# delete the created Kubernetes Namespace
+kubectl delete namespace wso2
+sleep 40s
+
+# switch the context to default namespace
+kubectl config set-context $(kubectl config current-context) --namespace=default
 
 echoBold 'Finished'
