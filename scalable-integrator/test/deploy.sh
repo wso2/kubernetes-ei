@@ -39,11 +39,11 @@ kubectl create --username=admin --password=<cluster-admin-password> -f ../rbac/r
 
 # configuration maps
 echoBold 'Creating Configuration Maps...'
-kubectl create configmap integrator-conf --from-file=../conf/integrator/conf/
-kubectl create configmap integrator-conf-axis2 --from-file=../conf/integrator/conf/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=../conf/integrator/conf/datasources/
-kubectl create configmap mysql-conf --from-file=conf/mysql/conf/
-kubectl create configmap mysql-dbscripts --from-file=conf/mysql/dbscripts/
+kubectl create configmap integrator-conf --from-file=../confs
+kubectl create configmap integrator-conf-axis2 --from-file=../confs/axis2/
+kubectl create configmap integrator-conf-datasources --from-file=../confs/datasources/
+kubectl create configmap mysql-conf --from-file=confs/mysql/conf/
+kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
 
 # MySQL
 echoBold 'Deploying WSO2 Integrator Databases...'
@@ -53,14 +53,14 @@ sleep 10s
 
 # persistent storage
 echoBold 'Creating persistent volume and volume claim...'
-kubectl create -f ../integrator/integrator-volume-claim.yaml
-kubectl create -f ../storage/persistent-volumes.yaml
+kubectl create -f ../integrator-volume-claim.yaml
+kubectl create -f ../volumes/persistent-volumes.yaml
 
 # integrator
 echoBold 'Deploying WSO2 Integrator...'
-kubectl create -f ../integrator/integrator-service.yaml
-kubectl create -f ../integrator/integrator-gateway-service.yaml
-kubectl create -f ../integrator/integrator-deployment.yaml
+kubectl create -f ../integrator-service.yaml
+kubectl create -f ../integrator-gateway-service.yaml
+kubectl create -f ../integrator-deployment.yaml
 sleep 60s
 
 # deploying the ingress resource

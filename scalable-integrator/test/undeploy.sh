@@ -28,9 +28,9 @@ kubectl delete -f ../ingresses/integrator-ingress.yaml
 
 # integrator
 echoBold 'Un-deploying WSO2 Integrator...'
-kubectl delete -f ../integrator/integrator-deployment.yaml
-kubectl delete -f ../integrator/integrator-gateway-service.yaml
-kubectl delete -f ../integrator/integrator-service.yaml
+kubectl delete -f ../integrator-deployment.yaml
+kubectl delete -f ../integrator-gateway-service.yaml
+kubectl delete -f ../integrator-service.yaml
 
 # databases
 echoBold 'Un-deploying WSO2 Integrator Databases...'
@@ -47,8 +47,8 @@ kubectl delete configmap mysql-dbscripts
 
 # persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
-kubectl delete -f ../integrator/integrator-volume-claim.yaml
-kubectl delete -f ../storage/persistent-volumes.yaml
+kubectl delete -f ../integrator-volume-claim.yaml
+kubectl delete -f ../volumes/persistent-volumes.yaml
 
 # delete the created Kubernetes Namespace
 kubectl delete namespace wso2
