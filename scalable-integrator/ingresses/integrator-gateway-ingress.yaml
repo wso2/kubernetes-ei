@@ -31,3 +31,10 @@ spec:
         backend:
           serviceName: wso2ei-pattern1-integrator-gateway-service
           servicePort: 8243
+  - host: wso2ei-pattern1-integrator-gateway
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wso2ei-pattern1-integrator-gateway-service
+          servicePort: 8280

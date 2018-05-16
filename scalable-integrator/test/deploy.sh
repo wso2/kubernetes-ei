@@ -35,7 +35,7 @@ kubectl config set-context $(kubectl config current-context) --namespace=wso2
 kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
 
 # create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
-kubectl create --username=admin --password=<cluster-admin-password> -f ../rbac/rbac.yaml
+kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
 
 # configuration maps
 echoBold 'Creating Configuration Maps...'
