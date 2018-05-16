@@ -35,7 +35,7 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 
 ##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
 
-Replace the relevant placeholders in `KUBERNETES_HOME/integrator/test/deploy.sh` file with appropriate details, as described below.
+Replace the relevant placeholders in `KUBERNETES_HOME/scalable-integrator/test/deploy.sh` file with appropriate details, as described below.
 
 * A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 The following details need to be replaced in the relevant command.
@@ -54,7 +54,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 ##### 4. Deploy Kubernetes test resources:
 
-Change directory to `KUBERNETES_HOME/integrator/test` and execute the `deploy.sh` shell script on the terminal.
+Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `deploy.sh` shell script on the terminal.
 
 ```
 ./deploy.sh
