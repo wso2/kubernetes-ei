@@ -128,17 +128,18 @@ The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingres
 In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
 please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
 
-Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resource as follows:
+Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as follows:
 
 ```
+kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-gateway-ssl-ingress.yaml
 kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-ingress.yaml
 ```
 
 ##### 10. Access Management Console:
 
-Default deployment will expose two publicly accessible hosts, namely: <br>
-1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
-2. `wso2ei-pattern1-integrator-gateway` - To expose Mediation Gateway <br>
+Default deployment will expose two publicly accessible hosts, namely:<br>
+1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console<br>
+2. `wso2ei-pattern1-integrator-gateway` - To expose Mediation Gateway<br>
 
 To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to one of<br>
 your Kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.

@@ -64,8 +64,7 @@ kubectl create -f ../integrator-deployment.yaml
 sleep 60s
 
 # deploying the ingress resource
-echoBold 'Deploying Ingress...'
-kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
+echoBold 'Deploying Ingresses...'
 kubectl create -f ../ingresses/integrator-gateway-ssl-ingress.yaml
 kubectl create -f ../ingresses/integrator-ingress.yaml
 sleep 20s

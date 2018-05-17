@@ -23,7 +23,6 @@ function echoBold () {
 
 # removing the ingress resource
 echoBold 'Un-deploying Ingress...'
-kubectl delete -f ../ingresses/integrator-gateway-ingress.yaml
 kubectl delete -f ../ingresses/integrator-gateway-ssl-ingress.yaml
 kubectl delete -f ../ingresses/integrator-ingress.yaml
 
