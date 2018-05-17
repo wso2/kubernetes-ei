@@ -94,9 +94,10 @@ kubectl create --username=admin --password=<cluster-admin-password> -f <KUBERNET
 
 ##### 6. Setup a Network File System (NFS) to be used for the persistent volume required for artifact sharing between Enterprise Integrator servers.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Create a user with ID `802` named `wso2carbon` and a group with ID `802` named `wso2` within the NFS server node.
+Then provide ownership of `NFS_LOCATION_APTH` folder to the created `wso2carbon` user (id `802`) and `wso2` group (id `802`).
 
-Ensure that the mounted folder path `NFS_LOCATION_APTH` has necessary read-write permissions for `other` users (e.g. chmod o+rw <`NFS_LOCATION_APTH`>).
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
 
 Then, deploy the persistent volume resource and volume claim as follows:
 
