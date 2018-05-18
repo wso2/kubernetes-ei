@@ -2,5 +2,5 @@
 *Kubernetes Resources for container-based deployments of WSO2 Enterprise Integrator*
 
 This repository contains Kubernetes resources required for,
-* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile](integrator)
+* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile](scalable-integrator)
  
