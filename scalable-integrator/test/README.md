@@ -26,14 +26,7 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Deploy Kubernetes Ingress resource:
-
-The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
-
-In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
-please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
-
-##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
+##### 2. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
 
 Replace the relevant placeholders in `KUBERNETES_HOME/scalable-integrator/test/deploy.sh` file with appropriate details, as described below.
 
@@ -52,7 +45,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `cluster-admin-password`: Kubernetes cluster admin password
 
-##### 4. Deploy Kubernetes test resources:
+##### 3. Deploy Kubernetes test resources:
 
 Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `deploy.sh` shell script on the terminal.
 
@@ -61,11 +54,13 @@ Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `
 ```
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 5. Access Management Console:
+##### 4. Access Management Console:
 
-Default deployment will expose two publicly accessible hosts, namely: <br>
-1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console <br>
-2. `wso2ei-pattern1-integrator-gateway` - To expose Mediation Gateway <br>
+Obtain the `EXTERNAL-IP` for `wso2ei-pattern1-integrator-service` service (use `kubectl get svc`).
 
-To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to one of<br>
-your Kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.
+```
+NAME                                 CLUSTER-IP     EXTERNAL-IP    PORT(S)    AGE
+wso2ei-pattern1-integrator-service   ..........    <EXTERNAL-IP>   ......     ....
+```
+
+Try navigating to the management console using `https://<EXTERNAL-IP>:9443/carbon` from your favorite browser.
