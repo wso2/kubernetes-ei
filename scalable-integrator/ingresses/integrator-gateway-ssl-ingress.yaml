@@ -15,7 +15,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: wso2ei-pattern1-integrator-gateway-ingress
+  name: wso2ei-pattern1-integrator-gateway-tls-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
