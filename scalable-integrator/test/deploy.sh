@@ -63,11 +63,5 @@ kubectl create -f ../integrator-gateway-service.yaml
 kubectl create -f ../integrator-deployment.yaml
 sleep 60s
 
-# deploying the ingress resource
-echoBold 'Deploying Ingresses...'
-kubectl create -f ../ingresses/integrator-gateway-ssl-ingress.yaml
-kubectl create -f ../ingresses/integrator-ingress.yaml
-sleep 20s
-
 echoBold 'Finished'
 echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'
