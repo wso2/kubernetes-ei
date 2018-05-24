@@ -17,6 +17,8 @@ kind: Service
 metadata:
   name: wso2ei-pattern1-integrator-service
 spec:
+  type: LoadBalancer
+  sessionAffinity: ClientIP
   selector:
     deployment: wso2ei-pattern1-integrator
   ports:

@@ -17,6 +17,7 @@ kind: Service
 metadata:
   name: wso2ei-pattern1-integrator-gateway-service
 spec:
+  type: LoadBalancer
   selector:
     deployment: wso2ei-pattern1-integrator
   ports:
