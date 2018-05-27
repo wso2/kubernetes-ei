@@ -61,13 +61,13 @@ Setup the external product databases. Please refer to WSO2 Enterprise Integrator
 on creating the required databases for the deployment.
 
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
-`KUBERNETES_HOME/integrator/conf/integrator/conf/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
+`KUBERNETES_HOME/scalable-integrator/confs/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
 [official documentation](https://docs.wso2.com/display/EI620/Configuring+master-datasources.xml) on configuring data sources.
 
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`KUBERNETES_HOME/integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`KUBERNETES_HOME/scalable-integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
@@ -92,11 +92,16 @@ Provide appropriate connection URLs, corresponding to the created external datab
 kubectl create --username=admin --password=<cluster-admin-password> -f <KUBERNETES_HOME>/rbac/rbac.yaml
 ```
 
-##### 6. Setup a Network File System (NFS) to be used for the persistent volume required for artifact sharing between Enterprise Integrator servers.
+##### 6. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `integrator-server-share-persistent-volume`
+in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
 
-Provide required read-write permissions for `other` users to `NFS_LOCATION_APTH`.
+Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
+Add `wso2carbon` user to the group `wso2`.
+
+Then, provide ownership of the exported folder `NFS_LOCATION_APTH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
+And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_APTH`.
 
 Then, deploy the persistent volume resource and volume claim as follows:
 
@@ -123,11 +128,15 @@ kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-deployment.ya
 
 ##### 9. Access Management Console:
 
-Obtain the `EXTERNAL-IP` for `wso2ei-pattern1-integrator-service` service (use `kubectl get svc`).
+Obtain the `INTEGRATOR-EXTERNAL-IP` for `wso2ei-scalable-integrator-service` service (use `kubectl get svc`).
+
+e.g.
 
 ```
-NAME                                 CLUSTER-IP     EXTERNAL-IP    PORT(S)    AGE
-wso2ei-pattern1-integrator-service   ..........    <EXTERNAL-IP>   ......     ....
+NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP                PORT(S)                         AGE
+wso2ei-scalable-integrator-gateway-service   LoadBalancer   10.15.244.245   <GATEWAY-EXTERNAL-IP>      8280:32568/TCP,8243:32729/TCP   3m
+wso2ei-scalable-integrator-rdbms-service     ClusterIP      10.15.247.144   <none>                     3306/TCP                        3m
+wso2ei-scalable-integrator-service           LoadBalancer   10.15.255.1     <INTEGRATOR-EXTERNAL-IP>   9763:30639/TCP,9443:31804/TCP   3m
 ```
 
-Try navigating to the management console using `https://<EXTERNAL-IP>:9443/carbon` from your favorite browser.
+Try navigating to the management console using `https://<INTEGRATOR-EXTERNAL-IP>:9443/carbon` from your favorite browser.
