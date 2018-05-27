@@ -72,10 +72,9 @@ Provide appropriate connection URLs, corresponding to the created external datab
 
 * For using these Kubernetes resources,
 
-    first create the Kubernetes ConfigMaps for passing MySQL configurations and database scripts to the deployment.
+    first create a Kubernetes ConfigMap for passing database script(s) to the deployment.
     
     ```
-    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/scalable-integrator/test/confs/mysql/conf/
     kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/scalable-integrator/test/confs/mysql/dbscripts/
     ```
 

@@ -1,7 +1,7 @@
 # Kubernetes Test Resources for deployment of Integrator profile of WSO2 Enterprise Integrator
 
 Kubernetes Test Resources for WSO2 Enterprise Integrator contains artifacts, which can be used to test the core<br>
-Kubernetes resources provided for deployment of a "scalable" unit of WSO2 Enterprise Integrator's Integrator profile.
+Kubernetes resources provided for a clustered deployment of WSO2 Enterprise Integrator's Integrator profile.
 
 ## Prerequisites
 

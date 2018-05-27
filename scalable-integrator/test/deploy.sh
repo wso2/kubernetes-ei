@@ -42,7 +42,6 @@ echoBold 'Creating Configuration Maps...'
 kubectl create configmap integrator-conf --from-file=../confs
 kubectl create configmap integrator-conf-axis2 --from-file=../confs/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=../confs/datasources/
-kubectl create configmap mysql-conf --from-file=confs/mysql/conf/
 kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
 
 # MySQL
