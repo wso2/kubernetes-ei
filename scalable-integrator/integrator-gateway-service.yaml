@@ -15,11 +15,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: wso2ei-pattern1-integrator-gateway-service
+  name: wso2ei-scalable-integrator-gateway-service
 spec:
   type: LoadBalancer
   selector:
-    deployment: wso2ei-pattern1-integrator
+    deployment: wso2ei-scalable-integrator
   ports:
   - name: pass-through-http
     port: 8280

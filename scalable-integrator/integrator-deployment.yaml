@@ -15,7 +15,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern1-integrator-deployment
+  name: wso2ei-scalable-integrator-deployment
 spec:
   replicas: 2
   minReadySeconds: 30
@@ -27,10 +27,10 @@ spec:
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern1-integrator
+        deployment: wso2ei-scalable-integrator
     spec:
       containers:
-      - name: wso2ei-pattern1-integrator
+      - name: wso2ei-scalable-integrator
         image: docker.wso2.com/wso2ei-integrator:6.2.0
         livenessProbe:
           exec:
@@ -82,4 +82,4 @@ spec:
           name: integrator-conf-datasources
       - name: shared-pd
         persistentVolumeClaim:
-          claimName: shared-volume-claim
+          claimName: integrator-server-share-volume-claim

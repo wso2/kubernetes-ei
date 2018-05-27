@@ -15,7 +15,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: shared-persistent-volume
+  name: integrator-server-share-persistent-volume
 spec:
   capacity:
     storage: 1Gi
