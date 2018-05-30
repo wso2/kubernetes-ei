@@ -50,6 +50,8 @@ spec:
           periodSeconds: 10
         imagePullPolicy: Always
         ports:
+        - containerPort: 9765
+          protocol: TCP
         - containerPort: 9445
           protocol: TCP
         volumeMounts:

@@ -22,6 +22,10 @@ spec:
   selector:
     deployment: wso2ei-scalable-bps
   ports:
+  - name: servlet-http
+    port: 9765
+    targetPort: 9765
+    protocol: TCP
   - name: servlet-https
     port: 9445
     targetPort: 9445
