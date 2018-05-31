@@ -83,4 +83,4 @@ spec:
           name: bps-conf-etc
       - name: bps-server-share-volume
         persistentVolumeClaim:
-          claimName: bps-server-share-volume-claim
+          claimName: scalable-bps-shared-volume-claim

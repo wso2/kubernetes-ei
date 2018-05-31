@@ -15,7 +15,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: bps-server-share-volume-claim
+  name: scalable-bps-shared-volume-claim
 spec:
   accessModes:
     - ReadWriteMany
