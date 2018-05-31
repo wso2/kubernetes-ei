@@ -82,4 +82,4 @@ spec:
           name: integrator-conf-datasources
       - name: shared-pd
         persistentVolumeClaim:
-          claimName: integrator-server-share-volume-claim
+          claimName: scalable-integrator-shared-volume-claim
