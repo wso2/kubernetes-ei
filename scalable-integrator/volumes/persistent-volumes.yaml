@@ -15,7 +15,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: shared-persistent-volume
+  name: scalable-integrator-shared-persistent-volume
 spec:
   capacity:
     storage: 1Gi
@@ -24,4 +24,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_APTH>"
+    path: "<NFS_LOCATION_PATH>"

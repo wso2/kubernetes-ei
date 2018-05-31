@@ -61,21 +61,20 @@ Setup the external product databases. Please refer to WSO2 Enterprise Integrator
 on creating the required databases for the deployment.
 
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
-`KUBERNETES_HOME/integrator/conf/integrator/conf/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
+`KUBERNETES_HOME/scalable-integrator/confs/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
 [official documentation](https://docs.wso2.com/display/EI620/Configuring+master-datasources.xml) on configuring data sources.
 
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`KUBERNETES_HOME/integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`KUBERNETES_HOME/scalable-integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
 
-    first create the Kubernetes ConfigMaps for passing MySQL configurations and database scripts to the deployment.
+    first create a Kubernetes ConfigMap for passing database script(s) to the deployment.
     
     ```
-    kubectl create configmap mysql-conf --from-file=<KUBERNETES_HOME>/scalable-integrator/test/confs/mysql/conf/
     kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/scalable-integrator/test/confs/mysql/dbscripts/
     ```
 
@@ -92,11 +91,16 @@ Provide appropriate connection URLs, corresponding to the created external datab
 kubectl create --username=admin --password=<cluster-admin-password> -f <KUBERNETES_HOME>/rbac/rbac.yaml
 ```
 
-##### 6. Setup a Network File System (NFS) to be used for the persistent volume required for artifact sharing between Enterprise Integrator servers.
+##### 6. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `integrator-server-share-persistent-volume`
+in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
 
-Provide required read-write permissions for `other` users to `NFS_LOCATION_APTH`.
+Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
+Add `wso2carbon` user to the group `wso2`.
+
+Then, provide ownership of the exported folder `NFS_LOCATION_APTH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
+And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_APTH`.
 
 Then, deploy the persistent volume resource and volume claim as follows:
 
@@ -121,25 +125,17 @@ kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-gateway-servi
 kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-deployment.yaml
 ```
 
-##### 9. Deploy Kubernetes Ingress resource:
+##### 9. Access Management Console:
 
-The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
+Obtain the `INTEGRATOR-EXTERNAL-IP` for `wso2ei-scalable-integrator-service` service (use `kubectl get svc`).
 
-In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
-please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
-
-Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as follows:
+e.g.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-gateway-ssl-ingress.yaml
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-ingress.yaml
+NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP                PORT(S)                         AGE
+wso2ei-scalable-integrator-gateway-service   LoadBalancer   10.15.244.245   <GATEWAY-EXTERNAL-IP>      8280:32568/TCP,8243:32729/TCP   3m
+wso2ei-scalable-integrator-rdbms-service     ClusterIP      10.15.247.144   <none>                     3306/TCP                        3m
+wso2ei-scalable-integrator-service           LoadBalancer   10.15.255.1     <INTEGRATOR-EXTERNAL-IP>   9763:30639/TCP,9443:31804/TCP   3m
 ```
 
-##### 10. Access Management Console:
-
-Default deployment will expose two publicly accessible hosts, namely:<br>
-1. `wso2ei-pattern1-integrator` - To expose Administrative services and Management Console<br>
-2. `wso2ei-pattern1-integrator-gateway` - To expose Mediation Gateway<br>
-
-To access the console in a test environment, add the above two hosts as entries in /etc/hosts file, pointing to one of<br>
-your Kubernetes cluster node IPs and try navigating to `https://wso2ei-pattern1-integrator/carbon` from your favorite browser.
+Try navigating to the management console using `https://<INTEGRATOR-EXTERNAL-IP>:9443/carbon` from your favorite browser.

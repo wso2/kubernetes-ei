@@ -42,7 +42,6 @@ echoBold 'Creating Configuration Maps...'
 kubectl create configmap integrator-conf --from-file=../confs
 kubectl create configmap integrator-conf-axis2 --from-file=../confs/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=../confs/datasources/
-kubectl create configmap mysql-conf --from-file=confs/mysql/conf/
 kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
 
 # MySQL
@@ -62,12 +61,6 @@ kubectl create -f ../integrator-service.yaml
 kubectl create -f ../integrator-gateway-service.yaml
 kubectl create -f ../integrator-deployment.yaml
 sleep 60s
-
-# deploying the ingress resource
-echoBold 'Deploying Ingresses...'
-kubectl create -f ../ingresses/integrator-gateway-ssl-ingress.yaml
-kubectl create -f ../ingresses/integrator-ingress.yaml
-sleep 20s
 
 echoBold 'Finished'
 echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'

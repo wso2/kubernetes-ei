@@ -21,11 +21,6 @@ function echoBold () {
     echo $'\e[1m'"${1}"$'\e[0m'
 }
 
-# removing the ingress resource
-echoBold 'Un-deploying Ingress...'
-kubectl delete -f ../ingresses/integrator-gateway-ssl-ingress.yaml
-kubectl delete -f ../ingresses/integrator-ingress.yaml
-
 # integrator
 echoBold 'Un-deploying WSO2 Integrator...'
 kubectl delete -f ../integrator-deployment.yaml
@@ -42,7 +37,6 @@ echoBold 'Deleting Configuration Maps...'
 kubectl delete configmap integrator-conf
 kubectl delete configmap integrator-conf-axis2
 kubectl delete configmap integrator-conf-datasources
-kubectl delete configmap mysql-conf
 kubectl delete configmap mysql-dbscripts
 
 # persistent storage
