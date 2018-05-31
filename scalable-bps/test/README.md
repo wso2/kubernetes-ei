@@ -1,7 +1,7 @@
-# Kubernetes Test Resources for deployment of Integrator profile of WSO2 Enterprise Integrator
+# Kubernetes Test Resources for deployment of Business Process Server (BPS) profile of WSO2 Enterprise Integrator
 
-Kubernetes Test Resources for WSO2 Enterprise Integrator contains artifacts, which can be used to test the core<br>
-Kubernetes resources provided for a clustered deployment of WSO2 Enterprise Integrator's Integrator profile.
+Kubernetes Test Resources for WSO2 Enterprise Integrator BPS contains artifacts, which can be used to test the core<br>
+Kubernetes resources provided for a clustered deployment of WSO2 Enterprise Integrator's BPS profile.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ git clone https://github.com/wso2/kubernetes-ei.git
 
 ##### 2. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
 
-Replace the relevant placeholders in `KUBERNETES_HOME/scalable-integrator/test/deploy.sh` file with appropriate details, as described below.
+Replace the relevant placeholders in `KUBERNETES_HOME/scalable-bps/test/deploy.sh` file with appropriate details, as described below.
 
 * A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 The following details need to be replaced in the relevant command.
@@ -45,10 +45,10 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `cluster-admin-password`: Kubernetes cluster admin password
 
-##### 3. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
+##### 3. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across BPS instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `integrator-server-share-persistent-volume`
-in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `bps-server-share-persistent-volume`
+in `<KUBERNETES_HOME>/scalable-bps/volumes/persistent-volumes.yaml` file.
 
 Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
 Add `wso2carbon` user to the group `wso2`.
@@ -59,7 +59,7 @@ And provide read-write-executable permissions to owning `wso2carbon` user, for t
 
 ##### 4. Deploy Kubernetes test resources:
 
-Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `deploy.sh` shell script on the terminal.
+Change directory to `KUBERNETES_HOME/scalable-bps/test` and execute the `deploy.sh` shell script on the terminal.
 
 ```
 ./deploy.sh
@@ -68,15 +68,18 @@ Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `
 
 ##### 5. Access Management Console:
 
-Obtain the `INTEGRATOR-EXTERNAL-IP` for `wso2ei-scalable-integrator-service` service (use `kubectl get svc`).
+Obtain the `BPS-EXTERNAL-IP` for `wso2ei-scalable-bps-service` service (use `kubectl get svc`).
 
 e.g.
 
 ```
-NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP                PORT(S)                         AGE
-wso2ei-scalable-integrator-gateway-service   LoadBalancer   10.15.244.245   <GATEWAY-EXTERNAL-IP>      8280:32568/TCP,8243:32729/TCP   3m
-wso2ei-scalable-integrator-rdbms-service     ClusterIP      10.15.247.144   <none>                     3306/TCP                        3m
-wso2ei-scalable-integrator-service           LoadBalancer   10.15.255.1     <INTEGRATOR-EXTERNAL-IP>   9763:30639/TCP,9443:31804/TCP   3m
+NAME                                  TYPE           CLUSTER-IP      EXTERNAL-IP          PORT(S)         AGE
+wso2ei-scalable-bps-gateway-service   LoadBalancer   10.15.244.245   <BPS-EXTERNAL-IP>    9445:32568/TCP  3m
+wso2ei-scalable-bps-rdbms-service     ClusterIP      10.15.247.144   <none>               3306/TCP        3m
 ```
 
-Try navigating to the management console using `https://<INTEGRATOR-EXTERNAL-IP>:9443/carbon` from your favorite browser.
+Try navigating to the following using your favorite browser:
+
+`Management console`: https://<BPS-EXTERNAL-IP>:9445/carbon
+`BPS HumanTask Explorer`: https://<BPS-EXTERNAL-IP>:9445/humantask-explorer
+`BPS BPMN Explorer`: https://<BPS-EXTERNAL-IP>:9445/bpmn-explorer

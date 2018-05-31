@@ -1,8 +1,8 @@
-# Kubernetes Resources for deployment of Integrator profile of WSO2 Enterprise Integrator
+# Kubernetes Resources for deployment of Business Process Server (BPS) profile of WSO2 Enterprise Integrator
 
-Core Kubernetes resources for a clustered deployment of WSO2 Enterprise Integrator's Integrator profile.
+Core Kubernetes resources for a clustered deployment of WSO2 Enterprise Integrator's BPS profile.
 
-![A "scalable" unit of WSO2 Enterprise Integrator's Integrator profile](integrator-cluster.png)
+![A "scalable" unit of WSO2 Enterprise Integrator's BPS profile](bps-cluster.png)
 
 ## Prerequisites
 
@@ -57,17 +57,22 @@ for further details.
 
 ##### 4. Setup and configure external product database(s):
 
-Setup the external product databases. Please refer to WSO2 Enterprise Integrator's [official documentation](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases)
+Setup the external product databases. Please refer to WSO2 Enterprise Integrator's [official documentation](https://docs.wso2.com/display/EI620/Clustering+the+Business+Process+Profile#ClusteringtheBusinessProcessProfile-Creatingthedatabases)
 on creating the required databases for the deployment.
 
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
-`KUBERNETES_HOME/scalable-integrator/confs/datasources/master-datasources.xml` file. Please refer WSO2 Enterprise Integrator's
-[official documentation](https://docs.wso2.com/display/EI620/Configuring+master-datasources.xml) on configuring data sources.
+the following files:
+
+* `KUBERNETES_HOME/scalable-bps/confs/datasources/master-datasources.xml`
+* `KUBERNETES_HOME/scalable-bps/confs/datasources/bps-datasources.xml`
+* `KUBERNETES_HOME/scalable-bps/confs/datasources/activiti-datasources.xml`
+
+Please refer WSO2 Enterprise Integrator's [official documentation](https://docs.wso2.com/display/EI620/Configuring+master-datasources.xml) on configuring data sources.
 
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`KUBERNETES_HOME/scalable-integrator/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`KUBERNETES_HOME/scalable-bps/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
@@ -75,14 +80,14 @@ Provide appropriate connection URLs, corresponding to the created external datab
     first create a Kubernetes ConfigMap for passing database script(s) to the deployment.
     
     ```
-    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/scalable-integrator/test/confs/mysql/dbscripts/
+    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/scalable-bps/test/confs/mysql/dbscripts/
     ```
 
     Then, create a Kubernetes service (accessible only within the Kubernetes cluster) and followed by the MySQL Kubernetes deployment, as follows:
     
     ```
-    kubectl create -f <KUBERNETES_HOME>/scalable-integrator/test/rdbms/mysql/mysql-service.yaml
-    kubectl create -f <KUBERNETES_HOME>/scalable-integrator/test/rdbms/mysql/mysql-deployment.yaml
+    kubectl create -f <KUBERNETES_HOME>/scalable-bps/test/rdbms/mysql/mysql-service.yaml
+    kubectl create -f <KUBERNETES_HOME>/scalable-bps/test/rdbms/mysql/mysql-deployment.yaml
     ```
     
 ##### 5. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
@@ -91,10 +96,10 @@ Provide appropriate connection URLs, corresponding to the created external datab
 kubectl create --username=admin --password=<cluster-admin-password> -f <KUBERNETES_HOME>/rbac/rbac.yaml
 ```
 
-##### 6. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
+##### 6. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across BPS instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `integrator-server-share-persistent-volume`
-in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `bps-server-share-persistent-volume`
+in `<KUBERNETES_HOME>/scalable-bps/volumes/persistent-volumes.yaml` file.
 
 Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
 Add `wso2carbon` user to the group `wso2`.
@@ -105,37 +110,40 @@ And provide read-write-executable permissions to owning `wso2carbon` user, for t
 Then, deploy the persistent volume resource and volume claim as follows:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-volume-claim.yaml
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml
+kubectl create -f <KUBERNETES_HOME>/scalable-bps/bps-volume-claim.yaml
+kubectl create -f <KUBERNETES_HOME>/scalable-bps/volumes/persistent-volumes.yaml
 ```
     
 ##### 7. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster:
 
 ```
-kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/scalable-integrator/confs/
-kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/scalable-integrator/confs/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/scalable-integrator/confs/datasources/
+kubectl create configmap bps-conf --from-file=<KUBERNETES_HOME>/scalable-bps/confs/
+kubectl create configmap bps-conf-axis2 --from-file=<KUBERNETES_HOME>/scalable-bps/confs/axis2/
+kubectl create configmap bps-conf-datasources --from-file=<KUBERNETES_HOME>/scalable-bps/confs/datasources/
+kubectl create configmap bps-conf-etc --from-file=<KUBERNETES_HOME>/scalable-bps/confs/etc/
 ```
 
-##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator:
+##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator BPS:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-service.yaml
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-gateway-service.yaml
-kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/scalable-bps/bps-service.yaml
+kubectl create -f <KUBERNETES_HOME>/scalable-bps/bps-deployment.yaml
 ```
 
 ##### 9. Access Management Console:
 
-Obtain the `INTEGRATOR-EXTERNAL-IP` for `wso2ei-scalable-integrator-service` service (use `kubectl get svc`).
+Obtain the `BPS-EXTERNAL-IP` for `wso2ei-scalable-bps-service` service (use `kubectl get svc`).
 
 e.g.
 
 ```
-NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP                PORT(S)                         AGE
-wso2ei-scalable-integrator-gateway-service   LoadBalancer   10.15.244.245   <GATEWAY-EXTERNAL-IP>      8280:32568/TCP,8243:32729/TCP   3m
-wso2ei-scalable-integrator-rdbms-service     ClusterIP      10.15.247.144   <none>                     3306/TCP                        3m
-wso2ei-scalable-integrator-service           LoadBalancer   10.15.255.1     <INTEGRATOR-EXTERNAL-IP>   9763:30639/TCP,9443:31804/TCP   3m
+NAME                                  TYPE           CLUSTER-IP      EXTERNAL-IP          PORT(S)         AGE
+wso2ei-scalable-bps-gateway-service   LoadBalancer   10.15.244.245   <BPS-EXTERNAL-IP>    9445:32568/TCP  3m
+wso2ei-scalable-bps-rdbms-service     ClusterIP      10.15.247.144   <none>               3306/TCP        3m
 ```
 
-Try navigating to the management console using `https://<INTEGRATOR-EXTERNAL-IP>:9443/carbon` from your favorite browser.
+Try navigating to the following using your favorite browser:
+
+Management console: `https://<BPS-EXTERNAL-IP>:9445/carbon`<br>
+BPS HumanTask Explorer: `https://<BPS-EXTERNAL-IP>:9445/humantask-explorer`<br>
+BPS BPMN Explorer: `https://<BPS-EXTERNAL-IP>:9445/bpmn-explorer`

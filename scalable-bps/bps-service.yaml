@@ -1,4 +1,4 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,22 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: extensions/v1beta1
-kind: Ingress
+apiVersion: v1
+kind: Service
 metadata:
-  name: wso2ei-pattern1-integrator-gateway-tls-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  name: wso2ei-scalable-bps-service
 spec:
-  tls:
-  - hosts:
-    - wso2ei-pattern1-integrator-gateway
-  rules:
-  - host: wso2ei-pattern1-integrator-gateway
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: wso2ei-pattern1-integrator-gateway-service
-          servicePort: 8243
+  type: LoadBalancer
+  sessionAffinity: ClientIP
+  selector:
+    deployment: wso2ei-scalable-bps
+  ports:
+  - name: servlet-http
+    port: 9765
+    targetPort: 9765
+    protocol: TCP
+  - name: servlet-https
+    port: 9445
+    targetPort: 9445
+    protocol: TCP

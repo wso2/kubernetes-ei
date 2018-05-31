@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ------------------------------------------------------------------------
-# Copyright 2017 WSO2, Inc. (http://wso2.com)
+# Copyright 2018 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,9 +39,10 @@ kubectl create --username=admin --password=<cluster-admin-password> -f ../../rba
 
 # configuration maps
 echoBold 'Creating Configuration Maps...'
-kubectl create configmap integrator-conf --from-file=../confs
-kubectl create configmap integrator-conf-axis2 --from-file=../confs/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=../confs/datasources/
+kubectl create configmap bps-conf --from-file=../confs
+kubectl create configmap bps-conf-axis2 --from-file=../confs/axis2/
+kubectl create configmap bps-conf-datasources --from-file=../confs/datasources/
+kubectl create configmap bps-conf-etc --from-file=../confs/etc/
 kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
 
 # MySQL
@@ -52,14 +53,13 @@ sleep 10s
 
 # persistent storage
 echoBold 'Creating persistent volume and volume claim...'
-kubectl create -f ../integrator-volume-claim.yaml
+kubectl create -f ../bps-volume-claim.yaml
 kubectl create -f ../volumes/persistent-volumes.yaml
 
 # integrator
 echoBold 'Deploying WSO2 Integrator...'
-kubectl create -f ../integrator-service.yaml
-kubectl create -f ../integrator-gateway-service.yaml
-kubectl create -f ../integrator-deployment.yaml
+kubectl create -f ../bps-service.yaml
+kubectl create -f ../bps-deployment.yaml
 sleep 60s
 
 echoBold 'Finished'

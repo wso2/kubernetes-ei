@@ -23,9 +23,8 @@ function echoBold () {
 
 # integrator
 echoBold 'Un-deploying WSO2 Integrator...'
-kubectl delete -f ../integrator-deployment.yaml
-kubectl delete -f ../integrator-gateway-service.yaml
-kubectl delete -f ../integrator-service.yaml
+kubectl delete -f ../bps-deployment.yaml
+kubectl delete -f ../bps-service.yaml
 
 # databases
 echoBold 'Un-deploying WSO2 Integrator Databases...'
@@ -34,14 +33,15 @@ kubectl delete -f rdbms/mysql/mysql-service.yaml
 
 # configuration maps
 echoBold 'Deleting Configuration Maps...'
-kubectl delete configmap integrator-conf
-kubectl delete configmap integrator-conf-axis2
-kubectl delete configmap integrator-conf-datasources
+kubectl delete configmap bps-conf
+kubectl delete configmap bps-conf-axis2
+kubectl delete configmap bps-conf-datasources
+kubectl delete configmap bps-conf-etc
 kubectl delete configmap mysql-dbscripts
 
 # persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
-kubectl delete -f ../integrator-volume-claim.yaml
+kubectl delete -f ../bps-volume-claim.yaml
 kubectl delete -f ../volumes/persistent-volumes.yaml
 
 # delete the created Kubernetes Namespace

@@ -13,15 +13,13 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: scalable-integrator-shared-persistent-volume
+  name: scalable-bps-shared-volume-claim
 spec:
-  capacity:
-    storage: 1Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ""

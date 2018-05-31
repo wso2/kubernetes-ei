@@ -13,15 +13,14 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: PersistentVolume
+kind: Service
 metadata:
-  name: scalable-integrator-shared-persistent-volume
+  name: wso2ei-scalable-bps-rdbms-service
 spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
+  selector:
+    deployment: wso2ei-scalable-bps-mysql
+  ports:
+  - name: mysql-port
+    port: 3306
+    targetPort: 3306
+    protocol: TCP

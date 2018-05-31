@@ -1,4 +1,4 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,16 +15,16 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: wso2ei-scalable-integrator-mysql-deployment
+  name: wso2ei-scalable-bps-mysql-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: wso2ei-scalable-integrator-mysql
+        deployment: wso2ei-scalable-bps-mysql
     spec:
       containers:
-      - name: wso2ei-scalable-integrator-mysql
+      - name: wso2ei-scalable-bps-mysql
         image: mysql:5.7
         imagePullPolicy: IfNotPresent
         env:

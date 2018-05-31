@@ -1,19 +1,19 @@
-<datasources-configuration>
-
+<datasources-configuration xmlns:svns="http://org.wso2.securevault/configuration">
+  
     <providers>
         <provider>org.wso2.carbon.ndatasource.rdbms.RDBMSDataSourceReader</provider>
     </providers>
   
     <datasources>
         <datasource>
-            <name>WSO2_CARBON_DB</name>
-            <description>The datasource used for local registry of wso2 ei-integrator</description>
+            <name>LOCAL_REGISTRY</name>
+            <description>The data source used for registry and user manager</description>
             <jndiConfig>
                 <name>jdbc/WSO2CarbonDB</name>
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
+                    <url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
                     <driverClassName>org.h2.Driver</driverClassName>
@@ -27,14 +27,14 @@
             </definition>
         </datasource>
         <datasource>
-            <name>WSO2_CONFIG_DB</name>
-            <description>The datasource used for config registry</description>
+            <name>CONFIG_REGISTRY</name>
+            <description>The data source used for registry- config/governance</description>
             <jndiConfig>
-                <name>jdbc/WSO2ConfigDB</name>
+                <name>jdbc/WSO2RegistryDS</name>
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://wso2ei-scalable-integrator-rdbms-service:3306/WSO2EI_INTEGRATOR_CONFIG_GOV_DB?autoReconnect=true&amp;useSSL=false</url>
+                    <url>jdbc:mysql://wso2ei-scalable-bps-rdbms-service:3306/WSO2EI_BPS_CONFIG_GOV_DB?autoReconnect=true&amp;useSSL=false</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
@@ -48,13 +48,13 @@
         </datasource>
         <datasource>
             <name>WSO2_USER_DB</name>
-            <description>The datasource is used for user mangement and userstore</description>
+            <description>The data source used for user manager</description>
             <jndiConfig>
-                <name>jdbc/WSO2UserDB</name>
+                <name>jdbc/WSO2UserDS</name>
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://wso2ei-scalable-integrator-rdbms-service:3306/WSO2EI_USER_DB?autoReconnect=true&amp;useSSL=false</url>
+                    <url>jdbc:mysql://wso2ei-scalable-bps-rdbms-service:3306/WSO2EI_BPS_USER_DB?autoReconnect=true&amp;useSSL=false</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
@@ -66,6 +66,7 @@
                 </configuration>
             </definition>
         </datasource>
+
         <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
         <!--datasource>
             <name>SAMPLE_DATA_SOURCE</name>
@@ -81,9 +82,7 @@
 
                     <defaultAutoCommit></defaultAutoCommit>
                     <defaultReadOnly></defaultReadOnly>
-                    <defaultTransactionIsolation>
-                        NONE|READ_COMMITTED|READ_UNCOMMITTED|REPEATABLE_READ|SERIALIZABLE
-                    </defaultTransactionIsolation>
+                    <defaultTransactionIsolation>NONE|READ_COMMITTED|READ_UNCOMMITTED|REPEATABLE_READ|SERIALIZABLE</defaultTransactionIsolation>
                     <defaultCatalog></defaultCatalog>
                     <username></username>
                     <password svns:secretAlias="WSO2.DB.Password"></password>
@@ -102,5 +101,7 @@
                 </configuration>
             </definition>
         </datasource-->
+
     </datasources>
+
 </datasources-configuration>
