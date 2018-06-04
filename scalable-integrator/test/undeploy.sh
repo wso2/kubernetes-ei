@@ -27,19 +27,23 @@ kubectl delete -f ../integrator-deployment.yaml
 kubectl delete -f ../integrator-gateway-service.yaml
 kubectl delete -f ../integrator-service.yaml
 
+echoBold 'Un-deploying Ingresses...'
+kubectl delete -f ../ingresses/integrator-ingress.yaml
+kubectl delete -f ../ingresses/integrator-gateway-ingress.yaml
+
 # databases
 echoBold 'Un-deploying WSO2 Integrator Databases...'
 kubectl delete -f rdbms/mysql/mysql-deployment.yaml
 kubectl delete -f rdbms/mysql/mysql-service.yaml
 
-# configuration maps
-echoBold 'Deleting Configuration Maps...'
+# ConfigMaps
+echoBold 'Deleting ConfigMaps...'
 kubectl delete configmap integrator-conf
 kubectl delete configmap integrator-conf-axis2
 kubectl delete configmap integrator-conf-datasources
 kubectl delete configmap mysql-dbscripts
 
-# persistent storage
+# Persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
 kubectl delete -f ../integrator-volume-claim.yaml
 kubectl delete -f ../volumes/persistent-volumes.yaml
