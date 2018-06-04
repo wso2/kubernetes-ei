@@ -17,7 +17,6 @@ kind: Service
 metadata:
   name: wso2ei-scalable-integrator-gateway-service
 spec:
-  type: LoadBalancer
   selector:
     deployment: wso2ei-scalable-integrator
   ports:

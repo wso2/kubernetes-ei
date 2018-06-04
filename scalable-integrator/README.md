@@ -125,17 +125,43 @@ kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-gateway-servi
 kubectl create -f <KUBERNETES_HOME>/scalable-integrator/integrator-deployment.yaml
 ```
 
-##### 9. Access Management Console:
+##### 9. Deploy Kubernetes Ingress resource:
 
-Obtain the `INTEGRATOR-EXTERNAL-IP` for `wso2ei-scalable-integrator-service` service (use `kubectl get svc`).
+The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
+
+In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
+please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as follows:
+
+```
+kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-gateway-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/scalable-integrator/ingresses/integrator-ingress.yaml
+```
+
+##### 10. Access Management Console:
+
+Default deployment will expose two publicly accessible hosts, namely:<br>
+1. `wso2ei-scalable-integrator` - To expose Administrative services and Management Console<br>
+2. `wso2ei-scalable-integrator-gateway` - To expose Mediation Gateway<br>
+
+To access the console in a test environment,
+
+1. Obtain the external IP (`EXTERNAL-IP`) of the Ingress resources by listing down the Kubernetes Ingresses (using `kubectl get ing`).
 
 e.g.
 
 ```
-NAME                                         TYPE           CLUSTER-IP      EXTERNAL-IP                PORT(S)                         AGE
-wso2ei-scalable-integrator-gateway-service   LoadBalancer   10.15.244.245   <GATEWAY-EXTERNAL-IP>      8280:32568/TCP,8243:32729/TCP   3m
-wso2ei-scalable-integrator-rdbms-service     ClusterIP      10.15.247.144   <none>                     3306/TCP                        3m
-wso2ei-scalable-integrator-service           LoadBalancer   10.15.255.1     <INTEGRATOR-EXTERNAL-IP>   9763:30639/TCP,9443:31804/TCP   3m
+NAME                                             HOSTS                                ADDRESS          PORTS     AGE
+wso2ei-scalable-integrator-gateway-tls-ingress   wso2ei-scalable-integrator-gateway   <EXTERNAL-IP>    80, 443   9m
+wso2ei-scalable-integrator-ingress               wso2ei-scalable-integrator           <EXTERNAL-IP>    80, 443   9m
 ```
 
-Try navigating to the management console using `https://<INTEGRATOR-EXTERNAL-IP>:9443/carbon` from your favorite browser.
+2. Add the above two hosts as entries in /etc/hosts file as follows:
+
+```
+<EXTERNAL-IP>	wso2ei-scalable-integrator
+<EXTERNAL-IP>	wso2ei-scalable-integrator-gateway
+```
+
+3. Try navigating to `https://wso2ei-scalable-integrator/carbon` from your favorite browser.
