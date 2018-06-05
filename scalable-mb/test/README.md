@@ -1,7 +1,7 @@
-# Kubernetes Test Resources for deployment of Integrator profile of WSO2 Enterprise Integrator
+# Kubernetes Test Resources for deployment of Message Broker profile of WSO2 Enterprise Integrator
 
-Kubernetes Test Resources for WSO2 Enterprise Integrator contains artifacts, which can be used to test the core<br>
-Kubernetes resources provided for a clustered deployment of WSO2 Enterprise Integrator's Integrator profile.
+Kubernetes Test Resources for WSO2 Enterprise Integrator Message Broker contains artifacts, which can be used to test the core
+Kubernetes resources provided for a clustered deployment of WSO2 Enterprise Integrator's Message Broker profile.
 
 ## Prerequisites
 
@@ -35,7 +35,7 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 
 ##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
 
-Replace the relevant placeholders in `KUBERNETES_HOME/scalable-integrator/test/deploy.sh` file with appropriate details, as described below.
+Replace the relevant placeholders in `KUBERNETES_HOME/scalable-mb/test/deploy.sh` file with appropriate details, as described below.
 
 * A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 The following details need to be replaced in the relevant command.
@@ -52,10 +52,10 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `cluster-admin-password`: Kubernetes cluster admin password
 
-##### 4. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
+##### 4. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Message Broker server instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource named `scalable-integrator-shared-persistent-volume`
-in `<KUBERNETES_HOME>/scalable-integrator/volumes/persistent-volumes.yaml` file.
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource named `scalable-mb-shared-persistent-volume`
+in `<KUBERNETES_HOME>/scalable-mb/volumes/persistent-volumes.yaml` file.
 
 Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
 Add `wso2carbon` user to the group `wso2`.
@@ -66,7 +66,7 @@ And provide read-write-executable permissions to owning `wso2carbon` user, for t
 
 ##### 5. Deploy Kubernetes test resources:
 
-Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `deploy.sh` shell script on the terminal.
+Change directory to `KUBERNETES_HOME/scalable-mb/test` and execute the `deploy.sh` shell script on the terminal.
 
 ```
 ./deploy.sh
@@ -75,27 +75,23 @@ Change directory to `KUBERNETES_HOME/scalable-integrator/test` and execute the `
 
 ##### 6. Access Management Console:
 
-Default deployment will expose two publicly accessible hosts, namely:<br>
-1. `wso2ei-scalable-integrator` - To expose Administrative services and Management Console<br>
-2. `wso2ei-scalable-integrator-gateway` - To expose Mediation Gateway<br>
+Default deployment will expose `wso2ei-scalable-message-broker` host (to expose Administrative services and Management Console).
 
-To access the console in a test environment,
+To access the console in the environment,
 
 1. Obtain the external IP (`EXTERNAL-IP`) of the Ingress resources by listing down the Kubernetes Ingresses (using `kubectl get ing`).
 
 e.g.
 
 ```
-NAME                                             HOSTS                                ADDRESS          PORTS     AGE
-wso2ei-scalable-integrator-gateway-tls-ingress   wso2ei-scalable-integrator-gateway   <EXTERNAL-IP>    80, 443   9m
-wso2ei-scalable-integrator-ingress               wso2ei-scalable-integrator           <EXTERNAL-IP>    80, 443   9m
+NAME                         HOSTS                            ADDRESS          PORTS     AGE
+wso2ei-scalable-mb-ingress   wso2ei-scalable-message-broker   <EXTERNAL-IP>   80, 443   9m
 ```
 
 2. Add the above two hosts as entries in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-scalable-integrator
-<EXTERNAL-IP>	wso2ei-scalable-integrator-gateway
+<EXTERNAL-IP>	wso2ei-scalable-message-broker
 ```
 
-3. Try navigating to `https://wso2ei-scalable-integrator/carbon` from your favorite browser.
+3. Try navigating to `https://wso2ei-scalable-message-broker/carbon` from your favorite browser.
