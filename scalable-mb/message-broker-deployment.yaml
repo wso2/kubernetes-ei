@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-scalable-mb
-        image: gcr.io/apim3-177506/wso2ei-broker:6.2.0
+        image: docker.wso2.com/wso2ei-broker:6.2.0
         livenessProbe:
           exec:
             command:
@@ -74,6 +74,8 @@ spec:
         - name: mb-server-share-volume
           mountPath: /home/wso2carbon/wso2ei-6.2.0/wso2/broker/repository/deployment/server
       serviceAccountName: "wso2svc-account"
+      imagePullSecrets:
+      - name: wso2creds
       volumes:
       - name: mb-conf
         configMap:
