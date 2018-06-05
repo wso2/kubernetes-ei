@@ -26,7 +26,14 @@ Git repository.<br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
+##### 2. Deploy Kubernetes Ingress resource:
+
+The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
+
+In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
+please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
+
+##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
 
 Replace the relevant placeholders in `KUBERNETES_HOME/scalable-bps/test/deploy.sh` file with appropriate details, as described below.
 
@@ -45,7 +52,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `cluster-admin-password`: Kubernetes cluster admin password
 
-##### 3. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across BPS instances.
+##### 4. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across BPS instances.
 
 Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `bps-server-share-persistent-volume`
 in `<KUBERNETES_HOME>/scalable-bps/volumes/persistent-volumes.yaml` file.
@@ -57,7 +64,7 @@ Then, provide ownership of the exported folder `NFS_LOCATION_APTH` (used for art
 And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_APTH`.
 
 
-##### 4. Deploy Kubernetes test resources:
+##### 5. Deploy Kubernetes test resources:
 
 Change directory to `KUBERNETES_HOME/scalable-bps/test` and execute the `deploy.sh` shell script on the terminal.
 
@@ -66,20 +73,29 @@ Change directory to `KUBERNETES_HOME/scalable-bps/test` and execute the `deploy.
 ```
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 5. Access Management Console:
+##### 6. Access Management Console:
 
-Obtain the `BPS-EXTERNAL-IP` for `wso2ei-scalable-bps-service` service (use `kubectl get svc`).
+Default deployment will expose the `wso2ei-scalable-bps` host.<br>
+
+To access the console in a test environment,
+
+1. Obtain the external IP (`EXTERNAL-IP`) of the Ingress resources by listing down the Kubernetes Ingresses (using `kubectl get ing`).
 
 e.g.
 
 ```
-NAME                                  TYPE           CLUSTER-IP      EXTERNAL-IP          PORT(S)         AGE
-wso2ei-scalable-bps-gateway-service   LoadBalancer   10.15.244.245   <BPS-EXTERNAL-IP>    9445:32568/TCP  3m
-wso2ei-scalable-bps-rdbms-service     ClusterIP      10.15.247.144   <none>               3306/TCP        3m
+NAME                              HOSTS                         ADDRESS          PORTS     AGE
+wso2ei-scalable-bps-ingress       wso2ei-scalable-bps           <EXTERNAL-IP>    80, 443   9m
 ```
 
-Try navigating to the following using your favorite browser:
+2. Add the above two hosts as entries in /etc/hosts file as follows:
 
-`Management console`: https://<BPS-EXTERNAL-IP>:9445/carbon
-`BPS HumanTask Explorer`: https://<BPS-EXTERNAL-IP>:9445/humantask-explorer
-`BPS BPMN Explorer`: https://<BPS-EXTERNAL-IP>:9445/bpmn-explorer
+```
+<EXTERNAL-IP>	wso2ei-scalable-bps
+```
+
+3. Try navigating to the following from your favorite browser:
+
+Management console: `https://wso2ei-scalable-bps/carbon`<br>
+BPS HumanTask Explorer: `https://wso2ei-scalable-bps/humantask-explorer`<br>
+BPS BPMN Explorer: `https://wso2ei-scalable-bps/bpmn-explorer`
