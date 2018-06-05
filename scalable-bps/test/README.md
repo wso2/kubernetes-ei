@@ -54,15 +54,14 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 ##### 4. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across BPS instances.
 
-Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_APTH`) of persistent volume resource named `bps-server-share-persistent-volume`
+Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource named `scalable-bps-shared-persistent-volume`
 in `<KUBERNETES_HOME>/scalable-bps/volumes/persistent-volumes.yaml` file.
 
 Create a user named `wso2carbon` with user id `802` and a group named `wso2` with group id `802` in the NFS node.
 Add `wso2carbon` user to the group `wso2`.
 
-Then, provide ownership of the exported folder `NFS_LOCATION_APTH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
-And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_APTH`.
-
+Then, provide ownership of the exported folder `NFS_LOCATION_PATH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
+And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_PATH`.
 
 ##### 5. Deploy Kubernetes test resources:
 
