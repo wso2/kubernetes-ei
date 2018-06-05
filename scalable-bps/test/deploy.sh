@@ -37,8 +37,8 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 # create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
 kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
 
-# configuration maps
-echoBold 'Creating Configuration Maps...'
+# ConfigMaps
+echoBold 'Creating ConfigMaps...'
 kubectl create configmap bps-conf --from-file=../confs
 kubectl create configmap bps-conf-axis2 --from-file=../confs/axis2/
 kubectl create configmap bps-conf-datasources --from-file=../confs/datasources/
@@ -46,21 +46,25 @@ kubectl create configmap bps-conf-etc --from-file=../confs/etc/
 kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
 
 # MySQL
-echoBold 'Deploying WSO2 Integrator Databases...'
+echoBold 'Deploying WSO2 BPS Databases...'
 kubectl create -f rdbms/mysql/mysql-service.yaml
 kubectl create -f rdbms/mysql/mysql-deployment.yaml
 sleep 10s
 
-# persistent storage
+# Persistent storage
 echoBold 'Creating persistent volume and volume claim...'
 kubectl create -f ../bps-volume-claim.yaml
 kubectl create -f ../volumes/persistent-volumes.yaml
 
-# integrator
-echoBold 'Deploying WSO2 Integrator...'
+# BPS
+echoBold 'Deploying WSO2 BPS...'
 kubectl create -f ../bps-service.yaml
 kubectl create -f ../bps-deployment.yaml
-sleep 60s
+sleep 30s
+
+echoBold 'Deploying Ingresses...'
+kubectl create -f ../ingresses/bps-ingress.yaml
+sleep 30s
 
 echoBold 'Finished'
-echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'
+echo 'To access the console, try https://wso2ei-scalable-bps/carbon in your browser.'
