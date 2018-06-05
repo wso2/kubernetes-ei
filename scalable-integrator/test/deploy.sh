@@ -68,4 +68,4 @@ kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
 sleep 30s
 
 echoBold 'Finished'
-echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'
+echo 'To access the console, try https://wso2ei-scalable-integrator/carbon in your browser.'

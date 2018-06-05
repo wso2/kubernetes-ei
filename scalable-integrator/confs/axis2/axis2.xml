@@ -246,7 +246,7 @@
         <parameter name="port" locked="false">8280</parameter>
         <parameter name="non-blocking" locked="false">true</parameter>
         <!--<parameter name="bind-address" locked="false">wso2ei-pattern1-integrator-gateway</parameter>-->
-        <parameter name="WSDLEPRPrefix" locked="false">http://wso2ei-pattern1-integrator-gateway</parameter>
+        <parameter name="WSDLEPRPrefix" locked="false">http://wso2ei-scalable-integrator-gateway</parameter>
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
         <!--<parameter name="priorityConfigFile" locked="false">location of priority configuration file</parameter>-->
     </transportReceiver>
@@ -256,7 +256,7 @@
         <parameter name="non-blocking" locked="false">true</parameter>
         <parameter name="HttpsProtocols">TLSv1,TLSv1.1,TLSv1.2</parameter>
         <!--<parameter name="bind-address" locked="false">wso2ei-pattern1-integrator-gateway</parameter>-->
-        <parameter name="WSDLEPRPrefix" locked="false">https://wso2ei-pattern1-integrator-gateway</parameter>
+        <parameter name="WSDLEPRPrefix" locked="false">https://wso2ei-scalable-integrator-gateway</parameter>
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
         <parameter name="keystore" locked="false">
             <KeyStore>
