@@ -22,16 +22,19 @@ function echoBold () {
 }
 
 # integrator
-echoBold 'Un-deploying WSO2 Integrator...'
+echoBold 'Un-deploying WSO2 BPS...'
 kubectl delete -f ../bps-deployment.yaml
 kubectl delete -f ../bps-service.yaml
 
+echoBold 'Un-deploying Ingresses...'
+kubectl delete -f ../ingresses/bps-ingress.yaml
+
 # databases
-echoBold 'Un-deploying WSO2 Integrator Databases...'
+echoBold 'Un-deploying WSO2 BPS Databases...'
 kubectl delete -f rdbms/mysql/mysql-deployment.yaml
 kubectl delete -f rdbms/mysql/mysql-service.yaml
 
-# configuration maps
+# ConfigMaps
 echoBold 'Deleting Configuration Maps...'
 kubectl delete configmap bps-conf
 kubectl delete configmap bps-conf-axis2
@@ -39,7 +42,7 @@ kubectl delete configmap bps-conf-datasources
 kubectl delete configmap bps-conf-etc
 kubectl delete configmap mysql-dbscripts
 
-# persistent storage
+# Persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
 kubectl delete -f ../bps-volume-claim.yaml
 kubectl delete -f ../volumes/persistent-volumes.yaml
