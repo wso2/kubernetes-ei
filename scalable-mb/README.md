@@ -152,7 +152,7 @@ NAME                         HOSTS                            ADDRESS          P
 wso2ei-scalable-mb-ingress   wso2ei-scalable-message-broker   <EXTERNAL-IP>   80, 443   9m
 ```
 
-2. Add the above two hosts as entries in /etc/hosts file as follows:
+2. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
 <EXTERNAL-IP>	wso2ei-scalable-message-broker
