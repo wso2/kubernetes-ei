@@ -37,8 +37,8 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 # create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
 kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
 
-# configuration maps
-echoBold 'Creating Configuration Maps...'
+# ConfigMaps
+echoBold 'Creating ConfigMaps...'
 kubectl create configmap integrator-conf --from-file=../confs
 kubectl create configmap integrator-conf-axis2 --from-file=../confs/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=../confs/datasources/
@@ -50,17 +50,22 @@ kubectl create -f rdbms/mysql/mysql-service.yaml
 kubectl create -f rdbms/mysql/mysql-deployment.yaml
 sleep 10s
 
-# persistent storage
+# Persistent storage
 echoBold 'Creating persistent volume and volume claim...'
 kubectl create -f ../integrator-volume-claim.yaml
 kubectl create -f ../volumes/persistent-volumes.yaml
 
-# integrator
+# Integrator
 echoBold 'Deploying WSO2 Integrator...'
 kubectl create -f ../integrator-service.yaml
 kubectl create -f ../integrator-gateway-service.yaml
 kubectl create -f ../integrator-deployment.yaml
-sleep 60s
+sleep 30s
+
+echoBold 'Deploying Ingresses...'
+kubectl create -f ../ingresses/integrator-ingress.yaml
+kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
+sleep 30s
 
 echoBold 'Finished'
-echo 'To access the console, try https://wso2ei-pattern1-integrator/carbon in your browser.'
+echo 'To access the console, try https://wso2ei-scalable-integrator/carbon in your browser.'

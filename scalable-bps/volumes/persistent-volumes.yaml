@@ -24,4 +24,4 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_APTH>"
+    path: "<NFS_LOCATION_PATH>"
