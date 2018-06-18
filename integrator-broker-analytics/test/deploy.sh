@@ -32,10 +32,10 @@ kubectl create serviceaccount wso2svc-account -n wso2
 # switch the context to new 'wso2' namespace
 kubectl config set-context $(kubectl config current-context) --namespace=wso2
 
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+#kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
 
 # create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
-kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
+kubectl create --username=admin --password=el8QQ36wrdVYViba -f ../../rbac/rbac.yaml
 
 # ConfigMaps
 echoBold 'Creating ConfigMaps...'
@@ -89,12 +89,12 @@ kubectl create -f ../analytics/integrator-analytics-1-service.yaml
 kubectl create -f ../analytics/integrator-analytics-2-deployment.yaml
 kubectl create -f ../analytics/integrator-analytics-2-service.yaml
 kubectl create -f ../analytics/integrator-analytics-service.yaml
-sleep 30s
+sleep 4m
 
 kubectl create -f ../integrator/integrator-service.yaml
 kubectl create -f ../integrator/integrator-gateway-service.yaml
 kubectl create -f ../integrator/integrator-deployment.yaml
-sleep 10s
+sleep 30s
 
 echoBold 'Deploying Ingresses...'
 kubectl create -f ../ingresses/message-broker-ingress.yaml
