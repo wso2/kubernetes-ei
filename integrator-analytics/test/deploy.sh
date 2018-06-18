@@ -80,6 +80,7 @@ kubectl create -f ../analytics/integrator-analytics-1-service.yaml
 kubectl create -f ../analytics/integrator-analytics-2-deployment.yaml
 kubectl create -f ../analytics/integrator-analytics-2-service.yaml
 kubectl create -f ../analytics/integrator-analytics-service.yaml
+sleep 4m
 
 kubectl create -f ../integrator/integrator-service.yaml
 kubectl create -f ../integrator/integrator-gateway-service.yaml
