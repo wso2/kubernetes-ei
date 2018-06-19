@@ -47,7 +47,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `username`: Username of your Free Trial Subscription<br>
 `password`: Password of your Free Trial Subscription<br>
-`email`: Docker email
+`email`: Username of your Free Trial Subscription
 
 * A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
 
