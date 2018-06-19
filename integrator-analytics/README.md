@@ -50,7 +50,7 @@ kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com 
 
 `username`: Username of your Free Trial Subscription<br>
 `password`: Password of your Free Trial Subscription<br>
-`email`: Docker email
+`email`: Username of your Free Trial Subscription
 
 Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
 for further details.
