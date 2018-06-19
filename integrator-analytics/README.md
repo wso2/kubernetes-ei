@@ -57,8 +57,8 @@ for further details.
 
 ##### 4. Setup and configure external product database(s):
 
-Setup the external product databases. Please refer to WSO2 API Manager's [official documentation](https://docs.wso2.com/display/EI620/Prerequisites+to+Publish+Statistics)
-on creating the required databases for the deployment.
+Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases)
+and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
 
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
 the following files:
@@ -205,7 +205,7 @@ wso2ei-integrator-ingress                        wso2ei-integrator           <EX
 
 ##### 11. Scale up using `kubectl scale`:
 
-Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator. To scale this deployment into any `<n>` number of
+Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator's Integrator profile. To scale this deployment into any `<n>` number of
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.
 
 ```
