@@ -45,12 +45,11 @@ kubectl config set-context $(kubectl config current-context) --namespace=wso2
 Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
 
 ```
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<WSO2_SUB_USERNAME> --docker-password=<WSO2_SUB_PASSWORD> --docker-email=<FT_USERNAME>
 ```
 
-`username`: Username of your Free Trial Subscription<br>
-`password`: Password of your Free Trial Subscription<br>
-`email`: Username of your Free Trial Subscription
+`WSO2_SUB_USERNAME`: Username of your WSO2 Subscription<br>
+`WSO2_SUB_PASSWORD`: Password of your WSO2 Subscription
 
 Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
 for further details.
@@ -74,7 +73,7 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`KUBERNETES_HOME/integrator-analytics/test/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`KUBERNETES_HOME/integrator-analytics/extras/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
@@ -82,16 +81,26 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
     first create a Kubernetes ConfigMap for passing database script(s) to the deployment.
     
     ```
-    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator-analytics/test/confs/rdbms/mysql/dbscripts/
+    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator-analytics/extras/confs/mysql/dbscripts/
+    ```
+    
+    Setup a Network File System (NFS) to be used as the persistent volume for persisting MySQL DB data.
+    Provide read-write-executable permissions to `other` users, for the folder `NFS_LOCATION_PATH`.
+    Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource
+    named `integrator-with-analytics-mysql-pv` in the file `<KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
+    
+    Then, deploy the persistent volume resource and volume claim as follows:
+    
+    ```
+    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
+    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml
     ```
 
     Then, create a Kubernetes service (accessible only within the Kubernetes cluster) and followed by the MySQL Kubernetes deployment, as follows:
     
     ```
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/test/rdbms/mysql/mysql-service.yaml
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/test/rdbms/mysql/mysql-deployment.yaml
-    
-    ```
+    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-service.yaml
+    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-deployment.yaml
     
 ##### 5. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
 
@@ -107,6 +116,8 @@ Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`)
 * `integrator-with-analytics-shared-tenants-pv`
 * `integrator-with-analytics-ei-analytics-data-pv-1`
 * `integrator-with-analytics-ei-analytics-data-pv-2`
+* `integrator-with-analytics-ei-analytics-pv-1`
+* `integrator-with-analytics-ei-analytics-pv-2`
 
 in `<KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml` file.
 
