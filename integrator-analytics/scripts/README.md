@@ -58,7 +58,7 @@ And provide read-write-executable permissions to owning `wso2carbon` user, for t
 Change directory to `KUBERNETES_HOME/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
 
 ```
-./deploy.sh --wso2-subscription-username=<FT_USERNAME> --wso2-subscription-password=<FT_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
+./deploy.sh --wso2-subscription-username=<WSO2_SUB_USERNAME> --wso2-subscription-password=<WSO2_SUB_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
 ```
 
 * A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the [`WSO2 Docker Registry`](https://docker.wso2.com), to pull the required images.

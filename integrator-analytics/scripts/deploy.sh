@@ -44,22 +44,22 @@ while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
     VALUE=`echo $1 | awk -F= '{print $2}'`
 
-    case $PARAM in
+    case ${PARAM} in
         -h | --help)
             usage
             exit 1
             ;;
         --wsu | --wso2-subscription-username)
-            WSO2_SUBSCRIPTION_USERNAME=$VALUE
+            WSO2_SUBSCRIPTION_USERNAME=${VALUE}
             ;;
         --wsp | --wso2-subscription-password)
-            WSO2_SUBSCRIPTION_PASSWORD=$VALUE
+            WSO2_SUBSCRIPTION_PASSWORD=${VALUE}
             ;;
         --cap | --cluster-admin-password)
-            ADMIN_PASSWORD=$VALUE
+            ADMIN_PASSWORD=${VALUE}
             ;;
         *)
-            echoBold "ERROR: unknown parameter \"$PARAM\""
+            echoBold "ERROR: unknown parameter \"${PARAM}\""
             usage
             exit 1
             ;;
