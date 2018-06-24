@@ -1,4 +1,4 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,17 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: Service
+kind: PersistentVolume
 metadata:
-  name: wso2ei-integrator-with-analytics-rdbms-service
+  name: integrator-with-analytics-mysql-pv
+  labels:
+    purpose: ei-rdbms-data
 spec:
-  type: ClusterIP
-  selector:
-    deployment: wso2ei-integrator-with-analytics-mysql
-  ports:
-  - name: mysql-port
-    port: 3306
-    targetPort: 3306
-    protocol: TCP
+  capacity:
+    storage: 20Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: <NFS_SERVER_IP>
+    path: "<NFS_LOCATION_PATH>"

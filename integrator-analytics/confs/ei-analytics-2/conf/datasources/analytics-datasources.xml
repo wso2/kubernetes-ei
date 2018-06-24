@@ -13,7 +13,7 @@
             <description>The datasource used for analytics record store</description>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://wso2ei-integrator-rdbms-service:3306/WSO2_ANALYTICS_EVENT_STORE_DB?autoReconnect=true&amp;useSSL=false</url>
+                    <url>jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_ANALYTICS_EVENT_STORE_DB?autoReconnect=true&amp;useSSL=false</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>
@@ -34,7 +34,7 @@
             <description>The datasource used for analytics record store</description>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:mysql://wso2ei-integrator-rdbms-service:3306/WSO2_ANALYTICS_PROCESSED_DATA_STORE_DB?autoReconnect=true&amp;useSSL=false</url>
+                    <url>jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_ANALYTICS_PROCESSED_DATA_STORE_DB?autoReconnect=true&amp;useSSL=false</url>
                     <username>wso2carbon</username>
                     <password>wso2carbon</password>
                     <driverClassName>com.mysql.jdbc.Driver</driverClassName>

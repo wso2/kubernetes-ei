@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # ------------------------------------------------------------------------
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
@@ -16,82 +16,132 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
-# methods
 set -e
 
+ECHO=`which echo`
+KUBECTL=`which kubectl`
+
+# methods
 function echoBold () {
-    echo $'\e[1m'"${1}"$'\e[0m'
+    ${ECHO} -e $'\e[1m'"${1}"$'\e[0m'
 }
 
+function usage () {
+    echoBold "This script automates the installation of WSO2 EI Integrator Analytics Kubernetes resources\n"
+    echoBold "Allowed arguments:\n"
+    echoBold "-h | --help"
+    echoBold "--wsu | --wso2-subscription-username\t\tYour WSO2 Subscription username"
+    echoBold "--wsp | --wso2-subscription-password\t\tYour WSO2 Subscription password"
+    echoBold "--cap | --cluster-admin-password\tKubernetes cluster admin password\n\n"
+}
+
+WSO2_SUBSCRIPTION_USERNAME=''
+WSO2_SUBSCRIPTION_PASSWORD=''
+ADMIN_PASSWORD=''
+
+# capture named arguments
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    VALUE=`echo $1 | awk -F= '{print $2}'`
+
+    case ${PARAM} in
+        -h | --help)
+            usage
+            exit 1
+            ;;
+        --wsu | --wso2-subscription-username)
+            WSO2_SUBSCRIPTION_USERNAME=${VALUE}
+            ;;
+        --wsp | --wso2-subscription-password)
+            WSO2_SUBSCRIPTION_PASSWORD=${VALUE}
+            ;;
+        --cap | --cluster-admin-password)
+            ADMIN_PASSWORD=${VALUE}
+            ;;
+        *)
+            echoBold "ERROR: unknown parameter \"${PARAM}\""
+            usage
+            exit 1
+            ;;
+    esac
+    shift
+done
+
 # create a new Kubernetes Namespace
-kubectl create namespace wso2
+${KUBECTL} create namespace wso2
 
 # create a new service account in 'wso2' Kubernetes Namespace
-kubectl create serviceaccount wso2svc-account -n wso2
+${KUBECTL} create serviceaccount wso2svc-account -n wso2
 
 # switch the context to new 'wso2' namespace
-kubectl config set-context $(kubectl config current-context) --namespace=wso2
+${KUBECTL} config set-context $(${KUBECTL} config current-context) --namespace=wso2
 
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+# create a Kubernetes Secret for passing WSO2 Private Docker Registry credentials
+${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
 
-# create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
-kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
+# create Kubernetes Role and Role Binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
+${KUBECTL} create --username=admin --password=${ADMIN_PASSWORD} -f ../../rbac/rbac.yaml
 
-# ConfigMaps
+# create Kubernetes ConfigMaps
 echoBold 'Creating ConfigMaps...'
-kubectl create configmap integrator-conf --from-file=../confs/integrator/conf
-kubectl create configmap integrator-conf-axis2 --from-file=../confs/integrator/conf/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
-kubectl create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
+${KUBECTL} create configmap integrator-conf --from-file=../confs/integrator/conf
+${KUBECTL} create configmap integrator-conf-axis2 --from-file=../confs/integrator/conf/axis2/
+${KUBECTL} create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
+${KUBECTL} create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-1-conf --from-file=../confs/ei-analytics-1/conf
-kubectl create configmap ei-analytics-1-conf-analytics --from-file=../confs/ei-analytics-1/conf/analytics
-kubectl create configmap ei-analytics-1-conf-spark-analytics --from-file=../confs/ei-analytics-1/conf/analytics/spark
-kubectl create configmap ei-analytics-1-conf-axis2 --from-file=../confs/ei-analytics-1/conf/axis2
-kubectl create configmap ei-analytics-1-conf-datasources --from-file=../confs/ei-analytics-1/conf/datasources
-kubectl create configmap ei-analytics-1-deployment-portal --from-file=../confs/ei-analytics-1/repository/deployment/server/jaggeryapps/portal/configs
+${KUBECTL} create configmap ei-analytics-1-conf --from-file=../confs/ei-analytics-1/conf
+${KUBECTL} create configmap ei-analytics-1-conf-analytics --from-file=../confs/ei-analytics-1/conf/analytics
+${KUBECTL} create configmap ei-analytics-1-conf-spark-analytics --from-file=../confs/ei-analytics-1/conf/analytics/spark
+${KUBECTL} create configmap ei-analytics-1-conf-axis2 --from-file=../confs/ei-analytics-1/conf/axis2
+${KUBECTL} create configmap ei-analytics-1-conf-datasources --from-file=../confs/ei-analytics-1/conf/datasources
+${KUBECTL} create configmap ei-analytics-1-deployment-portal --from-file=../confs/ei-analytics-1/repository/deployment/server/jaggeryapps/portal/configs
 
-kubectl create configmap ei-analytics-2-conf --from-file=../confs/ei-analytics-2/conf
-kubectl create configmap ei-analytics-2-conf-analytics --from-file=../confs/ei-analytics-2/conf/analytics
-kubectl create configmap ei-analytics-2-conf-spark-analytics --from-file=../confs/ei-analytics-2/conf/analytics/spark
-kubectl create configmap ei-analytics-2-conf-axis2 --from-file=../confs/ei-analytics-2/conf/axis2
-kubectl create configmap ei-analytics-2-conf-datasources --from-file=../confs/ei-analytics-2/conf/datasources
-kubectl create configmap ei-analytics-2-deployment-portal --from-file=../confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs
+${KUBECTL} create configmap ei-analytics-2-conf --from-file=../confs/ei-analytics-2/conf
+${KUBECTL} create configmap ei-analytics-2-conf-analytics --from-file=../confs/ei-analytics-2/conf/analytics
+${KUBECTL} create configmap ei-analytics-2-conf-spark-analytics --from-file=../confs/ei-analytics-2/conf/analytics/spark
+${KUBECTL} create configmap ei-analytics-2-conf-axis2 --from-file=../confs/ei-analytics-2/conf/axis2
+${KUBECTL} create configmap ei-analytics-2-conf-datasources --from-file=../confs/ei-analytics-2/conf/datasources
+${KUBECTL} create configmap ei-analytics-2-deployment-portal --from-file=../confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs
 
-kubectl create configmap mysql-dbscripts --from-file=confs/mysql/dbscripts/
+${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/dbscripts/
+
+echoBold 'Deploying the Kubernetes Services...'
+${KUBECTL} create -f ../extras/rdbms/mysql/mysql-service.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-1-service.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-2-service.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-service.yaml
+${KUBECTL} create -f ../integrator/integrator-service.yaml
+${KUBECTL} create -f ../integrator/integrator-gateway-service.yaml
 
 # MySQL
-echoBold 'Deploying WSO2 Integrator Databases...'
-kubectl create -f rdbms/mysql/mysql-service.yaml
-kubectl create -f rdbms/mysql/mysql-deployment.yaml
+echoBold 'Deploying WSO2 Enterprise Integrator and Enterprise Integrator Analytics Databases using MySQL...'
+${KUBECTL} create -f ../extras/rdbms/mysql/mysql-deployment.yaml
 sleep 10s
 
-# Persistent storage
+# persistent storage
 echoBold 'Creating persistent volume and volume claim...'
-kubectl create -f ../integrator/integrator-volume-claims.yaml
-kubectl create -f ../analytics/integrator-analytics-volume-claims.yaml
-kubectl create -f ../volumes/persistent-volumes.yaml
-sleep 30s
+${KUBECTL} create -f ../integrator/integrator-volume-claims.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-volume-claims.yaml
+${KUBECTL} create -f ../extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
+${KUBECTL} create -f ../volumes/persistent-volumes.yaml
+${KUBECTL} create -f ../extras/rdbms/volumes/persistent-volumes.yaml
+sleep 10s
 
 # Integrator
 echoBold 'Deploying WSO2 Integrator and Analytics...'
-kubectl create -f ../analytics/integrator-analytics-1-deployment.yaml
-kubectl create -f ../analytics/integrator-analytics-1-service.yaml
-kubectl create -f ../analytics/integrator-analytics-2-deployment.yaml
-kubectl create -f ../analytics/integrator-analytics-2-service.yaml
-kubectl create -f ../analytics/integrator-analytics-service.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
 sleep 4m
 
-kubectl create -f ../integrator/integrator-service.yaml
-kubectl create -f ../integrator/integrator-gateway-service.yaml
-kubectl create -f ../integrator/integrator-deployment.yaml
+${KUBECTL} create -f ../integrator/integrator-deployment.yaml
 sleep 30s
 
 echoBold 'Deploying Ingresses...'
-kubectl create -f ../ingresses/integrator-ingress.yaml
-kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
-kubectl create -f ../ingresses/integrator-analytics-ingress.yaml
+${KUBECTL} create -f ../ingresses/integrator-ingress.yaml
+${KUBECTL} create -f ../ingresses/integrator-gateway-ingress.yaml
+${KUBECTL} create -f ../ingresses/integrator-analytics-ingress.yaml
 sleep 30s
 
 echoBold 'Finished'
-echo 'To access the console, try https://wso2ei-integrator/carbon in your browser.'
+echo 'To access the WSO2 Enterprise Integrator management console, try https://wso2ei-integrator/carbon in your browser.'
+echo 'To access the WSO2 Enterprise Integrator Analytics management console, try https://wso2ei-analytics/carbon in your browser.'
