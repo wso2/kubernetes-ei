@@ -54,7 +54,7 @@
     <!-- Configuration registry mount [end] -->
 
     <indexingConfiguration>
-        <skipCache>true</skipCache>
+        <skipCache>false</skipCache>
         <startIndexing>true</startIndexing>
         <startingDelayInSeconds>35</startingDelayInSeconds>
         <indexingFrequencyInSeconds>5</indexingFrequencyInSeconds>
