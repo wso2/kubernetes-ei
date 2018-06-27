@@ -483,6 +483,10 @@ This file is ciphertool compliant. Refer PRODUCT_HOME/repository/conf/security/c
             buffer of slots which can be allocated to a slot delivery worker in the near future. The specified
             number of slots from the last assigned should not be touched by the periodic deletion task.-->
             <safetySlotCount>3</safetySlotCount>
+            
+            <!--By default expired messages are removed from broker. Instead, to move expired messages to 
+            Dead Letter Channel make this to true-->
+            <moveExpiredMessagesToDLC>false</moveExpiredMessagesToDLC>
         </messageExpiration>
 
     </performanceTuning>
@@ -501,9 +505,6 @@ This file is ciphertool compliant. Refer PRODUCT_HOME/repository/conf/security/c
         * NOTE : Increasing this value could cause delays when loading the message content page.-->
         <maximumMessageDisplayLength>100000</maximumMessageDisplayLength>
 
-        <!--Enable users to reroute all messages from a specific destination(queue or durable topic) to a specific
-        queue.-->
-        <allowReRouteAllInDLC>false</allowReRouteAllInDLC>
     </managementConsole>
 
     <!-- Memory and resource exhaustion is something we should prevent and recover from.
