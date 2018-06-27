@@ -32,13 +32,17 @@ kubectl create serviceaccount wso2svc-account -n wso2
 # switch the context to new 'wso2' namespace
 kubectl config set-context $(kubectl config current-context) --namespace=wso2
 
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
+#kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
 
 # create Kubernetes role and role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
-kubectl create --username=admin --password=<cluster-admin-password> -f ../../rbac/rbac.yaml
+kubectl create --username=admin --password=el8QQ36wrdVYViba -f ../../rbac/rbac.yaml
 
 # ConfigMaps
 echoBold 'Creating ConfigMaps...'
+kubectl create configmap mb-conf --from-file=../confs/broker
+kubectl create configmap mb-conf-axis2 --from-file=../confs/broker/axis2/
+kubectl create configmap mb-conf-datasources --from-file=../confs/broker/datasources/
+
 kubectl create configmap integrator-conf --from-file=../confs/integrator/conf
 kubectl create configmap integrator-conf-axis2 --from-file=../confs/integrator/conf/axis2/
 kubectl create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
@@ -68,6 +72,7 @@ sleep 10s
 
 # Persistent storage
 echoBold 'Creating persistent volume and volume claim...'
+kubectl create -f ../broker/message-broker-volume-claim.yaml
 kubectl create -f ../integrator/integrator-volume-claims.yaml
 kubectl create -f ../analytics/integrator-analytics-volume-claims.yaml
 kubectl create -f ../volumes/persistent-volumes.yaml
@@ -75,6 +80,10 @@ sleep 30s
 
 # Integrator
 echoBold 'Deploying WSO2 Integrator and Analytics...'
+kubectl create -f ../broker/message-broker-service.yaml
+kubectl create -f ../broker/message-broker-deployment.yaml
+sleep 50s
+
 kubectl create -f ../analytics/integrator-analytics-1-deployment.yaml
 kubectl create -f ../analytics/integrator-analytics-1-service.yaml
 kubectl create -f ../analytics/integrator-analytics-2-deployment.yaml
@@ -88,6 +97,7 @@ kubectl create -f ../integrator/integrator-deployment.yaml
 sleep 30s
 
 echoBold 'Deploying Ingresses...'
+kubectl create -f ../ingresses/message-broker-ingress.yaml
 kubectl create -f ../ingresses/integrator-ingress.yaml
 kubectl create -f ../ingresses/integrator-gateway-ingress.yaml
 kubectl create -f ../ingresses/integrator-analytics-ingress.yaml

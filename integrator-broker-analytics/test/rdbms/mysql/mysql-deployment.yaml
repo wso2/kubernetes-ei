@@ -15,13 +15,13 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: wso2ei-integrator-mysql-deployment
+  name: integrator-broker-analytics-mysql-deployment
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        deployment: wso2ei-integrator-mysql
+        deployment: integrator-broker-analytics-mysql
     spec:
       containers:
       - name: wso2ei-integrator-mysql

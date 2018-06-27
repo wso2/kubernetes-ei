@@ -126,6 +126,8 @@ spec:
           mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-datasources
         - name: ei-analytics-1-deployment-portal
           mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-portal
+        - name: analytics-persistent-disk
+          mountPath: /home/wso2carbon/wso2ei-6.2.0/wso2/analytics/conf/analytics
         - name: data-persistent-disk
           mountPath: /home/wso2carbon/wso2ei-6.2.0/wso2/analytics/repository/data
       serviceAccountName: "wso2svc-account"
@@ -150,6 +152,9 @@ spec:
       - name: ei-analytics-1-deployment-portal
         configMap:
           name: ei-analytics-1-deployment-portal
+      - name: analytics-persistent-disk
+        persistentVolumeClaim:
+          claimName: ei-analytics-1-analytics-volume-claim
       - name: data-persistent-disk
         persistentVolumeClaim:
           claimName: ei-analytics-1-data-volume-claim
