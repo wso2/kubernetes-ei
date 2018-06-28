@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # ------------------------------------------------------------------------
 # Copyright 2017 WSO2, Inc. (http://wso2.com)
@@ -16,7 +16,7 @@
 # limitations under the License
 # ------------------------------------------------------------------------
 
-#set -e
+set -e
 
 ECHO=`which echo`
 KUBECTL=`which kubectl`
