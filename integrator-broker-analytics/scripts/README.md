@@ -6,9 +6,8 @@ of WSO2 Enterprise Integrator's Integrator and Broker profiles with Analytics su
 
 ## Prerequisites
 
-* In order to use these Kubernetes resources, you will need an active [Free Trial Subscription](https://wso2.com/free-trial-subscription)
-from WSO2 since the referring Docker images hosted at docker.wso2.com contains the latest updates and fixes for WSO2 Enterprise Integrator.
-You can sign up for a Free Trial Subscription [here](https://wso2.com/free-trial-subscription).<br><br>
+* In order to use WSO2 Kubernetes resources, you need an active WSO2 subscription. If you do not possess an active WSO2
+subscription already, you can sign up for a WSO2 Free Trial Subscription from [here](https://wso2.com/free-trial-subscription).<br><br>
 
 * Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), [Docker](https://www.docker.com/get-docker)
 (version 17.09.0 or above) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -34,26 +33,7 @@ The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingres
 In order to enable the NGINX Ingress controller in the desired cloud or on-premise environment,
 please refer the official documentation, [NGINX Ingress Controller Installation Guide](https://kubernetes.github.io/ingress-nginx/deploy/).
 
-##### 3. Update the deploy.sh file with the [`WSO2 Docker Registry`](https://docker.wso2.com) credentials and Kubernetes cluster admin password.
-
-Replace the relevant placeholders in `KUBERNETES_HOME/scalable-integrator/test/deploy.sh` file with appropriate details, as described below.
-
-* A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
-The following details need to be replaced in the relevant command.
-
-```
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<username> --docker-password=<password> --docker-email=<email>
-```
-
-`username`: Username of your Free Trial Subscription<br>
-`password`: Password of your Free Trial Subscription<br>
-`email`: Username of your Free Trial Subscription
-
-* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
-
-`cluster-admin-password`: Kubernetes cluster admin password
-
-##### 4. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
+##### 3. Setup a Network File System (NFS) to be used as the persistent volume for artifact sharing across Enterprise Integrator server instances.
 
 Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resources,
 
@@ -62,6 +42,8 @@ Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`)
 * `integrator-broker-analytics-ei-broker-shared-deployment-pv`
 * `integrator-broker-analytics-ei-analytics-data-pv-1`
 * `integrator-broker-analytics-ei-analytics-data-pv-2`
+* `integrator-broker-analytics-ei-analytics-pv-1`
+* `integrator-broker-analytics-ei-analytics-pv-2`
 
 in `<KUBERNETES_HOME>/integrator-broker-analytics/volumes/persistent-volumes.yaml` file.
 
@@ -71,13 +53,57 @@ Add `wso2carbon` user to the group `wso2`.
 Then, provide ownership of the exported folder `NFS_LOCATION_PATH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
 And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_PATH`.
 
-##### 5. Deploy Kubernetes test resources:
+##### 4. Setup and configure external product database(s):
 
-Change directory to `KUBERNETES_HOME/integrator-broker-analytics/test` and execute the `deploy.sh` shell script on the terminal.
+For **evaluation purposes**,
+
+* You can use Kubernetes resources provided in the directory `KUBERNETES_HOME/integrator-broker-analytics/extras/rdbms/mysql`
+for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+**not recommended** for a production setup.
+
+* For using these Kubernetes resources,
+
+    Setup a Network File System (NFS) to be used as the persistent volume for persisting MySQL DB data.
+    Provide read-write-executable permissions to `other` users, for the folder `NFS_LOCATION_PATH`.
+    Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource
+    named `integrator-broker-analytics-mysql-pv` in the file `<KUBERNETES_HOME>/integrator-broker-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
+    
+In a **production setup**,
+
+* Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases),
+  [2](https://docs.wso2.com/display/EI620/Clustering+the+Message+Broker+Profile#ClusteringtheMessageBrokerProfile-Creatingthedatabases) and
+  [3](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
+  
+  Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
+  the following files:
+  
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `KUBERNETES_HOME/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
+  
+  Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
+
+##### 5. Deploy Kubernetes resources:
+
+Change directory to `KUBERNETES_HOME/integrator-broker-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
 
 ```
-./deploy.sh
+./deploy.sh --wso2-username=<WSO2_USERNAME> --wso2-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
 ```
+
+* A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the [`WSO2 Docker Registry`](https://docker.wso2.com), to pull the required images.
+The following details need to be replaced in the relevant command.
+
+`WSO2_USERNAME`: Your WSO2 username<br>
+`WSO2_PASSWORD`: Your WSO2 password
+
+* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
+
+`K8S_CLUSTER_ADMIN_PASSWORD`: Kubernetes cluster admin password
+
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
 ##### 6. Access Management Consoles:

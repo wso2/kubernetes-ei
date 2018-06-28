@@ -1,4 +1,4 @@
-# Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+# Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +13,16 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: Service
+kind: PersistentVolumeClaim
 metadata:
-  name: integrator-broker-analytics-rdbms-service
+  name: integrator-with-analytics-rdbms-volume-claim
 spec:
-  type: ClusterIP
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName: ""
   selector:
-    deployment: integrator-broker-analytics-mysql
-  ports:
-  - name: mysql-port
-    port: 3306
-    targetPort: 3306
-    protocol: TCP
+    matchLabels:
+      purpose: ei-rdbms-data
