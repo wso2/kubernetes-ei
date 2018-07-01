@@ -16,6 +16,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: wso2ei-mb-deployment
+  namespace : {{ .Values.namespace }}
 spec:
   replicas: 2
   minReadySeconds: 30
@@ -31,7 +32,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-mb
-        image: docker.wso2.com/wso2ei-broker:6.2.0
+        image: docker.wso2.com/wso2ei-broker:6.3.0
         livenessProbe:
           exec:
             command:
