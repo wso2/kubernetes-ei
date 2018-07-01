@@ -52,12 +52,43 @@ Add `wso2carbon` user to the group `wso2`.
 Then, provide ownership of the exported folder `NFS_LOCATION_PATH` (used for artifact sharing) to `wso2carbon` user and `wso2` group.
 And provide read-write-executable permissions to owning `wso2carbon` user, for the folder `NFS_LOCATION_PATH`.
 
-##### 4. Deploy Kubernetes resources:
+##### 4. Setup and configure external product database(s):
+
+For **evaluation purposes**,
+
+* You can use Kubernetes resources provided in the directory `KUBERNETES_HOME/integrator-analytics/extras/rdbms/mysql`
+for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+**not recommended** for a production setup.
+
+* For using these Kubernetes resources,
+
+    Setup a Network File System (NFS) to be used as the persistent volume for persisting MySQL DB data.
+    Provide read-write-executable permissions to `other` users, for the folder `NFS_LOCATION_PATH`.
+    Update the NFS server IP (`NFS_SERVER_IP`) and export path (`NFS_LOCATION_PATH`) of persistent volume resource
+    named `integrator-with-analytics-mysql-pv` in the file `<KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
+    
+In a **production setup**,
+
+* Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases)
+  and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
+  
+  Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
+  the following files:
+  
+  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
+  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
+  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
+  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `KUBERNETES_HOME/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
+  
+  Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
+    
+##### 5. Deploy Kubernetes resources:
 
 Change directory to `KUBERNETES_HOME/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
 
 ```
-./deploy.sh --wso2-subscription-username=<WSO2_USERNAME> --wso2-subscription-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
+./deploy.sh --wso2-username=<WSO2_USERNAME> --wso2-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
 ```
 
 * A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the [`WSO2 Docker Registry`](https://docker.wso2.com), to pull the required images.
@@ -72,7 +103,7 @@ The following details need to be replaced in the relevant command.
 
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 5. Access Management Consoles:
+##### 6. Access Management Consoles:
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
 
@@ -99,7 +130,7 @@ wso2ei-integrator-ingress                        wso2ei-integrator           <EX
 
 3. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
 
-##### 6. Scale up using `kubectl scale`:
+##### 7. Scale up using `kubectl scale`:
 
 Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator. To scale this deployment into any `<n>` number of
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.
