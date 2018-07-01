@@ -82,26 +82,26 @@ spec:
       protocol: TCP
       port: 12501
     -
-      name: 'analytics-port-5'
+      name: 'analytics-port-4'
       protocol: TCP
       port: 13001
     -
-      name: 'analytics-port-6'
+      name: 'analytics-port-5'
       protocol: TCP
       port: 13501
     -
-      name: 'analytics-port-7'
+      name: 'analytics-port-6'
       protocol: TCP
       port: 14501
     -
-      name: 'analytics-port-8'
+      name: 'analytics-port-7'
       protocol: TCP
       port: 7078
     -
-      name: 'analytics-port-9'
+      name: 'analytics-port-8'
       protocol: TCP
       port: 6067
     -
-      name: 'analytics-port-10'
+      name: 'analytics-port-9'
       protocol: TCP
       port: 11003

@@ -70,38 +70,38 @@ spec:
       protocol: TCP
       port: 12005
     -
-      name: 'analytcs-port-1'
+      name: 'analytics-port-1'
       protocol: TCP
       port: 10007
     -
-      name: 'analytcs-port-2'
+      name: 'analytics-port-2'
       protocol: TCP
       port: 11002
     -
-      name: 'analytcs-port-3'
+      name: 'analytics-port-3'
       protocol: TCP
       port: 12501
     -
-      name: 'analytcs-port-5'
+      name: 'analytics-port-4'
       protocol: TCP
       port: 13001
     -
-      name: 'analytcs-port-6'
+      name: 'analytics-port-5'
       protocol: TCP
       port: 13501
     -
-      name: 'analytcs-port-7'
+      name: 'analytics-port-6'
       protocol: TCP
       port: 14501
     -
-      name: 'analytcs-port-8'
+      name: 'analytics-port-7'
       protocol: TCP
       port: 7078
     -
-      name: 'analytcs-port-9'
+      name: 'analytics-port-8'
       protocol: TCP
       port: 6067
     -
-      name: 'analytcs-port-10'
+      name: 'analytics-port-9'
       protocol: TCP
       port: 11003

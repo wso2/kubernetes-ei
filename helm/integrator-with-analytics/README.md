@@ -40,9 +40,11 @@ configurations as necessary.
     `svcaccount`: Service Account<br>
     `serverIp`: NFS Server IP<br>
     `sharedDeploymentLocationPath`: NFS shared deployment directory(<EI_HOME>/repository/deployment) location for EI<br> 
-    `sharedTentsLocationPath`: NFS shared tenants directory(<EI_HOME>/repository/tenants) location for EI<br>
+    `sharedTenantsLocationPath`: NFS shared tenants directory(<EI_HOME>/repository/tenants) location for EI<br>
     `analytics1DataLocationPath`: NFS volume for Indexed data for Analytics node 1(<DAS_HOME>/repository/data)<br> 
-    `analytics2DataLocationPath`: NFS volume for Indexed data for Analytics node 2(<DAS_HOME>/repository/data)
+    `analytics2DataLocationPath`: NFS volume for Indexed data for Analytics node 2(<DAS_HOME>/repository/data)<br> 
+    `analytics1LocationPath`: NFS volume for Analytics data for Analytics node 1(<DAS_HOME>/repository/analytics)<br> 
+    `analytics2LocationPath`: NFS volume for Analytics data for Analytics node 2(<DAS_HOME>/repository/analytics)
     
 3. Open the `<HELM_HOME>/integrator-with-analytics-deployment/values.yaml` and provide the following values.
 
