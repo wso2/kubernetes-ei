@@ -16,6 +16,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: wso2ei-mb-deployment
+  namespace : {{ .Values.namespace }}
 spec:
   replicas: 2
   minReadySeconds: 30
