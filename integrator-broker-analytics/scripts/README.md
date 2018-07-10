@@ -33,13 +33,13 @@ useradd --system -g 802 -u 802 wso2carbon
 >In the context of this document, `KUBERNETES_HOME` will refer to a local copy of the [`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/)
 Git repository.<br>
 
-##### 1. Clone the Kubernetes Resources for WSO2 Enterprise Integrator Git repository:
+##### 1. Clone the Kubernetes Resources for WSO2 Enterprise Integrator Git repository.
 
 ```
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Deploy Kubernetes Ingress resource:
+##### 2. Deploy Kubernetes Ingress resource.
 
 The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
 
@@ -65,7 +65,7 @@ chmod -R 700 <directory_name>
 
 Update each Kubernetes Persistent Volume resource with the corresponding NFS server IP (`NFS_SERVER_IP`) and exported, NFS server directory path (`NFS_LOCATION_PATH`).``
 
-##### 4. Setup product database(s):
+##### 4. Setup product database(s).
 
 For **evaluation purposes**,
 
@@ -93,18 +93,18 @@ In a **production grade setup**,
   Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
   the following files:
   
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
-  * `KUBERNETES_HOME/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
   
   Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
 
-##### 5. Deploy Kubernetes resources:
+##### 5. Deploy Kubernetes resources.
 
-Change directory to `KUBERNETES_HOME/integrator-broker-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
+Change directory to `<KUBERNETES_HOME>/integrator-broker-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
 
 ```
 ./deploy.sh --wso2-username=<WSO2_USERNAME> --wso2-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
@@ -122,7 +122,7 @@ The following details need to be replaced in the relevant command.
 
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
-##### 6. Access Management Consoles:
+##### 6. Access Management Consoles.
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
 
@@ -155,7 +155,7 @@ b. Add the above host as an entry in /etc/hosts file as follows:
 
 c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
 
-##### 7. Scale up using `kubectl scale`:
+##### 7. Scale up using `kubectl scale`.
 
 Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator's Integrator profile. To scale this deployment into any `<n>` number of
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.

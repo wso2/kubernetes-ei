@@ -92,17 +92,17 @@ In a **production grade setup**,
   Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
   the following files:
   
-  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-  * `KUBERNETES_HOME/integrator-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
-  * `KUBERNETES_HOME/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
   
   Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
     
 ##### 5. Deploy Kubernetes resources.
 
-Change directory to `KUBERNETES_HOME/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
+Change directory to `<KUBERNETES_HOME>/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
 
 ```
 ./deploy.sh --wso2-username=<WSO2_USERNAME> --wso2-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
