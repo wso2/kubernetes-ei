@@ -158,3 +158,4 @@ spec:
       - name: data-persistent-disk
         persistentVolumeClaim:
           claimName: ei-analytics-1-data-volume-claim
+
