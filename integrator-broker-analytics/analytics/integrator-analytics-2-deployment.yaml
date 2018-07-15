@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-analytics-2
-        image: docker.wso2.com/wso2ei-analytics:6.2.0
+        image: docker.wso2.com/wso2ei-analytics:6.3.0
         resources:
           limits:
             memory: "4Gi"
@@ -127,9 +127,9 @@ spec:
         - name: ei-analytics-2-deployment-portal
           mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-portal
         - name: analytics-persistent-disk
-          mountPath: /home/wso2carbon/wso2ei-6.2.0/wso2/analytics/conf/analytics
+          mountPath: /home/wso2carbon/wso2ei-6.3.0/wso2/analytics/conf/analytics
         - name: data-persistent-disk
-          mountPath: /home/wso2carbon/wso2ei-6.2.0/wso2/analytics/repository/data
+          mountPath: /home/wso2carbon/wso2ei-6.3.0/wso2/analytics/repository/data
       serviceAccountName: "wso2svc-account"
       imagePullSecrets:
       - name: wso2creds

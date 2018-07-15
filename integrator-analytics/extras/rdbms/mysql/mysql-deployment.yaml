@@ -52,3 +52,4 @@ spec:
       - name: ei-rdbms-persistent-storage
         persistentVolumeClaim:
           claimName: integrator-with-analytics-rdbms-volume-claim
+          
