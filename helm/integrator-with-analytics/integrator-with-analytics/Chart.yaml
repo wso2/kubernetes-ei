@@ -13,7 +13,7 @@
 # limitations under the License.
 
 apiVersion: v1
-appVersion: "1.0"
-description: A Helm chart for the deployment of WSO2 EI Integrator-Analytics profile configurations
-name: integrator-analytics-conf
-version: 1.0.0
+appVersion: "6.3.0-2"
+description: A Helm chart for the deployment of WSO2 EI Integrator-Analytics profile
+name: integrator-analytics
+version: 6.3.0-2
