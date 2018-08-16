@@ -15,7 +15,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: wso2ei-mb-deployment
+  name: wso2ei-broker-deployment
   namespace : {{ .Values.namespace }}
 spec:
   replicas: 2
@@ -39,7 +39,7 @@ spec:
             - /bin/bash
             - -c
             - nc -z localhost 9446
-          initialDelaySeconds: 90
+          initialDelaySeconds: 250
           periodSeconds: 10
         readinessProbe:
           exec:
@@ -47,7 +47,7 @@ spec:
               - /bin/bash
               - -c
               - nc -z localhost 9446
-          initialDelaySeconds: 90
+          initialDelaySeconds: 250
           periodSeconds: 10
         imagePullPolicy: Always
         ports:
