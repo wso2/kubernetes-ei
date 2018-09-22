@@ -25,8 +25,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
+    server: 10.128.0.6
+    path: "/data/thilina/ei-deployment"
 
 ---
 
@@ -43,81 +43,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
+    server: 10.128.0.6
+    path: "/data/thilina/ei-tenant"
 
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: integrator-with-analytics-ei-analytics-data-pv-1
-  labels:
-    purpose: analytics-data
-    node: wso2ei-analytics-1
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
-
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: integrator-with-analytics-ei-analytics-data-pv-2
-  labels:
-    purpose: analytics-data
-    node: wso2ei-analytics-2
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
-
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: integrator-with-analytics-ei-analytics-pv-1
-  labels:
-    purpose: analytics
-    node: wso2ei-analytics-1
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"
-
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: integrator-with-analytics-ei-analytics-pv-2
-  labels:
-    purpose: analytics
-    node: wso2ei-analytics-2
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  nfs:
-    server: <NFS_SERVER_IP>
-    path: "<NFS_LOCATION_PATH>"

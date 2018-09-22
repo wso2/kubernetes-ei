@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-integrator
-        image: docker.wso2.com/wso2ei-integrator:6.3.0
+        image: gcr.io/research-n-development-209206/wso2ei-integrator:6.4.0
         livenessProbe:
           exec:
             command:
@@ -60,15 +60,15 @@ spec:
           protocol: TCP
         volumeMounts:
         - name: integrator-conf
-          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/integrator/conf
         - name: integrator-conf-axis2
-          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-axis2
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/integrator/conf-axis2
         - name: integrator-conf-datasources
-          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-datasources
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/integrator/conf-datasources
         - name: integrator-conf-event-publishers
-          mountPath: /home/wso2carbon/kubernetes-volumes/integrator/conf-event-publishers
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/integrator/conf-event-publishers
         - name: shared-pd
-          mountPath: /home/wso2carbon/wso2ei-6.3.0/repository/deployment/server
+          mountPath: /home/wso2carbon/wso2ei-6.4.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
       imagePullSecrets:
       - name: wso2creds

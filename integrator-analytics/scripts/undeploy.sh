@@ -29,7 +29,6 @@ function echoBold () {
 # persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
 ${KUBECTL} delete -f ../integrator/integrator-volume-claims.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-volume-claims.yaml
 ${KUBECTL} delete -f ../volumes/persistent-volumes.yaml
 
 # WSO2 Enterprise Integrator
