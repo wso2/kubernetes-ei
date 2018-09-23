@@ -12,31 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: integrator-with-analytics-ei-analytics-service
+  name: wso2ei-with-analytics-ei-dashboard-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "route"
+    nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
 spec:
-  selector:
-    deployment: integrator-with-analytics-ei-analytics
-  ports:
-  - name: event-receiver-1
-    port: 7612
-    targetPort: 7612
-    protocol: TCP
-  - name: servlet-https
-    port: 9091
-    targetPort: 9091
-    protocol: TCP
-  - name: siddhi-1
-    port: 7070
-    targetPort: 8082
-    protocol: TCP
-  - name: siddhi-2
-    port: 7443
-    targetPort: 11501
-    protocol: TCP
-  - name: event-receiver-2
-    port: 7712
-    targetPort: 7712
-    protocol: TCP
+  tls:
+  - hosts:
+    - wso2ei-dashboard
+  rules:
+  - host: wso2ei-dashboard
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wso2ei-with-analytics-ei-dashboard-service
+          servicePort: 9643

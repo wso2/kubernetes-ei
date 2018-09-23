@@ -2,7 +2,6 @@
 
 Core Kubernetes resources for a clustered deployment of Integrator profile of WSO2 Enterprise Integrator with Integrator Analytics support.
 
-![A clustered deployment WSO2 Enterprise Integator's Integrator profile with Integrator Analytics support](integrator-analytics.png)
 
 ## Contents
 
@@ -74,10 +73,8 @@ and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
 the following files:
 
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/worker/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
 
 Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
@@ -150,7 +147,6 @@ Then, deploy the persistent volume resources and volume claims as follows:
 
 ```
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-volume-claims.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-volume-claims.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml
 ```
     
@@ -162,19 +158,11 @@ kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/int
 kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/conf/datasources/
 kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-1-conf --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf
-kubectl create configmap ei-analytics-1-conf-analytics --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/analytics
-kubectl create configmap ei-analytics-1-conf-spark-analytics --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/analytics/spark
-kubectl create configmap ei-analytics-1-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/axis2
-kubectl create configmap ei-analytics-1-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/datasources
-kubectl create configmap ei-analytics-1-deployment-portal --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/repository/deployment/server/jaggeryapps/portal/configs
+kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker
 
-kubectl create configmap ei-analytics-2-conf --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf
-kubectl create configmap ei-analytics-2-conf-analytics --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/analytics
-kubectl create configmap ei-analytics-2-conf-spark-analytics --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/analytics/spark
-kubectl create configmap ei-analytics-2-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/axis2
-kubectl create configmap ei-analytics-2-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/datasources
-kubectl create configmap ei-analytics-2-deployment-portal --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs
+kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/worker
+
+kubectl create configmap sp-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard
 ```
 
 ##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator and Analytics.
@@ -185,6 +173,9 @@ kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-an
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-2-deployment.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-2-service.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-service.yaml
+
+kubectl create -f <KUBERNETES_HOME>/integrator-analytics/dashboard/integrator-server-dashboard-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-analytics/dashboard/integrator-server-dashboard-service.yaml
 
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-service.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-gateway-service.yaml
@@ -201,14 +192,14 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as follows:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-analytics-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-server-dashboard-ingress.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-gateway-ingress.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-ingress.yaml
 ```
 
 ##### 10. Access Management Consoles.
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
+Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -222,7 +213,7 @@ e.g.
 
 ```
 NAME                                             HOSTS                       ADDRESS        PORTS     AGE
-integrator-with-analytics-ei-analytics-ingress   wso2ei-analytics            <EXTERNAL-IP>  80, 443   2m
+wso2ei-with-analytics-ei-dashboard-ingress       wso2ei-dashboard            <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress            wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                        wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 ```
@@ -235,7 +226,7 @@ b. Add the above host as an entry in /etc/hosts file as follows:
 <EXTERNAL-IP>	wso2ei-integrator
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-dashboard/portal` from your favorite browser.
 
 ##### 11. Scale up using `kubectl scale`.
 

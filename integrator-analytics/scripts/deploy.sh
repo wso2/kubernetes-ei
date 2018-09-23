@@ -37,7 +37,7 @@ function usage () {
 
 WSO2_SUBSCRIPTION_USERNAME=''
 WSO2_SUBSCRIPTION_PASSWORD=''
-ADMIN_PASSWORD=
+ADMIN_PASSWORD=''
 
 # capture named arguments
 while [ "$1" != "" ]; do
@@ -93,6 +93,8 @@ ${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-a
 
 ${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
 
+${KUBECTL} create configmap sp-dashboard-conf-dashboard --from-file=../confs/dashboard/conf/dashboard
+
 ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/dbscripts/
 
 echoBold 'Deploying the Kubernetes Services...'
@@ -102,6 +104,7 @@ ${KUBECTL} create -f ../analytics/integrator-analytics-2-service.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-gateway-service.yaml
+${KUBECTL} create -f ../dashboard/integrator-server-dashboard-service.yaml
 
 # MySQL
 echoBold 'Deploying WSO2 Enterprise Integrator and Enterprise Integrator Analytics Databases using MySQL...'
@@ -120,6 +123,7 @@ sleep 10s
 echoBold 'Deploying WSO2 Integrator and Analytics...'
 ${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
+${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
 sleep 4m
 
 ${KUBECTL} create -f ../integrator/integrator-deployment.yaml
@@ -128,6 +132,7 @@ sleep 30s
 echoBold 'Deploying Ingresses...'
 ${KUBECTL} create -f ../ingresses/integrator-ingress.yaml
 ${KUBECTL} create -f ../ingresses/integrator-gateway-ingress.yaml
+${KUBECTL} create -f ../ingresses/integrator-server-dashboard-ingress.yaml
 sleep 30s
 
 echoBold 'Finished'
