@@ -37,7 +37,7 @@ function usage () {
 
 WSO2_SUBSCRIPTION_USERNAME=''
 WSO2_SUBSCRIPTION_PASSWORD=''
-ADMIN_PASSWORD=''
+ADMIN_PASSWORD=
 
 # capture named arguments
 while [ "$1" != "" ]; do
@@ -77,7 +77,7 @@ ${KUBECTL} create serviceaccount wso2svc-account -n wso2
 ${KUBECTL} config set-context $(${KUBECTL} config current-context) --namespace=wso2
 
 # create a Kubernetes Secret for passing WSO2 Private Docker Registry credentials
-${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
+#${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
 
 # create Kubernetes Role and Role Binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
 ${KUBECTL} create --username=admin --password=${ADMIN_PASSWORD} -f ../../rbac/rbac.yaml
@@ -93,19 +93,11 @@ ${KUBECTL} create configmap integrator-conf-axis2 --from-file=../confs/integrato
 ${KUBECTL} create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
 ${KUBECTL} create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
 
-${KUBECTL} create configmap ei-analytics-1-conf --from-file=../confs/ei-analytics-1/conf
-${KUBECTL} create configmap ei-analytics-1-conf-analytics --from-file=../confs/ei-analytics-1/conf/analytics
-${KUBECTL} create configmap ei-analytics-1-conf-spark-analytics --from-file=../confs/ei-analytics-1/conf/analytics/spark
-${KUBECTL} create configmap ei-analytics-1-conf-axis2 --from-file=../confs/ei-analytics-1/conf/axis2
-${KUBECTL} create configmap ei-analytics-1-conf-datasources --from-file=../confs/ei-analytics-1/conf/datasources
-${KUBECTL} create configmap ei-analytics-1-deployment-portal --from-file=../confs/ei-analytics-1/repository/deployment/server/jaggeryapps/portal/configs
+${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-analytics-1/conf/worker
 
-${KUBECTL} create configmap ei-analytics-2-conf --from-file=../confs/ei-analytics-2/conf
-${KUBECTL} create configmap ei-analytics-2-conf-analytics --from-file=../confs/ei-analytics-2/conf/analytics
-${KUBECTL} create configmap ei-analytics-2-conf-spark-analytics --from-file=../confs/ei-analytics-2/conf/analytics/spark
-${KUBECTL} create configmap ei-analytics-2-conf-axis2 --from-file=../confs/ei-analytics-2/conf/axis2
-${KUBECTL} create configmap ei-analytics-2-conf-datasources --from-file=../confs/ei-analytics-2/conf/datasources
-${KUBECTL} create configmap ei-analytics-2-deployment-portal --from-file=../confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs
+${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
+
+${KUBECTL} create configmap sp-dashboard-conf-dashboard --from-file=../confs/dashboard/conf/dashboard
 
 ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/dbscripts/
 
@@ -117,6 +109,7 @@ ${KUBECTL} create -f ../analytics/integrator-analytics-2-service.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-gateway-service.yaml
+${KUBECTL} create -f ../dashboard/integrator-server-dashboard-service.yaml
 
 # MySQL
 echoBold 'Deploying WSO2 Integrator Databases...'
@@ -127,7 +120,6 @@ sleep 10s
 echoBold 'Creating persistent volume and volume claim...'
 ${KUBECTL} create -f ../broker/message-broker-volume-claim.yaml
 ${KUBECTL} create -f ../integrator/integrator-volume-claims.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-volume-claims.yaml
 ${KUBECTL} create -f ../volumes/persistent-volumes.yaml
 ${KUBECTL} create -f ../extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
 ${KUBECTL} create -f ../extras/rdbms/volumes/persistent-volumes.yaml
@@ -140,6 +132,7 @@ sleep 50s
 
 ${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
+${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
 sleep 4m
 
 ${KUBECTL} create -f ../integrator/integrator-deployment.yaml
@@ -149,7 +142,7 @@ echoBold 'Deploying Ingresses...'
 ${KUBECTL} create -f ../ingresses/message-broker-ingress.yaml
 ${KUBECTL} create -f ../ingresses/integrator-ingress.yaml
 ${KUBECTL} create -f ../ingresses/integrator-gateway-ingress.yaml
-${KUBECTL} create -f ../ingresses/integrator-analytics-ingress.yaml
+${KUBECTL} create -f ../ingresses/integrator-server-dashboard-ingress.yaml
 sleep 30s
 
 echoBold 'Finished'

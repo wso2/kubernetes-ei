@@ -29,7 +29,6 @@ function echoBold () {
 # persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
 ${KUBECTL} delete -f ../integrator/integrator-volume-claims.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-volume-claims.yaml
 ${KUBECTL} delete -f ../broker/message-broker-volume-claim.yaml
 ${KUBECTL} delete -f ../volumes/persistent-volumes.yaml
 
@@ -45,6 +44,8 @@ ${KUBECTL} delete -f ../integrator/integrator-deployment.yaml
 ${KUBECTL} delete -f ../analytics/integrator-analytics-1-deployment.yaml
 ${KUBECTL} delete -f ../analytics/integrator-analytics-2-deployment.yaml
 ${KUBECTL} delete -f ../broker/message-broker-deployment.yaml
+${KUBECTL} delete -f ../dashboard/integrator-server-dashboard-deployment.yaml
+${KUBECTL} delete -f ../dashboard/integrator-server-dashboard-service.yaml
 sleep 2m
 
 # MySQL
