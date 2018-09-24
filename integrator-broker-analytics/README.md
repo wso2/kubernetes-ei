@@ -76,10 +76,8 @@ Provide appropriate connection URLs, corresponding to the created external datab
 the following files:
 
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
 
 Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
@@ -153,7 +151,6 @@ Then, deploy the persistent volume resources and volume claims as follows:
 ```
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/broker/message-broker-volume-claim.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/integrator/integrator-volume-claims.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-volume-claims.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/volumes/persistent-volumes.yaml
 ```
     
@@ -169,19 +166,11 @@ kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/int
 kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/conf/datasources/
 kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-1-conf --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf
-kubectl create configmap ei-analytics-1-conf-analytics --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/analytics
-kubectl create configmap ei-analytics-1-conf-spark-analytics --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/analytics/spark
-kubectl create configmap ei-analytics-1-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/axis2
-kubectl create configmap ei-analytics-1-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/datasources
-kubectl create configmap ei-analytics-1-deployment-portal --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/repository/deployment/server/jaggeryapps/portal/configs
+kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/worker
 
-kubectl create configmap ei-analytics-2-conf --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf
-kubectl create configmap ei-analytics-2-conf-analytics --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/analytics
-kubectl create configmap ei-analytics-2-conf-spark-analytics --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/analytics/spark
-kubectl create configmap ei-analytics-2-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/axis2
-kubectl create configmap ei-analytics-2-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/datasources
-kubectl create configmap ei-analytics-2-deployment-portal --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs
+kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/worker
+
+kubectl create configmap sp-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/dashboard/conf/dashboard
 ```
 
 ##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator, Broker and Analytics.
@@ -199,6 +188,11 @@ kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/integrator/integ
 
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/broker/message-broker-service.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/broker/message-broker-deployment.yaml
+
+kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/dashboard/integrator-server-dashboard-service.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/dashboard/integrator-server-dashboard-deployment.yaml
+
+
 ```
 
 ##### 9. Deploy Kubernetes Ingress resource.
@@ -214,7 +208,7 @@ Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as f
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/message-broker-ingress.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integrator-ingress.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integrator-gateway-ingress.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integrator-analytics-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integrator-server-dashboard-ingress.yaml
 ```
 
 ##### 10. Access Management Consoles.
@@ -232,7 +226,7 @@ e.g.
 
 ```
 NAME                                        HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-analytics-ingress                    wso2ei-analytics            <EXTERNAL-IP>  80, 443   2m
+wso2ei-analytics-ingress                    wso2ei-dashboard            <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress       wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                   wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 wso2ei-mb-ingress                           wso2ei-broker               <EXTERNAL-IP>  80, 443   2m
@@ -241,13 +235,13 @@ wso2ei-mb-ingress                           wso2ei-broker               <EXTERNA
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics
+<EXTERNAL-IP>	wso2ei-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 <EXTERNAL-IP>	wso2ei-broker
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-dashboard/portal` from your favorite browser.
 
 ##### 11. Scale up using `kubectl scale`.
 
