@@ -162,7 +162,7 @@ kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME
 
 kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/worker
 
-kubectl create configmap sp-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard
+kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard
 ```
 
 ##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator and Analytics.
@@ -199,7 +199,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-in
 
 ##### 10. Access Management Consoles.
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-dashboard` hosts.
+Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -213,7 +213,7 @@ e.g.
 
 ```
 NAME                                             HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-with-analytics-ei-dashboard-ingress       wso2ei-dashboard            <EXTERNAL-IP>  80, 443   2m
+wso2ei-with-analytics-ei-dashboard-ingress       wso2ei-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress            wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                        wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 ```
@@ -221,12 +221,12 @@ wso2ei-integrator-ingress                        wso2ei-integrator           <EX
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics
+<EXTERNAL-IP>	wso2ei-analytics-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-dashboard/portal` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
 
 ##### 11. Scale up using `kubectl scale`.
 

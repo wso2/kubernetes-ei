@@ -93,7 +93,7 @@ ${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-a
 
 ${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
 
-${KUBECTL} create configmap sp-dashboard-conf-dashboard --from-file=../confs/dashboard/conf/dashboard
+${KUBECTL} create configmap ei-analytics-dashboard-conf-dashboard --from-file=../confs/ei-analytics-dashboard/conf/dashboard
 
 ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/dbscripts/
 
@@ -123,8 +123,10 @@ sleep 10s
 echoBold 'Deploying WSO2 Integrator and Analytics...'
 ${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
-${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
 sleep 4m
+
+${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
+sleep 30s
 
 ${KUBECTL} create -f ../integrator/integrator-deployment.yaml
 sleep 30s

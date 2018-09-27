@@ -1,5 +1,5 @@
 ################################################################################
-#   Copyright (c) 2018, WSO2 Inc. (http://www.wso2.org) All Rights Reserved
+#   Copyright (c) 2017, WSO2 Inc. (http://www.wso2.org) All Rights Reserved
 #
 #   Licensed under the Apache License, Version 2.0 (the \"License\");
 #   you may not use this file except in compliance with the License.
@@ -129,7 +129,7 @@ databridge.config:
         sslPort: '9711'
         tcpReceiverThreadPoolSize: '100'
         sslReceiverThreadPoolSize: '100'
-        hostName: ${NODE_IP}
+        hostName: 0.0.0.0
 
   # Configuration of the Data Agents - to publish events through databridge
 data.agent.config:
@@ -238,7 +238,7 @@ data.agent.config:
 # This is the main configuration for metrics
 wso2.metrics:
   # Enable Metrics
-  enabled: true
+  enabled: false
   reporting:
     console:
       - # The name for the Console Reporter
@@ -353,24 +353,6 @@ wso2.datasources:
           password: wso2carbon
           driverClassName: com.mysql.jdbc.Driver
           maxPoolSize: 30
-          idleTimeout: 60000
-          connectionTestQuery: SELECT 1
-          validationTimeout: 30000
-          isAutoCommit: false
-
-    - name: WSO2_STATUS_DASHBOARD_DB
-      description: The datasource used for dashboard feature
-      jndiConfig:
-        name: jdbc/wso2_status_dashboard
-        useJndiReference: true
-      definition:
-        type: RDBMS
-        configuration:
-          jdbcUrl: 'jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_STATUS_DASHBOARD_DB?useSSL=false'
-          username: wso2carbon
-          password: wso2carbon
-          driverClassName: com.mysql.jdbc.Driver
-          maxPoolSize: 50
           idleTimeout: 60000
           connectionTestQuery: SELECT 1
           validationTimeout: 30000
