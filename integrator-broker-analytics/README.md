@@ -226,7 +226,7 @@ e.g.
 
 ```
 NAME                                        HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-analytics-ingress                    wso2ei-dashboard            <EXTERNAL-IP>  80, 443   2m
+wso2ei-analytics-ingress                    wso2ei-analytics-dashboard            <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress       wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                   wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 wso2ei-mb-ingress                           wso2ei-broker               <EXTERNAL-IP>  80, 443   2m
@@ -235,13 +235,13 @@ wso2ei-mb-ingress                           wso2ei-broker               <EXTERNA
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-dashboard
+<EXTERNAL-IP>	wso2ei-analytics-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 <EXTERNAL-IP>	wso2ei-broker
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-dashboard/portal` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
 
 ##### 11. Scale up using `kubectl scale`.
 
