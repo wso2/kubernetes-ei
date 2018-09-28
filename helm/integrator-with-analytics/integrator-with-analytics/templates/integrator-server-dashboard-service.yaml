@@ -13,18 +13,20 @@
 # limitations under the License.
 
 apiVersion: v1
-kind: ConfigMap
+kind: Service
 metadata:
-  name: ei-analytics-1-conf-datasources
+  name: wso2ei-with-analytics-ei-dashboard-service
   namespace : {{ .Values.namespace }}
-data:
-  {{- $file := .Files }}
-  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-1/conf/datasources/*" }}
-  {{- $list := $path | splitList "/"}}
-  {{- $length := len $list }}
-  {{- $last := add $length -1 }}
-  {{ index $list $last }}: |-
-    {{- range $file.Lines $path }}
-    {{ . }}
-    {{- end }}
-  {{- end }}
+  labels:
+    deployment: wso2ei-with-analytics-dashboard
+spec:
+  ports:
+    # ports that this service should serve on
+    -
+      name: 'https'
+      port: 9643
+      protocol: TCP
+
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    deployment: wso2ei-with-analytics-dashboard

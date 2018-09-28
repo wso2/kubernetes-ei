@@ -15,11 +15,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ei-analytics-2-deployment-portal
+  name: ei-analytics-2-conf-worker
   namespace : {{ .Values.namespace }}
 data:
   {{- $file := .Files }}
-  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-2/repository/deployment/server/jaggeryapps/portal/configs/*" }}
+  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-2/conf/worker/*" }}
   {{- $list := $path | splitList "/"}}
   {{- $length := len $list }}
   {{- $last := add $length -1 }}
