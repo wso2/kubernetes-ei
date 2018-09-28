@@ -21,39 +21,35 @@ spec:
     node: integrator-with-analytics-ei-analytics-2
   ports:
     -
-      name: 'thrift'
+      name: 'http-msf4j-https'
       port: 9444
       protocol: TCP
     -
-      name: 'thrift-ssl'
+      name: 'http-default'
       port: 9091
       protocol: TCP
     -
-      name: 'spark-port-1'
-      port: 9543
-      protocol: TCP
-    -
-      name: 'spark-port-2'
+      name: 'data-receiver-binary-1'
       port: 9711
       protocol: TCP
     -
-      name: 'spark-port-3'
+      name: 'data-receiver-binary-2'
       port: 9611
       protocol: TCP
     -
-      name: 'spark-port-4'
+      name: 'data-receiver-1'
       protocol: TCP
       port: 7712
     -
-      name: 'spark-port-5'
+      name: 'data-receiver-2'
       protocol: TCP
       port: 7612
     -
-      name: 'spark-port-6'
+      name: 'siddhi-default'
       protocol: TCP
       port: 7070
     -
-      name: 'spark-port-7'
+      name: 'siddhi-msf4j-https'
       protocol: TCP
       port: 7443
 

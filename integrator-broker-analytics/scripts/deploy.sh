@@ -37,7 +37,7 @@ function usage () {
 
 WSO2_SUBSCRIPTION_USERNAME=''
 WSO2_SUBSCRIPTION_PASSWORD=''
-ADMIN_PASSWORD=
+ADMIN_PASSWORD=''
 
 # capture named arguments
 while [ "$1" != "" ]; do
@@ -97,7 +97,7 @@ ${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-a
 
 ${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
 
-${KUBECTL} create configmap sp-dashboard-conf-dashboard --from-file=../confs/dashboard/conf/dashboard
+${KUBECTL} create configmap ei-analytics-dashboard-conf-dashboard --from-file=../confs/ei-analytics-dashboard/conf/dashboard
 
 ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/dbscripts/
 
@@ -148,4 +148,4 @@ sleep 30s
 echoBold 'Finished'
 echo 'To access the WSO2 Enterprise Integrator management console, try https://wso2ei-integrator/carbon in your browser.'
 echo 'To access the WSO2 Enterprise Integrator Broker management console, try https://wso2ei-broker/carbon in your browser.'
-echo 'To access the WSO2 Enterprise Integrator Analytics management console, try https://wso2ei-analytics/carbon in your browser.'
+echo 'To access the WSO2 Enterprise Integrator Analytics management console, try https://wso2ei-analytics-dashboard/portal in your browser.'
