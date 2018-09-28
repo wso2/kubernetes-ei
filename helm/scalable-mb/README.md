@@ -29,10 +29,10 @@ git clone https://github.com/wso2/kubernetes-ei.git
 
 ##### 2. Provide configurations:
 
-1. The default product configurations are available at `<HELM_HOME>/scalable-mb-conf/confs` folder. Change the 
+1. The default product configurations are available at `<HELM_HOME>/scalable-mb/confs` folder. Change the
 configurations as necessary.
 
-2. Open the `<HELM_HOME>/scalable-mb-conf/values.yaml` and provide the following values.
+2. Open the `<HELM_HOME>/scalable-mb/values.yaml` and provide the following values.
 
     `username`: Username of your Free Trial Subscription<br>
     `password`: Password of your Free Trial Subscription<br>
@@ -41,19 +41,8 @@ configurations as necessary.
     `svcaccount`: Service Account<br>
     `serverIp`: NFS Server IP<br>
     `locationPath`: NFS location path
-    
-3. Open the `<HELM_HOME>/scalable-mb-deployment/values.yaml` and provide the following values.
 
-    `namespace`: Namespace<br>
-    `svcaccount`: Service Account
-    
-##### 3. Deploy the configurations:
-
-```
-helm install --name <RELEASE_NAME> <HELM_HOME>/scalable-mb-conf
-```
-
-##### 4. Deploy MySql:
+##### 3. Deploy MySql:
 If there is an external product database(s), add those configurations as stated at `step 2.1`. Otherwise, run the below
  command to create the product database. 
 ```
@@ -61,13 +50,14 @@ helm install --name wso2ei-scalable-mb-rdbms-service -f <HELM_HOME>/mysql/values
 ```
 `NAMESPACE` should be same as `step 2.2`.
 
-##### 5. Deploy Message Broker profile:
+##### 4. Deploy Message Broker profile:
 
 ```
-helm install --name <RELEASE_NAME> <HELM_HOME>/scalable-mb-deployment
+helm install --name <RELEASE_NAME> <HELM_HOME>/scalable-mb --namespace <NAMESPACE>
 ```
+`NAMESPACE` should be same as `step 2.2`.
 
-##### 6. Access Management Console:
+##### 5. Access Management Console:
 
 Default deployment will expose `wso2ei-scalable-message-broker` host (to expose Administrative services and Management Console).
 

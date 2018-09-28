@@ -37,10 +37,11 @@ git clone https://github.com/wso2/kubernetes-ei.git
 ##### 2. Setup a Network File System (NFS) to be used for persistent storage.
 
 Create and export unique directories within the NFS server instance for each of the following Kubernetes Persistent Volume
-resources defined in the `<HELM_HOME>/integrator-with-analytics-conf/values.yaml` file:
+resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` file:
 
 * `sharedDeploymentLocationPath`
 * `sharedTenantsLocationPath`
+* `brokerSharedDeploymentLocationPath`
 * `analytics1DataLocationPath`
 * `analytics2DataLocationPath`
 * `analytics1LocationPath`
@@ -60,10 +61,10 @@ Grant read-write-execute permissions to the `wso2carbon` user, for each of the p
 
 ##### 3. Provide configurations.
 
-a. The default product configurations are available at `<HELM_HOME>/integrator-with-analytics-conf/confs` folder. Change the 
+a. The default product configurations are available at `<HELM_HOME>/integrator-with-analytics/confs` folder. Change the
 configurations as necessary.
 
-b. Open the `<HELM_HOME>/integrator-with-analytics-conf/values.yaml` and provide the following values.
+b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the following values.
 
 | Parameter                       | Description                                                                               |
 |---------------------------------|-------------------------------------------------------------------------------------------|
@@ -73,27 +74,16 @@ b. Open the `<HELM_HOME>/integrator-with-analytics-conf/values.yaml` and provide
 | `namespace`                     | Kubernetes Namespace in which the resources are deployed                                  |
 | `svcaccount`                    | Kubernetes Service Account in the `namespace` to which product instance pods are attached |
 | `serverIp`                      | NFS Server IP                                                                             |
-| `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/deployment`) location for EI        |
+| `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/ei-deployment`) location for EI        |
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
+| `brokerSharedDeploymentLocationPath` | NFS shared deployment directory (`<EI_HOME>/wso2/broker/repository/deployment/`) location for Broker |
 | `analytics1DataLocationPath`    | NFS volume for Indexed data for Analytics node 1(`<DAS_HOME>/repository/data`)            |
 | `analytics2DataLocationPath`    | NFS volume for Indexed data for Analytics node 2(`<DAS_HOME>/repository/data`)            |
 | `analytics1LocationPath`        | NFS volume for Analytics data for Analytics node 1(`<DAS_HOME>/repository/analytics`)     |
 | `analytics2LocationPath`        | NFS volume for Analytics data for Analytics node 2(`<DAS_HOME>/repository/analytics`)     |
 
-c. Open the `<HELM_HOME>/integrator-with-analytics-deployment/values.yaml` and provide the following values. 
-    
-| Parameter                       | Description                                                                               |
-|---------------------------------|-------------------------------------------------------------------------------------------|
-| `namespace`                     | Kubernetes Namespace in which the resources are deployed                                  |
-| `svcaccount`                    | Kubernetes Service Account in the `namespace` to which product instance pods are attached |
 
-##### 4. Deploy the configurations.
-
-```
-helm install --name <RELEASE_NAME> <HELM_HOME>/integrator-with-analytics-conf
-```
-
-##### 5. Deploy product database(s) using MySQL in Kubernetes.
+##### 4. Deploy product database(s) using MySQL in Kubernetes.
 
 ```
 helm install --name wso2ei-integrator-with-analytics-rdbms-service -f <HELM_HOME>/mysql/values.yaml stable/mysql --namespace <NAMESPACE>
@@ -103,13 +93,15 @@ helm install --name wso2ei-integrator-with-analytics-rdbms-service -f <HELM_HOME
 
 For a serious deployment (e.g. production grade setup), it is recommended to connect product instances to a user owned and managed RDBMS instance.
 
-##### 6. Deploy WSO2 Enterprise Integrator with Analytics.
+##### 5. Deploy WSO2 Enterprise Integrator with Analytics.
 
 ```
-helm install --name <RELEASE_NAME> <HELM_HOME>/integrator-with-analytics-deployment
+helm install --name <RELEASE_NAME> <HELM_HOME>/integrator-with-analytics --namespace <NAMESPACE>
 ```
 
-##### 7. Access Management Console.
+`NAMESPACE` should be same as in `step 3.b`.
+
+##### 6. Access Management Console.
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
 
