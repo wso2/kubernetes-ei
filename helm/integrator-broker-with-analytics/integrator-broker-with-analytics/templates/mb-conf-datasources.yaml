@@ -19,7 +19,7 @@ metadata:
   namespace : {{ .Values.namespace }}
 data:
   {{- $file := .Files }}
-  {{- range $path, $byte := .Files.Glob "confs/broker/conf/datasources/*" }}
+  {{- range $path, $byte := .Files.Glob "confs/broker/datasources/*" }}
   {{- $list := $path | splitList "/"}}
   {{- $length := len $list }}
   {{- $last := add $length -1 }}

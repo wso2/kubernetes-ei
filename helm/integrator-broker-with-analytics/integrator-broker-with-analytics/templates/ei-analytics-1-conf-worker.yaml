@@ -15,11 +15,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ei-analytics-1-conf-analytics
+  name: ei-analytics-1-conf-worker
   namespace : {{ .Values.namespace }}
 data:
   {{- $file := .Files }}
-  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-1/conf/analytics/*" }}
+  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-1/conf/worker/*" }}
   {{- $list := $path | splitList "/"}}
   {{- $length := len $list }}
   {{- $last := add $length -1 }}

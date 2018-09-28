@@ -75,10 +75,6 @@ b. Open the `<HELM_HOME>/integrator-broker-with-analytics/values.yaml` and provi
 | `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/deployment`) location for EI        |
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
 | `brokerSharedDeploymentLocationPath` | NFS shared deployment directory (`<EI_HOME>/wso2/broker/repository/deployment/`) location for Broker |
-| `analytics1DataLocationPath`    | NFS volume for Indexed data for Analytics node 1(`<DAS_HOME>/repository/data`)            |
-| `analytics2DataLocationPath`    | NFS volume for Indexed data for Analytics node 2(`<DAS_HOME>/repository/data`)            |
-| `analytics1LocationPath`        | NFS volume for Analytics data for Analytics node 1(`<DAS_HOME>/repository/analytics`)     |
-| `analytics2LocationPath`        | NFS volume for Analytics data for Analytics node 2(`<DAS_HOME>/repository/analytics`)     |
 
 
 ##### 4. Deploy product database(s) using MySQL in Kubernetes.
@@ -101,7 +97,7 @@ helm install --name <RELEASE_NAME> <HELM_HOME>/integrator-broker-with-analytics 
 
 ##### 6. Access product management consoles.
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
+Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -114,7 +110,7 @@ e.g.
 
 ```
 NAME                                        HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-analytics-ingress                    wso2ei-analytics            <EXTERNAL-IP>  80, 443   2m
+wso2ei-analytics-dashboard-ingress          wso2ei-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress       wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                   wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 wso2ei-mb-ingress                           wso2ei-broker               <EXTERNAL-IP>  80, 443   2m
@@ -123,10 +119,10 @@ wso2ei-mb-ingress                           wso2ei-broker               <EXTERNA
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics
+<EXTERNAL-IP>	wso2ei-analytics-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 <EXTERNAL-IP>	wso2ei-broker
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
