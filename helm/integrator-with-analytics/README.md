@@ -41,7 +41,6 @@ resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` fil
 
 * `sharedDeploymentLocationPath`
 * `sharedTenantsLocationPath`
-* `brokerSharedDeploymentLocationPath`
 * `analytics1DataLocationPath`
 * `analytics2DataLocationPath`
 * `analytics1LocationPath`
@@ -76,7 +75,6 @@ b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the 
 | `serverIp`                      | NFS Server IP                                                                             |
 | `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/ei-deployment`) location for EI        |
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
-| `brokerSharedDeploymentLocationPath` | NFS shared deployment directory (`<EI_HOME>/wso2/broker/repository/deployment/`) location for Broker |
 | `analytics1DataLocationPath`    | NFS volume for Indexed data for Analytics node 1(`<DAS_HOME>/repository/data`)            |
 | `analytics2DataLocationPath`    | NFS volume for Indexed data for Analytics node 2(`<DAS_HOME>/repository/data`)            |
 | `analytics1LocationPath`        | NFS volume for Analytics data for Analytics node 1(`<DAS_HOME>/repository/analytics`)     |
