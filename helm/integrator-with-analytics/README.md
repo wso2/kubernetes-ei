@@ -41,7 +41,6 @@ resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` fil
 
 * `sharedDeploymentLocationPath`
 * `sharedTenantsLocationPath`
-* `brokerSharedDeploymentLocationPath`
 * `analytics1DataLocationPath`
 * `analytics2DataLocationPath`
 * `analytics1LocationPath`
