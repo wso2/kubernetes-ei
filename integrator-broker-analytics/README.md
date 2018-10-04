@@ -77,6 +77,7 @@ the following files:
 
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/worker/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
 
@@ -170,7 +171,7 @@ kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME
 
 kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/worker
 
-kubectl create configmap sp-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/dashboard/conf/dashboard
+kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-dashboard/conf/dashboard
 ```
 
 ##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator, Broker and Analytics.
@@ -213,7 +214,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integr
 
 ##### 10. Access Management Consoles.
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
+Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -226,7 +227,7 @@ e.g.
 
 ```
 NAME                                        HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-analytics-ingress                    wso2ei-analytics-dashboard            <EXTERNAL-IP>  80, 443   2m
+wso2ei-with-analytics-ei-dashboard-ingress  wso2ei-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress       wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                   wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 wso2ei-mb-ingress                           wso2ei-broker               <EXTERNAL-IP>  80, 443   2m
