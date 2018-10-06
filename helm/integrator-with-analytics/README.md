@@ -74,7 +74,6 @@ b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the 
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
 
 
-
 ##### 4. Deploy product database(s) using MySQL in Kubernetes.
 
 ```
