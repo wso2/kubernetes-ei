@@ -42,6 +42,7 @@ resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` fil
 * `sharedDeploymentLocationPath`
 * `sharedTenantsLocationPath`
 
+
 Grant ownership to `wso2carbon` user and `wso2` group, for each of the previously created directories.
 
   ```
@@ -71,6 +72,7 @@ b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the 
 | `serverIp`                      | NFS Server IP                                                                             |
 | `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/ei-deployment`) location for EI        |
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
+
 
 
 ##### 4. Deploy product database(s) using MySQL in Kubernetes.
