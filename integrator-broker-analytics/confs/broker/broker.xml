@@ -89,6 +89,12 @@ This file is ciphertool compliant. Refer PRODUCT_HOME/repository/conf/security/c
                     <password>wso2carbon</password>
                     <certType>SunX509</certType>
                 </trustStore>
+                <!--Configure SSL protocols for AMQP transport.
+                 (TLSv1,TLSv1.1,TLSv1.2) -->
+                <sslEnabledProtocols>TLSv1</sslEnabledProtocols>
+                <!--Configure preferred cipher suites for AMQP transport.
+                 (TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA) -->
+                <!--<ciphers></ciphers> -->
             </sslConnection>
 
             <maximumRedeliveryAttempts>10</maximumRedeliveryAttempts>
@@ -264,6 +270,10 @@ This file is ciphertool compliant. Refer PRODUCT_HOME/repository/conf/security/c
         <!-- Maximum number of parallel dtx enabled channel count. Distributed transaction
          requests exceeding this limit will fail. -->
         <maxParallelDtxChannels>20</maxParallelDtxChannels>
+
+        <!-- Maximum wait time (in seconds) for a transactional publisher commit,
+         rollback or close event to complete on server side -->
+        <maxWaitTimeout>30</maxWaitTimeout>
     </transaction>
 
     <!-- This section allows you to tweak memory and processor allocations used by WSO2 MB.

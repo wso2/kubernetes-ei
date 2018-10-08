@@ -81,9 +81,7 @@
 
                     <defaultAutoCommit></defaultAutoCommit>
                     <defaultReadOnly></defaultReadOnly>
-                    <defaultTransactionIsolation>
-                        NONE|READ_COMMITTED|READ_UNCOMMITTED|REPEATABLE_READ|SERIALIZABLE
-                    </defaultTransactionIsolation>
+                    <defaultTransactionIsolation>NONE|READ_COMMITTED|READ_UNCOMMITTED|REPEATABLE_READ|SERIALIZABLE</defaultTransactionIsolation>
                     <defaultCatalog></defaultCatalog>
                     <username></username>
                     <password svns:secretAlias="WSO2.DB.Password"></password>
