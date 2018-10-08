@@ -15,7 +15,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: integrator-with-analytics-ei-analytics-ingress
+  name: wso2ei-with-analytics-ei-dashboard-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
@@ -25,16 +25,12 @@ metadata:
 spec:
   tls:
   - hosts:
-    - wso2ei-analytics
+    - wso2ei-analytics-dashboard
   rules:
-  - host: wso2ei-analytics
+  - host: wso2ei-analytics-dashboard
     http:
       paths:
       - path: /
         backend:
-          serviceName: integrator-with-analytics-ei-analytics-service
-          servicePort: 9444
-      - path: /spark
-        backend:
-          serviceName: integrator-with-analytics-ei-analytics-service
-          servicePort: 8082
+          serviceName: wso2ei-with-analytics-ei-dashboard-service
+          servicePort: 9643
