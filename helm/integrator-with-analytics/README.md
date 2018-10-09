@@ -109,8 +109,8 @@ e.g.
 ```
 NAME                                             HOSTS                       ADDRESS        PORTS     AGE
 wso2ei-with-analytics-ei-dashboard-ingress   wso2ei-analytics-dashboard      <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-gateway-tls-ingress            wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-ingress                        wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-gateway-tls-ingress        wso2ei-integrator-gateway       <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-ingress                    wso2ei-integrator               <EXTERNAL-IP>  80, 443   2m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:
