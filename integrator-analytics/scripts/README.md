@@ -92,10 +92,8 @@ In a **production grade setup**,
   Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
   the following files:
   
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
+  * `<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
   * `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
   
   Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
@@ -122,7 +120,7 @@ The following details need to be replaced in the relevant command.
 
 ##### 6. Access Management Consoles:
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
+Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -136,7 +134,7 @@ e.g.
 
 ```
 NAME                                             HOSTS                       ADDRESS        PORTS     AGE
-integrator-with-analytics-ei-analytics-ingress   wso2ei-analytics            <EXTERNAL-IP>  80, 443   2m
+wso2ei-with-analytics-ei-dashboard-ingress       wso2ei-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-gateway-tls-ingress            wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
 wso2ei-integrator-ingress                        wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
 ```
@@ -144,12 +142,12 @@ wso2ei-integrator-ingress                        wso2ei-integrator           <EX
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics
+<EXTERNAL-IP>	wso2ei-analytics-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
 
 ##### 7. Scale up using `kubectl scale`:
 
