@@ -32,8 +32,14 @@ spec:
         node: integrator-with-analytics-ei-analytics-2
     spec:
       containers:
-      - name: integrator-with-analytics-ei-analytics-2
-        image: docker.wso2.com/wso2ei-analytics:6.3.0
+      - name: integrator-with-analytics-ei-analytics-1
+        image: docker.wso2.com/wso2ei-analytics-worker:6.4.0
+        env:
+        -
+          name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         resources:
           limits:
             memory: "4Gi"
@@ -42,120 +48,61 @@ spec:
         livenessProbe:
           exec:
             command:
-            - /bin/bash
+            - /bin/sh
             - -c
-            - nc -z localhost 7712
+            - nc -z localhost 9091
           initialDelaySeconds: 250
           periodSeconds: 10
         readinessProbe:
           exec:
             command:
-              - /bin/bash
+              - /bin/sh
               - -c
               - nc -z localhost 7712
           initialDelaySeconds: 250
           periodSeconds: 10
+        lifecycle:
+          preStop:
+            exec:
+              command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-worker.sh stop']
         imagePullPolicy: Always
+        securityContext:
+          runAsUser: 802
         ports:
-        -
-          containerPort: 9764
-          protocol: "TCP"
-        -
-          containerPort: 9444
-          protocol: "TCP"
-        -
-          containerPort: 7612
-          protocol: "TCP"
-        -
-          containerPort: 7712
-          protocol: "TCP"
-        -
-          containerPort: 11225
-          protocol: "TCP"
-        -
-          containerPort: 10006
-          protocol: "TCP"
-        -
-          containerPort: 11001
-          protocol: "TCP"
-        -
-          containerPort: 11002
-          protocol: "TCP"
-        -
-          containerPort: 11003
-          protocol: "TCP"
-        -
-          containerPort: 11501
-          protocol: "TCP"
-        -
-          containerPort: 8083
-          protocol: "TCP"
-        -
-          containerPort: 4041
-          protocol: "TCP"
-        -
-          containerPort: 10007
-          protocol: TCP
-        -
-          containerPort: 12501
-          protocol: TCP
-        -
-          containerPort: 13001
-          protocol: TCP
-        -
-          containerPort: 13501
-          protocol: TCP
-        -
-          containerPort: 14501
-          protocol: TCP
-        -
-          containerPort: 7078
-          protocol: TCP
-        -
-          containerPort: 6067
-          protocol: TCP
+          -
+            containerPort: 9444
+            protocol: TCP
+          -
+            containerPort: 9091
+            protocol: TCP
+          -
+            containerPort: 9711
+            protocol: TCP
+          -
+            containerPort: 9611
+            protocol: TCP
+          -
+            containerPort: 7712
+            protocol: TCP
+          -
+            containerPort: 7612
+            protocol: TCP
+          -
+            containerPort: 7070
+            protocol: TCP
+          -
+            containerPort: 7443
+            protocol: TCP
+          -
+            containerPort: 9894
+            protocol: TCP
         volumeMounts:
-        - name: ei-analytics-2-conf
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf
-        - name: ei-analytics-2-conf-analytics
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-analytics
-        - name: ei-analytics-2-conf-spark-analytics
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-spark-analytics
-        - name: ei-analytics-2-conf-axis2
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-axis2
-        - name: ei-analytics-2-conf-datasources
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-datasources
-        - name: ei-analytics-2-deployment-portal
-          mountPath: /home/wso2carbon/kubernetes-volumes/analytics/conf-portal
-        - name: analytics-persistent-disk
-          mountPath: /home/wso2carbon/wso2ei-6.3.0/wso2/analytics/conf/analytics
-        - name: data-persistent-disk
-          mountPath: /home/wso2carbon/wso2ei-6.3.0/wso2/analytics/repository/data
-      serviceAccountName: "wso2svc-account"
+        - name: ei-analytics-2-conf-worker
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
+      serviceAccountName: {{ .Values.svcaccount }}
       imagePullSecrets:
       - name: wso2creds
       volumes:
-      - name: ei-analytics-2-conf
+      - name: ei-analytics-2-conf-worker
         configMap:
-          name: ei-analytics-2-conf
-      - name: ei-analytics-2-conf-analytics
-        configMap:
-          name: ei-analytics-2-conf-analytics
-      - name: ei-analytics-2-conf-spark-analytics
-        configMap:
-          name: ei-analytics-2-conf-spark-analytics
-      - name: ei-analytics-2-conf-axis2
-        configMap:
-          name: ei-analytics-2-conf-axis2
-      - name: ei-analytics-2-conf-datasources
-        configMap:
-          name: ei-analytics-2-conf-datasources
-      - name: ei-analytics-2-deployment-portal
-        configMap:
-          name: ei-analytics-2-deployment-portal
-      - name: analytics-persistent-disk
-        persistentVolumeClaim:
-          claimName: ei-analytics-2-analytics-volume-claim
-      - name: data-persistent-disk
-        persistentVolumeClaim:
-          claimName: ei-analytics-2-data-volume-claim
+          name: ei-analytics-2-conf-worker

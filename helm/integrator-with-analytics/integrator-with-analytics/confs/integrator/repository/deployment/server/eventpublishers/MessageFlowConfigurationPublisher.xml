@@ -7,7 +7,8 @@
     <property name="protocol">thrift</property>
     <property name="publishingMode">blocking</property>
     <property name="publishTimeout">0</property>
-    <property name="receiverURL">tcp://integrator-with-analytics-ei-analytics-1-service:7612,tcp://integrator-with-analytics-ei-analytics-2-service:7612</property>
+    <property name="receiverURL">tcp://integrator-with-analytics-ei-analytics-service:7612</property>
     <property encrypted="false" name="password">admin</property>
+
   </to>
 </eventPublisher>

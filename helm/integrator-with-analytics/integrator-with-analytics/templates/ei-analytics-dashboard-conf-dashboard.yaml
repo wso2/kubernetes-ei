@@ -15,11 +15,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ei-analytics-1-conf-axis2
+  name: ei-analytics-dashboard-conf-dashboard
   namespace : {{ .Values.namespace }}
 data:
   {{- $file := .Files }}
-  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-1/conf/axis2/*" }}
+  {{- range $path, $byte := .Files.Glob "confs/ei-analytics-dashboard/conf/dashboard/*" }}
   {{- $list := $path | splitList "/"}}
   {{- $length := len $list }}
   {{- $last := add $length -1 }}

@@ -41,10 +41,7 @@ resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` fil
 
 * `sharedDeploymentLocationPath`
 * `sharedTenantsLocationPath`
-* `analytics1DataLocationPath`
-* `analytics2DataLocationPath`
-* `analytics1LocationPath`
-* `analytics2LocationPath`
+
 
 Grant ownership to `wso2carbon` user and `wso2` group, for each of the previously created directories.
 
@@ -75,10 +72,6 @@ b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the 
 | `serverIp`                      | NFS Server IP                                                                             |
 | `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/ei-deployment`) location for EI        |
 | `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
-| `analytics1DataLocationPath`    | NFS volume for Indexed data for Analytics node 1(`<DAS_HOME>/repository/data`)            |
-| `analytics2DataLocationPath`    | NFS volume for Indexed data for Analytics node 2(`<DAS_HOME>/repository/data`)            |
-| `analytics1LocationPath`        | NFS volume for Analytics data for Analytics node 1(`<DAS_HOME>/repository/analytics`)     |
-| `analytics2LocationPath`        | NFS volume for Analytics data for Analytics node 2(`<DAS_HOME>/repository/analytics`)     |
 
 
 ##### 4. Deploy product database(s) using MySQL in Kubernetes.
@@ -115,17 +108,17 @@ e.g.
 
 ```
 NAME                                             HOSTS                       ADDRESS        PORTS     AGE
-integrator-with-analytics-ei-analytics-ingress   wso2ei-analytics            <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-gateway-tls-ingress            wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-ingress                        wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
+wso2ei-with-analytics-ei-dashboard-ingress   wso2ei-analytics-dashboard      <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-gateway-tls-ingress        wso2ei-integrator-gateway       <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-ingress                    wso2ei-integrator               <EXTERNAL-IP>  80, 443   2m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics
+<EXTERNAL-IP>	wso2ei-analytics-dashboard
 <EXTERNAL-IP>	wso2ei-integrator-gateway
 <EXTERNAL-IP>	wso2ei-integrator
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics/carbon` from your favorite browser.
+c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
