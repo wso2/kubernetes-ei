@@ -64,7 +64,7 @@ spec:
         - name: bps-conf-etc
           mountPath: /home/wso2carbon/kubernetes-volumes/business-process/conf/etc
         - name: bps-server-share-volume
-          mountPath: /home/wso2carbon/wso2ei-6.4.0/wso2/business-process/repository/deployment/server
+          mountPath: /home/wso2carbon/wso2ei-6.3.0/wso2/business-process/repository/deployment/server
       imagePullSecrets:
       - name: wso2creds
       serviceAccountName: "wso2svc-account"
