@@ -73,8 +73,7 @@ and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
 the following files:
 
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics/conf/worker/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
 
 Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
@@ -158,9 +157,7 @@ kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/int
 kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/conf/datasources/
 kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker
-
-kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-2/conf/worker
+kubectl create configmap ei-analytics-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker
 
 kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard
 ```
@@ -168,10 +165,7 @@ kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBE
 ##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator and Analytics.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-1-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-1-service.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-2-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-2-service.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-deployment.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-service.yaml
 
 kubectl create -f <KUBERNETES_HOME>/integrator-analytics/dashboard/integrator-server-dashboard-deployment.yaml

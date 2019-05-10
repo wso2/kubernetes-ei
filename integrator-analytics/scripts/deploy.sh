@@ -89,9 +89,7 @@ ${KUBECTL} create configmap integrator-conf-axis2 --from-file=../confs/integrato
 ${KUBECTL} create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
 ${KUBECTL} create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
 
-${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-analytics-1/conf/worker
-
-${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
+${KUBECTL} create configmap ei-analytics-conf-worker --from-file=../confs/ei-analytics/conf/worker
 
 ${KUBECTL} create configmap ei-analytics-dashboard-conf-dashboard --from-file=../confs/ei-analytics-dashboard/conf/dashboard
 
@@ -99,8 +97,6 @@ ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/db
 
 echoBold 'Deploying the Kubernetes Services...'
 ${KUBECTL} create -f ../extras/rdbms/mysql/mysql-service.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-1-service.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-2-service.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-gateway-service.yaml
@@ -121,8 +117,7 @@ sleep 10s
 
 # Integrator
 echoBold 'Deploying WSO2 Integrator and Analytics...'
-${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-deployment.yaml
 sleep 4m
 
 ${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
