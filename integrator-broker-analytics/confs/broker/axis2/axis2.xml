@@ -72,8 +72,8 @@
     <!--the directory in which modules are deployed inside axis2 repository-->
     <parameter name="ModulesDirectory">axis2modules</parameter>
 
-    <parameter name="userAgent" locked="true">WSO2 EI 6.4.0 - Broker</parameter>
-    <parameter name="server" locked="true">WSO2 EI 6.4.0 - Broker</parameter>
+    <parameter name="userAgent" locked="true">WSO2 EI 6.5.0 - Broker</parameter>
+    <parameter name="server" locked="true">WSO2 EI 6.5.0 - Broker</parameter>
 
     <!-- ========================================================================-->
 

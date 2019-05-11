@@ -36,13 +36,10 @@ ${KUBECTL} delete -f ../volumes/persistent-volumes.yaml
 echoBold 'Deleting WSO2 Enterprise Integrator deployment...'
 ${KUBECTL} delete -f ../integrator/integrator-service.yaml
 ${KUBECTL} delete -f ../integrator/integrator-gateway-service.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-1-service.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-2-service.yaml
 ${KUBECTL} delete -f ../analytics/integrator-analytics-service.yaml
 ${KUBECTL} delete -f ../broker/message-broker-service.yaml
 ${KUBECTL} delete -f ../integrator/integrator-deployment.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-1-deployment.yaml
-${KUBECTL} delete -f ../analytics/integrator-analytics-2-deployment.yaml
+${KUBECTL} delete -f ../analytics/integrator-analytics-deployment.yaml
 ${KUBECTL} delete -f ../broker/message-broker-deployment.yaml
 ${KUBECTL} delete -f ../dashboard/integrator-server-dashboard-deployment.yaml
 ${KUBECTL} delete -f ../dashboard/integrator-server-dashboard-service.yaml

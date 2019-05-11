@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-integrator
-        image: docker.wso2.com/wso2ei-integrator:6.4.0
+        image: gcr.io/research-n-development-209206/wso2ei-integrator:6.5.0
         livenessProbe:
           exec:
             command:
@@ -68,10 +68,10 @@ spec:
         - name: integrator-conf-event-publishers
           mountPath: /home/wso2carbon/wso2-config-volume/repository/deployment/server/eventpublishers
         - name: shared-pd
-          mountPath: /home/wso2carbon/wso2ei-6.4.0/repository/deployment/server
+          mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
-      imagePullSecrets:
-      - name: wso2creds
+#      imagePullSecrets:
+#      - name: wso2creds
       volumes:
       - name: integrator-conf
         configMap:

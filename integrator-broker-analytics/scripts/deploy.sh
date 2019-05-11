@@ -35,37 +35,37 @@ function usage () {
     echoBold "--cap | --cluster-admin-password\tKubernetes cluster admin password\n\n"
 }
 
-WSO2_SUBSCRIPTION_USERNAME=''
-WSO2_SUBSCRIPTION_PASSWORD=''
-ADMIN_PASSWORD=''
-
-# capture named arguments
-while [ "$1" != "" ]; do
-    PARAM=`echo $1 | awk -F= '{print $1}'`
-    VALUE=`echo $1 | awk -F= '{print $2}'`
-
-    case ${PARAM} in
-        -h | --help)
-            usage
-            exit 1
-            ;;
-        --wu | --wso2-username)
-            WSO2_SUBSCRIPTION_USERNAME=${VALUE}
-            ;;
-        --wp | --wso2-password)
-            WSO2_SUBSCRIPTION_PASSWORD=${VALUE}
-            ;;
-        --cap | --cluster-admin-password)
-            ADMIN_PASSWORD=${VALUE}
-            ;;
-        *)
-            echoBold "ERROR: unknown parameter \"${PARAM}\""
-            usage
-            exit 1
-            ;;
-    esac
-    shift
-done
+#WSO2_SUBSCRIPTION_USERNAME=''
+#WSO2_SUBSCRIPTION_PASSWORD=''
+#ADMIN_PASSWORD=''
+#
+## capture named arguments
+#while [ "$1" != "" ]; do
+#    PARAM=`echo $1 | awk -F= '{print $1}'`
+#    VALUE=`echo $1 | awk -F= '{print $2}'`
+#
+#    case ${PARAM} in
+#        -h | --help)
+#            usage
+#            exit 1
+#            ;;
+#        --wu | --wso2-username)
+#            WSO2_SUBSCRIPTION_USERNAME=${VALUE}
+#            ;;
+#        --wp | --wso2-password)
+#            WSO2_SUBSCRIPTION_PASSWORD=${VALUE}
+#            ;;
+#        --cap | --cluster-admin-password)
+#            ADMIN_PASSWORD=${VALUE}
+#            ;;
+#        *)
+#            echoBold "ERROR: unknown parameter \"${PARAM}\""
+#            usage
+#            exit 1
+#            ;;
+#    esac
+#    shift
+#done
 
 # create a new Kubernetes Namespace
 ${KUBECTL} create namespace wso2
@@ -77,10 +77,10 @@ ${KUBECTL} create serviceaccount wso2svc-account -n wso2
 ${KUBECTL} config set-context $(${KUBECTL} config current-context) --namespace=wso2
 
 # create a Kubernetes Secret for passing WSO2 Private Docker Registry credentials
-${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
+#${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
 
 # create Kubernetes Role and Role Binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
-${KUBECTL} create --username=admin --password=${ADMIN_PASSWORD} -f ../../rbac/rbac.yaml
+${KUBECTL} create -f ../../rbac/rbac.yaml
 
 # ConfigMaps
 echoBold 'Creating ConfigMaps...'
@@ -93,9 +93,7 @@ ${KUBECTL} create configmap integrator-conf-axis2 --from-file=../confs/integrato
 ${KUBECTL} create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
 ${KUBECTL} create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
 
-${KUBECTL} create configmap ei-analytics-1-conf-worker --from-file=../confs/ei-analytics-1/conf/worker
-
-${KUBECTL} create configmap ei-analytics-2-conf-worker --from-file=../confs/ei-analytics-2/conf/worker
+${KUBECTL} create configmap ei-analytics-conf-worker --from-file=../confs/ei-analytics/conf/worker
 
 ${KUBECTL} create configmap ei-analytics-dashboard-conf-dashboard --from-file=../confs/ei-analytics-dashboard/conf/dashboard
 
@@ -104,8 +102,6 @@ ${KUBECTL} create configmap mysql-dbscripts --from-file=../extras/confs/mysql/db
 echoBold 'Deploying the Kubernetes Services...'
 ${KUBECTL} create -f ../extras/rdbms/mysql/mysql-service.yaml
 ${KUBECTL} create -f ../broker/message-broker-service.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-1-service.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-2-service.yaml
 ${KUBECTL} create -f ../analytics/integrator-analytics-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-service.yaml
 ${KUBECTL} create -f ../integrator/integrator-gateway-service.yaml
@@ -123,15 +119,14 @@ ${KUBECTL} create -f ../integrator/integrator-volume-claims.yaml
 ${KUBECTL} create -f ../volumes/persistent-volumes.yaml
 ${KUBECTL} create -f ../extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
 ${KUBECTL} create -f ../extras/rdbms/volumes/persistent-volumes.yaml
-sleep 30s
+sleep 40s
 
 # Integrator
 echoBold 'Deploying WSO2 Integrator, Broker and Analytics profiles...'
 ${KUBECTL} create -f ../broker/message-broker-deployment.yaml
 sleep 50s
 
-${KUBECTL} create -f ../analytics/integrator-analytics-1-deployment.yaml
-${KUBECTL} create -f ../analytics/integrator-analytics-2-deployment.yaml
+${KUBECTL} create -f ../analytics/integrator-analytics-deployment.yaml
 ${KUBECTL} create -f ../dashboard/integrator-server-dashboard-deployment.yaml
 sleep 4m
 

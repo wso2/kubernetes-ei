@@ -29,7 +29,7 @@ spec:
         deployment: wso2ei-with-analytics-dashboard
     spec:
       containers:
-      - image: docker.wso2.com/wso2ei-analytics-dashboard:6.4.0
+      - image: gcr.io/research-n-development-209206/wso2ei-dashboard:6.5.0
         name: wso2ei-with-analytics-dashboard
         imagePullPolicy: Always
         ports:
@@ -45,8 +45,8 @@ spec:
         volumeMounts:
         - name: ei-analytics-dashboard-conf-dashboard
           mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
-      imagePullSecrets:
-            - name: wso2creds
+#      imagePullSecrets:
+#            - name: wso2creds
       volumes:
       - name: ei-analytics-dashboard-conf-dashboard
         configMap:
