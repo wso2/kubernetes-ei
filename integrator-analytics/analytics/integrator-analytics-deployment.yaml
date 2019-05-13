@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: integrator-with-analytics-ei-analytics-1
-        image: docker.wso2.com/wso2ei-analytics-worker:6.5.0
+        image: DOCKER_REG/wso2ei-worker:6.5.0
         env:
         -
           name: NODE_IP
@@ -48,8 +48,8 @@ spec:
             command:
             - /bin/sh
             - -c
-            - nc -z localhost 9091
-          initialDelaySeconds: 250
+            - nc -z localhost 9444
+          initialDelaySeconds: 40
           periodSeconds: 10
         readinessProbe:
           exec:
@@ -57,7 +57,7 @@ spec:
               - /bin/sh
               - -c
               - nc -z localhost 7712
-          initialDelaySeconds: 250
+          initialDelaySeconds: 45
           periodSeconds: 10
         lifecycle:
           preStop:
@@ -98,8 +98,6 @@ spec:
         - name: ei-analytics-conf-worker
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
       serviceAccountName: "wso2svc-account"
-      imagePullSecrets:
-      - name: wso2creds
       volumes:
       - name: ei-analytics-conf-worker
         configMap:

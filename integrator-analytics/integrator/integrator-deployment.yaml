@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-integrator
-        image: docker.wso2.com/wso2ei-integrator:6.5.0
+        image: DOCKER_REG/wso2ei-integrator:6.5.0
         livenessProbe:
           exec:
             command:
@@ -70,8 +70,6 @@ spec:
         - name: shared-pd
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
-      imagePullSecrets:
-      - name: wso2creds
       volumes:
       - name: integrator-conf
         configMap:

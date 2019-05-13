@@ -266,7 +266,6 @@ state.persistence:
   revisionsToKeep: 2
   persistenceStore: org.wso2.carbon.stream.processor.core.persistence.DBPersistenceStore
   config:
-    location: siddhi-app-persistence
     datasource: WSO2_PERSISTENCE_DB
     table: PERSISTENCE_TABLE
   # Secure Vault Configuration
@@ -347,22 +346,22 @@ wso2.datasources:
         idleTimeout: 60000
         validationTimeout: 30000
         isAutoCommit: false
-  - - definition:
-        configuration:
-          username: wso2carbon
-          driverClassName: com.mysql.jdbc.Driver
-          validationTimeout: 30000
-          connectionTestQuery: SELECT 1
-          idleTimeout: 60000
-          isAutoCommit: false
-          maxPoolSize: 50
-          password: wso2carbon
-          jdbcUrl: jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_PERSISTENCE_DB?useSSL=false
-        type: RDBMS
-      name: WSO2_PERSISTENCE_DB
-      jndiConfig:
-        name: jdbc/WSO2PersistenceDB
-      description: The MySQL datasource used for system persistence
+  - definition:
+      configuration:
+        username: wso2carbon
+        driverClassName: com.mysql.jdbc.Driver
+        validationTimeout: 30000
+        connectionTestQuery: SELECT 1
+        idleTimeout: 60000
+        isAutoCommit: false
+        maxPoolSize: 50
+        password: wso2carbon
+        jdbcUrl: jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_PERSISTENCE_DB?useSSL=false
+      type: RDBMS
+    name: WSO2_PERSISTENCE_DB
+    jndiConfig:
+      name: jdbc/WSO2PersistenceDB
+    description: The MySQL datasource used for system persistence
 siddhi:
   extensions:
   - extension:
@@ -390,9 +389,9 @@ cluster.config:
   coordinationStrategyClass: org.wso2.carbon.cluster.coordinator.rdbms.RDBMSCoordinationStrategy
   strategyConfig:
     datasource: WSO2_CLUSTER_DB
-    heartbeatInterval: 1000
+    heartbeatInterval: 3000
     heartbeatMaxRetry: 2
-    eventPollingInterval: 1000
+    eventPollingInterval: 3000
 # Authentication configuration
 auth.configs:
   type: local          # Type of the IdP client used
@@ -443,17 +442,20 @@ auth.configs:
 #      username: admin
 #      password: admin
 deployment.config:
-  byteBufferExtractorThreadPoolSize: 5
-  eventByteBufferQueueCapacity: 20000
   type: ha
-  eventSyncClientPool:
-    maxTotal: 10
-    maxActive: 10
-    minEvictableIdleTimeMillis: 120000
-    maxWait: 60000
-    maxIdle: 10
+  eventByteBufferQueueCapacity: 20000
+  byteBufferExtractorThreadPoolSize: 5
   eventSyncServer:
     host: ${NODE_IP}
-    workerThreads: 10
     port: 9894
+    advertisedHost: ${NODE_IP}
+    advertisedPort: 9894
     bossThreads: 10
+    workerThreads: 10
+  eventSyncClientPool:
+    maxActive: 10
+    maxTotal: 10
+    maxIdle: 10
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 120000
+
