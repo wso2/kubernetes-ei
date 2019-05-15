@@ -25,8 +25,8 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 10.142.0.4
-    path: "/data/ei/deployment"
+    server: "<NFS_SERVER_IP>"
+    path: "<NFS_LOCATION_PATH>"
 
 ---
 
@@ -43,6 +43,6 @@ spec:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: 10.142.0.4
-    path: "/data/ei/tenant"
+    server: "<NFS_SERVER_IP>"
+    path: "<NFS_LOCATION_PATH>"
 

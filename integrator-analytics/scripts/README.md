@@ -103,7 +103,7 @@ Change directory to `<KUBERNETES_HOME>/integrator-analytics/scripts` and execute
 ./deploy.sh 
 ```
 
-* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource a user with Kubernetes cluster-admin role is required.
+* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
 
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 
