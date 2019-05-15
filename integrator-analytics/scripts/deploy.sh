@@ -26,6 +26,67 @@ function echoBold () {
     ${ECHO} -e $'\e[1m'"${1}"$'\e[0m'
 }
 
+read -p "Do you have a WSO2 Subscription?(N/y)" -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+ read -p "Enter Your WSO2 Username: " WSO2_SUBSCRIPTION_USERNAME
+ echo
+ read -s -p "Enter Your WSO2 Password: " WSO2_SUBSCRIPTION_PASSWORD
+ echo
+ HAS_SUBSCRIPTION=0
+ if ! grep -q "imagePullSecrets" ../analytics/integrator-analytics-deployment.yaml; then
+     if ! sed -i.bak -e 's|wso2/|docker.wso2.com/|' \
+     ../analytics/integrator-analytics-deployment.yaml  \
+     ../dashboard/integrator-server-dashboard-deployment.yaml \
+     ../integrator/integrator-deployment.yaml; then
+     echo "couldn't configure the docker.wso2.com"
+     exit 1
+     fi
+     if ! sed -i.bak -e '/serviceAccount/a \
+    \      imagePullSecrets:' \
+     ../analytics/integrator-analytics-deployment.yaml  \
+     ../dashboard/integrator-server-dashboard-deployment.yaml \
+     ../integrator/integrator-deployment.yaml; then
+     echo "couldn't configure the \"imagePullSecrets:\""
+     exit 1
+     fi
+      if ! sed -i.bak -e '/imagePullSecrets/a \
+    \      - name: wso2creds' \
+     ../analytics/integrator-analytics-deployment.yaml  \
+     ../dashboard/integrator-server-dashboard-deployment.yaml \
+     ../integrator/integrator-deployment.yaml; then
+     echo "couldn't configure the \"- name: wso2creds\""
+     exit 1
+     fi
+ fi
+elif [[ $REPLY =~ ^[Nn]$ || -z "$REPLY" ]]
+then
+ HAS_SUBSCRIPTION=1
+ if ! sed -i.bak -e '/imagePullSecrets:/d' -e '/- name: wso2creds/d' \
+     ../analytics/integrator-analytics-deployment.yaml  \
+     ../dashboard/integrator-server-dashboard-deployment.yaml \
+     ../integrator/integrator-deployment.yaml; then
+     echo "couldn't configure the \"- name: wso2creds\""
+     exit 1
+ fi
+ if ! sed -i.bak -e 's|docker.wso2.com|wso2|' \
+     ../analytics/integrator-analytics-deployment.yaml  \
+     ../dashboard/integrator-server-dashboard-deployment.yaml \
+     ../integrator/integrator-deployment.yaml; then
+  echo "couldn't configure the docker.wso2.com"
+  exit 1
+ fi
+else
+ echo "Invalid option"
+ exit 1
+fi
+
+# remove backup files
+test -f ../analytics/*.bak && rm ../analytics/*.bak
+test -f ../dashboard/*.bak && rm ../dashboard/*.bak
+test -f ../integrator/*.bak && rm ../integrator/*.bak
+
 # create a new Kubernetes Namespace
 ${KUBECTL} create namespace wso2
 

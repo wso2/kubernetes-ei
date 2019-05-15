@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-integrator
-        image: DOCKER_REG/wso2ei-integrator:6.5.0
+        image: wso2/wso2ei-integrator:6.5.0
         livenessProbe:
           exec:
             command:

@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: integrator-with-analytics-ei-analytics-1
-        image: DOCKER_REG/wso2ei-worker:6.5.0
+        image: wso2/wso2ei-analytics-worker:6.5.0
         env:
         -
           name: NODE_IP
