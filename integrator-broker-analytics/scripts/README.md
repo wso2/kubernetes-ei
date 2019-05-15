@@ -11,9 +11,6 @@ of WSO2 Enterprise Integrator's Integrator and Broker profiles with Analytics su
 
 ## Prerequisites
 
-* In order to use WSO2 Kubernetes resources, you need an active WSO2 subscription. If you do not possess an active
-WSO2 subscription already, you can sign up for a WSO2 Free Trial Subscription from [here](https://wso2.com/free-trial-subscription).<br><br>
-
 * Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (compatible with v1.10)
 in order to run the steps provided in the following quick start guide.<br><br>
 
@@ -86,39 +83,29 @@ for deploying the product databases, using MySQL in Kubernetes. However, this ap
   
 In a **production grade setup**,
 
-* Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases),
-  [2](https://docs.wso2.com/display/EI620/Clustering+the+Message+Broker+Profile#ClusteringtheMessageBrokerProfile-Creatingthedatabases) and
-  [3](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
+* Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI640/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases),
+  [2](https://docs.wso2.com/display/EI640/Clustering+the+Message+Broker+Profile#ClusteringtheMessageBrokerProfile-Creatingthedatabases) and
+  [3](https://docs.wso2.com/display/EI640/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
   
   Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
   the following files:
   
   * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/master-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/datasources/analytics-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/master-datasources.xml`
-  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/datasources/analytics-datasources.xml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics/conf/worker/deployment.yaml`
+  * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-dashboard/conf/worker/deployment.yaml`
   * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
   
   Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
 
 ##### 5. Deploy Kubernetes resources.
 
-Change directory to `<KUBERNETES_HOME>/integrator-broker-analytics/scripts` and execute the `deploy.sh` shell script on the terminal, with the appropriate configurations as follows:
+Change directory to `<KUBERNETES_HOME>/integrator-broker-analytics/scripts` and execute the `deploy.sh` shell script on the terminal as follows:
 
 ```
-./deploy.sh --wso2-username=<WSO2_USERNAME> --wso2-password=<WSO2_PASSWORD> --cluster-admin-password=<K8S_CLUSTER_ADMIN_PASSWORD>
+./deploy.sh 
 ```
 
-* A Kubernetes Secret named `wso2creds` in the cluster to authenticate with the [`WSO2 Docker Registry`](https://docker.wso2.com), to pull the required images.
-The following details need to be replaced in the relevant command.
-
-`WSO2_USERNAME`: Your WSO2 username<br>
-`WSO2_PASSWORD`: Your WSO2 password
-
-* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
-
-`K8S_CLUSTER_ADMIN_PASSWORD`: Kubernetes cluster admin password
+* A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
 
 >To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
 

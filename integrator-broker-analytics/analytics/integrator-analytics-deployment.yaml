@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: integrator-with-analytics-ei-analytics
-        image: gcr.io/research-n-development-209206/wso2ei-worker:6.5.0
+        image: wso2/wso2ei-analytics-worker:6.5.0
         env:
         -
           name: NODE_IP
@@ -98,8 +98,6 @@ spec:
         - name: ei-analytics-conf-worker
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
       serviceAccountName: "wso2svc-account"
-#      imagePullSecrets:
-#      - name: wso2creds
       volumes:
       - name: ei-analytics-conf-worker
         configMap:

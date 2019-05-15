@@ -66,10 +66,10 @@
       </jndiConfig>
       <definition type="RDBMS">
         <configuration>
-          <url>jdbc:h2:repository/database/WSO2MB_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
+          <url>jdbc:mysql://integrator-broker-analytics-rdbms-service:3306/WSO2EI_MB_DB?autoReconnect=true&amp;amp;useSSL=false</url>
           <username>wso2carbon</username>
           <password>wso2carbon</password>
-          <driverClassName>org.h2.Driver</driverClassName>
+          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
           <maxActive>50</maxActive>
           <maxWait>60000</maxWait>
           <testOnBorrow>true</testOnBorrow>
@@ -231,27 +231,6 @@
           <testOnBorrow>true</testOnBorrow>
           <validationQuery>SELECT 1</validationQuery>
           <validationInterval>30000</validationInterval>
-        </configuration>
-      </definition>
-    </datasource>
-    <datasource>
-      <name>WSO2_MB_STORE_DB</name>
-      <jndiConfig>
-        <name>WSO2MBStoreDB</name>
-      </jndiConfig>
-      <definition type="RDBMS">
-        <configuration>
-          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-          <url>jdbc:mysql://integrator-broker-analytics-rdbms-service:3306/WSO2EI_MB_DB?autoReconnect=true&amp;useSSL=false</url>
-          <username>wso2carbon</username>
-          <password>wso2carbon</password>
-          <maxActive>50</maxActive>
-          <maxWait>60000</maxWait>
-          <minIdle>5</minIdle>
-          <testOnBorrow>true</testOnBorrow>
-          <validationQuery>SELECT 1</validationQuery>
-          <validationInterval>30000</validationInterval>
-          <defaultAutoCommit>false</defaultAutoCommit>
         </configuration>
       </definition>
     </datasource>
