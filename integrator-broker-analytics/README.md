@@ -102,7 +102,7 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
     kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/extras/rdbms/mysql/mysql-deployment.yaml
     ```
      
-##### 4. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
+##### 4. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
 
 ```
 kubectl create  -f <KUBERNETES_HOME>/rbac/rbac.yaml
