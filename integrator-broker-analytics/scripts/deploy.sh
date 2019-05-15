@@ -26,15 +26,6 @@ function echoBold () {
     ${ECHO} -e $'\e[1m'"${1}"$'\e[0m'
 }
 
-function usage () {
-    echoBold "This script automates the installation of WSO2 EI Integrator Analytics Kubernetes resources\n"
-    echoBold "Allowed arguments:\n"
-    echoBold "-h | --help"
-    echoBold "--wu | --wso2-username\t\tYour WSO2 username"
-    echoBold "--wp | --wso2-password\t\tYour WSO2 password"
-    echoBold "--cap | --cluster-admin-password\tKubernetes cluster admin password\n\n"
-}
-
 read -p "Do you have a WSO2 Subscription?(N/y)" -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
