@@ -30,7 +30,7 @@ spec:
         deployment: wso2ei-with-analytics-dashboard
     spec:
       containers:
-      - image: docker.wso2.com/wso2ei-analytics-dashboard:6.4.0
+      - image: gcr.io/research-n-development-209206/wso2ei-dashboard:6.5.0
         name: wso2ei-with-analytics-dashboard
         imagePullPolicy: Always
         ports:
@@ -50,8 +50,6 @@ spec:
           preStop:
             exec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
-      imagePullSecrets:
-        - name: wso2creds
       securityContext:
         runAsUser: 802
       volumes:

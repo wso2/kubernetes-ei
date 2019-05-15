@@ -57,7 +57,7 @@ files:
       - operation: replace
         current_value: "{$arg.existing_version}"
         new_value: "{$arg.new_version}"
-   integrator-analytics  pattern
+  # integrator-analytics  pattern
   - file_path: integrator-analytics/confs/ei-analytics/conf/worker/deployment.yaml
     relative_path: "{$arg.wso2ei}/wso2/analytics/conf/worker/deployment.yaml"
     file_type: yaml
@@ -281,7 +281,7 @@ files:
                   </configuration>
               </definition>
           </datasource>
-  ##  # integrator-broker-analytics
+  # integrator-broker-analytics
   - file_path: integrator-broker-analytics/analytics/integrator-analytics-deployment.yaml
     relative_path: ~
     file_type: txt
@@ -700,3 +700,252 @@ files:
       - operation: "replace"
         xpath: "recovery/networkPartitionsDetection/minimumClusterSize"
         value: "2"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/templates/integrator-analytics-deployment.yaml
+    relative_path: ~
+    file_type: txt
+    configurations:
+      - operation: replace
+        current_value: "{$arg.existing_version}"
+        new_value: "{$arg.new_version}"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/axis2/axis2.xml
+    relative_path: ~
+    file_type: xml
+    configurations:
+      - operation: replace
+        xpath: "parameter[@name=\"userAgent\"]"
+        value: "WSO2 EI {$arg.new_version}"
+      - operation: replace
+        xpath: "parameter[@name=\"server\"]"
+        value: "WSO2 EI {$arg.new_version}"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/carbon.xml
+    relative_path: ~
+    file_type: xml
+    configurations:
+      - operation: replace
+        xpath: "Version"
+        value: "{$arg.new_version}"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/templates/integrator-server-dashboard-deployment.yaml
+    relative_path: ~
+    file_type: txt
+    configurations:
+      - operation: replace
+        current_value: "{$arg.existing_version}"
+        new_value: "{$arg.new_version}"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/templates/integrator-deployment.yaml
+    relative_path: ~
+    file_type: txt
+    configurations:
+      - operation: replace
+        current_value: "{$arg.existing_version}"
+        new_value: "{$arg.new_version}"
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/confs/ei-analytics/conf/worker/deployment.yaml
+    relative_path: "{$arg.wso2ei}/wso2/analytics/conf/worker/deployment.yaml"
+    file_type: yaml
+    configurations:
+      - operation: replace
+        xpath: "wso2.carbon/id"
+        value: "${NODE_IP}"
+      - operation: replace
+        xpath: "wso2.carbon/name"
+        value: "WSO2 EI integrator Analytics"
+      - operation: replace
+        xpath: "state.persistence/enabled"
+        value: true
+      - operation: replace
+        xpath: "state.persistence/persistenceStore"
+        value: "org.wso2.carbon.stream.processor.core.persistence.DBPersistenceStore"
+      - operation: replace
+        xpath: "state.persistence/config/datasource"
+        value: "WSO2_PERSISTENCE_DB"
+      - operation: replace
+        xpath: "state.persistence/config/table"
+        value: "PERSISTENCE_TABLE"
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"WSO2_CLUSTER_DB\"]/definition/configuration/jdbcUrl"
+        value: "jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_CLUSTER_DB?useSSL=false"
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"WSO2_CLUSTER_DB\"]/definition/configuration/driverClassName"
+        value: "com.mysql.jdbc.Driver"
+      - operation: add
+        xpath: "wso2.datasources/dataSources"
+        value: |
+          - name: WSO2_PERSISTENCE_DB
+            description: The MySQL datasource used for system persistence
+            jndiConfig:
+              name: jdbc/WSO2PersistenceDB
+            definition:
+              type: RDBMS
+              configuration:
+                jdbcUrl: 'jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2_PERSISTENCE_DB?useSSL=false'
+                username: wso2carbon
+                password: wso2carbon
+                driverClassName: com.mysql.jdbc.Driver
+                maxPoolSize: 50
+                idleTimeout: 60000
+                connectionTestQuery: SELECT 1
+                validationTimeout: 30000
+                isAutoCommit: false
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"EI_ANALYTICS\"]/definition/configuration/jdbcUrl"
+        value: "jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/EI_ANALYTICS?useSSL=false"
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"EI_ANALYTICS\"]/definition/configuration/driverClassName"
+        value: "com.mysql.jdbc.Driver"
+      - operation: replace
+        xpath: "cluster.config/enabled"
+        value: true
+      - operation: replace
+        xpath: "cluster.config/groupId"
+        value: "ei.analytics"
+      - operation: add
+        xpath: "."
+        value: |
+          deployment.config:
+            type: ha
+            eventByteBufferQueueCapacity: 20000
+            byteBufferExtractorThreadPoolSize: 5
+            eventSyncServer:
+              host: ${NODE_IP}
+              port: 9894
+              advertisedHost: ${NODE_IP}
+              advertisedPort: 9894
+              bossThreads: 10
+              workerThreads: 10
+            eventSyncClientPool:
+              maxActive: 10
+              maxTotal: 10
+              maxIdle: 10
+              maxWait: 60000
+              minEvictableIdleTimeMillis: 120000
+  - file_path: helm/integrator-with-analytics/integrator-with-analytics/confs/ei-analytics-dashboard/conf/dashboard/deployment.yaml
+    relative_path: "{$arg.wso2ei}/wso2/analytics/conf/dashboard/deployment.yaml"
+    file_type: yaml
+    configurations:
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"EI_ANALYTICS\"]/definition/configuration/jdbcUrl"
+        value: "jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/EI_ANALYTICS?useSSL=false"
+      - operation: replace
+        xpath: "wso2.datasources/dataSources[name=\"EI_ANALYTICS\"]/definition/configuration/driverClassName"
+        value: "com.mysql.jdbc.Driver"
+
+  - file_path: "helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/carbon.xml"
+    relative_path: "{$arg.wso2ei}/conf/carbon.xml"
+    file_type: "xml"
+    configurations:
+      - operation: add
+        xpath: "."
+        value: |
+          <HostName>wso2ei-integrator-gateway</HostName>
+      - operation: add
+        xpath: "."
+        value: |
+          <MgtHostName>wso2ei-integrator</MgtHostName>
+  - file_path: "helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/registry.xml"
+    relative_path: "{$arg.wso2ei}/conf/registry.xml"
+    file_type: "xml"
+    configurations:
+      - operation: add
+        xpath: "."
+        value: |
+          <dbConfig name="wso2config">
+          <dataSource>jdbc/WSO2ConfigDB</dataSource>
+          </dbConfig>
+      - operation: add
+        xpath: "."
+        value: |
+          <remoteInstance url="https://localhost:9453/registry">
+          <id>wso2config</id>
+          <dbConfig>wso2config</dbConfig>
+          <readOnly>false</readOnly>
+          <registryRoot>/</registryRoot>
+          </remoteInstance>
+      - operation: add
+        xpath: "."
+        value: |
+          <mount path="/_system/config" overwrite="true">
+          <instanceId>wso2config</instanceId>
+          <targetPath>/_system/config/integrator</targetPath>
+          </mount>
+      - operation: add
+        xpath: "."
+        value: |
+          <mount path="/_system/governance" overwrite="true">
+          <instanceId>wso2config</instanceId>
+          <targetPath>/_system/governance/integrator</targetPath>
+          </mount>
+  - file_path: "helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/synapse.properties"
+    relative_path: "{$arg.wso2ei}/conf/synapse.properties"
+    file_type: "txt"
+    configurations:
+      - operation: replace
+        current_value: "mediation.flow.statistics.enable=false"
+        new_value: "mediation.flow.statistics.enable=true"
+      - operation: replace
+        current_value: "mediation.flow.statistics.tracer.collect.payloads=false"
+        new_value: "mediation.flow.statistics.tracer.collect.payloads=true"
+      - operation: replace
+        current_value: "mediation.flow.statistics.tracer.collect.properties=false"
+        new_value: "mediation.flow.statistics.tracer.collect.properties=true"
+      - operation: replace
+        current_value: "mediation.flow.statistics.collect.all=false"
+        new_value: "mediation.flow.statistics.collect.all=true"
+
+  - file_path: "helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/user-mgt.xml"
+    relative_path: "{$arg.wso2ei}/conf/user-mgt.xml"
+    file_type: "xml"
+    configurations:
+      - operation: "replace"
+        xpath: "Realm/Configuration/Property[@name=\"dataSource\"]"
+        value: "jdbc/WSO2UserDB"
+  - file_path: "helm/integrator-with-analytics/integrator-with-analytics/confs/integrator/conf/datasources/master-datasources.xml"
+    relative_path: "{$arg.wso2ei}/conf/datasources/master-datasources.xml"
+    file_type: "xml"
+    configurations:
+      - operation: "add"
+        xpath: "datasources"
+        value:
+          |
+          <datasource>
+          <name>WSO2_CONFIG_DB</name>
+          <description>The datasource used for config registry</description>
+          <jndiConfig>
+          <name>jdbc/WSO2ConfigDB</name>
+          </jndiConfig>
+          <definition type="RDBMS">
+          <configuration>
+          <url>jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2EI_INTEGRATOR_CONFIG_GOV_DB?autoReconnect=true&amp;useSSL=false</url>
+          <username>wso2carbon</username>
+          <password>wso2carbon</password>
+          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+          <maxActive>80</maxActive>
+          <maxWait>60000</maxWait>
+          <testOnBorrow>true</testOnBorrow>
+          <validationQuery>SELECT 1</validationQuery>
+          <validationInterval>30000</validationInterval>
+          </configuration>
+          </definition>
+          </datasource>
+      - operation: "add"
+        xpath: "datasources"
+        value:
+          |
+          <datasource>
+              <name>WSO2_USER_DB</name>
+              <description>The datasource is used for user management and userstore</description>
+              <jndiConfig>
+                  <name>jdbc/WSO2UserDB</name>
+              </jndiConfig>
+              <definition type="RDBMS">
+                  <configuration>
+                      <url>jdbc:mysql://wso2ei-integrator-with-analytics-rdbms-service:3306/WSO2EI_USER_DB?autoReconnect=true&amp;useSSL=false</url>
+                      <username>wso2carbon</username>
+                      <password>wso2carbon</password>
+                      <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+                      <maxActive>50</maxActive>
+                      <maxWait>60000</maxWait>
+                      <testOnBorrow>true</testOnBorrow>
+                      <validationQuery>SELECT 1</validationQuery>
+                      <validationInterval>30000</validationInterval>
+                  </configuration>
+              </definition>
+          </datasource>
