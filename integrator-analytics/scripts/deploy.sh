@@ -99,6 +99,10 @@ ${KUBECTL} config set-context $(${KUBECTL} config current-context) --namespace=w
 # create Kubernetes Role and Role Binding necessary for the Kubernetes API requests made from Kubernetes membership scheme
 ${KUBECTL} create -f ../../rbac/rbac.yaml
 
+if [ ${HAS_SUBSCRIPTION} -eq 0 ]; then
+ ${KUBECTL} create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=${WSO2_SUBSCRIPTION_USERNAME} --docker-password=${WSO2_SUBSCRIPTION_PASSWORD} --docker-email=${WSO2_SUBSCRIPTION_USERNAME}
+fi
+
 # create Kubernetes ConfigMaps
 echoBold 'Creating ConfigMaps...'
 ${KUBECTL} create configmap integrator-conf --from-file=../confs/integrator/conf
