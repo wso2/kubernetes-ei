@@ -11,9 +11,6 @@ Core Kubernetes resources for a clustered deployment of Integrator and Broker pr
 
 ## Prerequisites
 
-* In order to use WSO2 Kubernetes resources, you need an active WSO2 subscription. If you do not possess an active
-WSO2 subscription already, you can sign up for a WSO2 Free Trial Subscription from [here](https://wso2.com/free-trial-subscription).<br><br>
-
 * Install [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (compatible with v1.10)
 in order to run the steps provided in the following quick start guide.<br><br>
 
@@ -52,21 +49,7 @@ Then, switch the context to new `wso2` namespace.
 kubectl config set-context $(kubectl config current-context) --namespace=wso2
 ```
 
-##### 3. Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com).
-
-Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
-
-```
-kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<WSO2_USERNAME> --docker-password=<WSO2_PASSWORD> --docker-email=<WSO2_USERNAME>
-```
-
-`WSO2_USERNAME`: Your WSO2 username<br>
-`WSO2_PASSWORD`: Your WSO2 password
-
-Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
-for further details.
-
-##### 4. Setup product database(s).
+##### 3. Setup product database(s).
 
 Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases),
 [2](https://docs.wso2.com/display/EI620/Clustering+the+Message+Broker+Profile#ClusteringtheMessageBrokerProfile-Creatingthedatabases) and
@@ -76,8 +59,7 @@ Provide appropriate connection URLs, corresponding to the created external datab
 the following files:
 
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker/datasources/master-datasources.xml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
-* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics/conf/worker/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
 * `<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/datasources/master-datasources.xml`
 
@@ -120,15 +102,14 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
     kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/extras/rdbms/mysql/mysql-deployment.yaml
     ```
      
-##### 5. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
+##### 4. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme.
 
 ```
-kubectl create --username=admin --password=<K8S_CLUSTER_ADMIN_PASSWORD> -f <KUBERNETES_HOME>/rbac/rbac.yaml
+kubectl create  -f <KUBERNETES_HOME>/rbac/rbac.yaml
 ```
 
-`K8S_CLUSTER_ADMIN_PASSWORD`: Kubernetes cluster admin password
 
-##### 6. Setup a Network File System (NFS) to be used for persistent storage.
+##### 5. Setup a Network File System (NFS) to be used for persistent storage.
 
 Create and export unique directories within the NFS server instance for each Kubernetes Persistent Volume resource defined in the
 `<KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml` file.
@@ -155,7 +136,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/integrator/integ
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/volumes/persistent-volumes.yaml
 ```
     
-##### 7. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster.
+##### 6. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster.
 
 ```
 kubectl create configmap mb-conf --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/broker
@@ -167,20 +148,15 @@ kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/int
 kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/conf/datasources/
 kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-1-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-1/conf/worker
-
-kubectl create configmap ei-analytics-2-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-2/conf/worker
+kubectl create configmap ei-analytics-conf-worker --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics/conf/worker
 
 kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-broker-analytics/confs/ei-analytics-dashboard/conf/dashboard
 ```
 
-##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator, Broker and Analytics.
+##### 7. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator, Broker and Analytics.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-1-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-1-service.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-2-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-2-service.yaml
+kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-deployment.yaml
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/analytics/integrator-analytics-service.yaml
 
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/integrator/integrator-service.yaml
@@ -196,7 +172,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/dashboard/integr
 
 ```
 
-##### 9. Deploy Kubernetes Ingress resource.
+##### 8. Deploy Kubernetes Ingress resource.
 
 The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
 
@@ -212,7 +188,7 @@ kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integr
 kubectl create -f <KUBERNETES_HOME>/integrator-broker-analytics/ingresses/integrator-server-dashboard-ingress.yaml
 ```
 
-##### 10. Access Management Consoles.
+##### 9. Access Management Consoles.
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
@@ -244,7 +220,7 @@ b. Add the above host as an entry in /etc/hosts file as follows:
 
 c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
 
-##### 11. Scale up using `kubectl scale`.
+##### 10. Scale up using `kubectl scale`.
 
 Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator's Integrator profile. To scale this deployment into any `<n>` number of
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.
