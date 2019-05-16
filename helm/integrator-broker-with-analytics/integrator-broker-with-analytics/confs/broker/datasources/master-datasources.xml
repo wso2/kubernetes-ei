@@ -1,13 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <datasources-configuration>
-
-    <providers>
-        <provider>org.wso2.carbon.ndatasource.rdbms.RDBMSDataSourceReader</provider>
-    </providers>
-
-    <datasources>
-
-        <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
-        <!--datasource>
+  <providers>
+    <provider>org.wso2.carbon.ndatasource.rdbms.RDBMSDataSourceReader</provider>
+  </providers>
+  <datasources>
+    <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
+    <!--datasource>
             <name>SAMPLE_DATA_SOURCE</name>
             <jndiConfig>
                 <name></name>
@@ -39,93 +37,50 @@
                 </configuration>
             </definition>
         </datasource-->
-
-        <datasource>
-            <name>WSO2_CARBON_DB</name>
-            <description>The datasource used for registry and user manager</description>
-            <jndiConfig>
-                <name>jdbc/WSO2CarbonDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-        <datasource>
-            <name>CONFIG_REGISTRY</name>
-            <description>The data source used for registry- config/governance</description>
-            <jndiConfig>
-                <name>jdbc/WSO2RegistryDS</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_INTEGRATOR_CONFIG_GOV_DB?autoReconnect=true&amp;useSSL=false</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-        <datasource>
-            <name>WSO2_USER_DB</name>
-            <description>The data source used for user manager</description>
-            <jndiConfig>
-                <name>jdbc/WSO2UserDS</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_USER_DB?autoReconnect=true&amp;useSSL=false</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-
-        <!-- WSO2 MB embedded H2 Store     -->
-        
-        <!--<datasource>-->
-            <!--<name>WSO2_MB_STORE_DB</name>-->
-            <!--<description>The datasource used for message broker database</description>-->
-            <!--<jndiConfig>-->
-                <!--<name>WSO2MBStoreDB</name>-->
-            <!--</jndiConfig>-->
-            <!--<definition type="RDBMS">-->
-                <!--<configuration>-->
-                    <!--<url>jdbc:h2:repository/database/WSO2MB_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>-->
-                    <!--<username>wso2carbon</username>-->
-                    <!--<password>wso2carbon</password>-->
-                    <!--<driverClassName>org.h2.Driver</driverClassName>-->
-                    <!--<maxActive>50</maxActive>-->
-                    <!--<maxWait>60000</maxWait>-->
-                    <!--<testOnBorrow>true</testOnBorrow>-->
-                    <!--<validationQuery>SELECT 1</validationQuery>-->
-                    <!--<validationInterval>30000</validationInterval>-->
-                    <!--<defaultAutoCommit>false</defaultAutoCommit>-->
-                <!--</configuration>-->
-            <!--</definition>-->
-        <!--</datasource>-->
-
-        <!-- MySQL data source -->
+    <datasource>
+      <name>WSO2_CARBON_DB</name>
+      <description>The datasource used for registry and user manager</description>
+      <jndiConfig>
+        <name>jdbc/WSO2CarbonDB</name>
+      </jndiConfig>
+      <definition type="RDBMS">
+        <configuration>
+          <url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
+          <username>wso2carbon</username>
+          <password>wso2carbon</password>
+          <driverClassName>org.h2.Driver</driverClassName>
+          <maxActive>50</maxActive>
+          <maxWait>60000</maxWait>
+          <testOnBorrow>true</testOnBorrow>
+          <validationQuery>SELECT 1</validationQuery>
+          <validationInterval>30000</validationInterval>
+        </configuration>
+      </definition>
+    </datasource>
+    <!-- WSO2 MB embedded H2 Store     -->
+    <datasource>
+      <name>WSO2_MB_STORE_DB</name>
+      <description>The datasource used for message broker database</description>
+      <jndiConfig>
+        <name>WSO2MBStoreDB</name>
+      </jndiConfig>
+      <definition type="RDBMS">
+        <configuration>
+          <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_MB_DB?autoReconnect=true&amp;amp;useSSL=false</url>
+          <username>wso2carbon</username>
+          <password>wso2carbon</password>
+          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+          <maxActive>50</maxActive>
+          <maxWait>60000</maxWait>
+          <testOnBorrow>true</testOnBorrow>
+          <validationQuery>SELECT 1</validationQuery>
+          <validationInterval>30000</validationInterval>
+          <defaultAutoCommit>false</defaultAutoCommit>
+        </configuration>
+      </definition>
+    </datasource>
+    <!-- MySQL data source -->
+    <!--
         <datasource>
              <name>WSO2_MB_STORE_DB</name>
              <jndiConfig>
@@ -134,9 +89,9 @@
              <definition type="RDBMS">
                  <configuration>
                      <driverClassName>com.mysql.jdbc.Driver</driverClassName>
-                     <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_MB_DB?autoReconnect=true&amp;useSSL=false</url>
-                     <username>wso2carbon</username>
-                     <password>wso2carbon</password>
+                     <url>jdbc:mysql://localhost/wso2_mb</url>
+                     <username>root</username>
+                     <password>root</password>
                      <maxActive>50</maxActive>
                      <maxWait>60000</maxWait>
                      <minIdle>5</minIdle>
@@ -147,11 +102,11 @@
                  </configuration>
              </definition>
          </datasource>
-
-        <!-- MSSQL server -->
-        <!-- Please enable any one of the following datasource based on your MSSQL driver library -->
-        <!-- JTDS datasource -->
-<!--
+-->
+    <!-- MSSQL server -->
+    <!-- Please enable any one of the following datasource based on your MSSQL driver library -->
+    <!-- JTDS datasource -->
+    <!--
         <datasource>
             <name>WSO2_MB_STORE_DB</name>
             <jndiConfig>
@@ -174,9 +129,8 @@
             </definition>
         </datasource>
 -->
-
-        <!-- SQLServerXA datasource -->
-<!--
+    <!-- SQLServerXA datasource -->
+    <!--
         <datasource>
             <name>WSO2_MB_STORE_DB</name>
             <jndiConfig>
@@ -196,9 +150,8 @@
             </definition>
         </datasource>
 -->
-
-        <!-- Oracle datasource -->
-<!--
+    <!-- Oracle datasource -->
+    <!--
         <datasource>
             <name>WSO2_MB_STORE_DB</name>
             <jndiConfig>
@@ -221,9 +174,8 @@
             </definition>
         </datasource>
 -->
-
-        <!-- Postgresql datasource -->
-<!--
+    <!-- Postgresql datasource -->
+    <!--
                 <datasource>
                     <name>WSO2_MB_STORE_DB</name>
                     <jndiConfig>
@@ -242,6 +194,45 @@
                     </definition>
                 </datasource>
 -->
-
-    </datasources>
+    <datasource>
+      <name>WSO2_CONFIG_DB</name>
+      <description>The datasource used for config registry</description>
+      <jndiConfig>
+        <name>jdbc/WSO2ConfigDB</name>
+      </jndiConfig>
+      <definition type="RDBMS">
+        <configuration>
+          <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_INTEGRATOR_CONFIG_GOV_DB?autoReconnect=true&amp;useSSL=false</url>
+          <username>wso2carbon</username>
+          <password>wso2carbon</password>
+          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+          <maxActive>80</maxActive>
+          <maxWait>60000</maxWait>
+          <testOnBorrow>true</testOnBorrow>
+          <validationQuery>SELECT 1</validationQuery>
+          <validationInterval>30000</validationInterval>
+        </configuration>
+      </definition>
+    </datasource>
+    <datasource>
+      <name>WSO2_USER_DB</name>
+      <description>The datasource is used for user management and userstore</description>
+      <jndiConfig>
+        <name>jdbc/WSO2UserDB</name>
+      </jndiConfig>
+      <definition type="RDBMS">
+        <configuration>
+          <url>jdbc:mysql://wso2ei-integrator-broker-with-analytics-rdbms-service-mysql:3306/WSO2EI_USER_DB?autoReconnect=true&amp;useSSL=false</url>
+          <username>wso2carbon</username>
+          <password>wso2carbon</password>
+          <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+          <maxActive>50</maxActive>
+          <maxWait>60000</maxWait>
+          <testOnBorrow>true</testOnBorrow>
+          <validationQuery>SELECT 1</validationQuery>
+          <validationInterval>30000</validationInterval>
+        </configuration>
+      </definition>
+    </datasource>
+  </datasources>
 </datasources-configuration>
