@@ -172,7 +172,7 @@ files:
         value: "tcp://integrator-with-analytics-ei-analytics-service:7612"
       - operation: replace
         xpath: "Analytics/AuthServerURL"
-        value: "tcp://integrator-with-analytics-ei-analytics-service:7712"
+        value: "ssl://integrator-with-analytics-ei-analytics-service:7712"
   - file_path: "integrator-analytics/confs/integrator/conf/registry.xml"
     relative_path: "{$arg.wso2ei}/conf/registry.xml"
     file_type: "xml"
