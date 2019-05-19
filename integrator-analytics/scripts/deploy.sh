@@ -108,7 +108,6 @@ echoBold 'Creating ConfigMaps...'
 ${KUBECTL} create configmap integrator-conf --from-file=../confs/integrator/conf
 ${KUBECTL} create configmap integrator-conf-axis2 --from-file=../confs/integrator/conf/axis2/
 ${KUBECTL} create configmap integrator-conf-datasources --from-file=../confs/integrator/conf/datasources/
-${KUBECTL} create configmap integrator-conf-event-publishers --from-file=../confs/integrator/repository/deployment/server/eventpublishers/
 
 ${KUBECTL} create configmap ei-analytics-conf-worker --from-file=../confs/ei-analytics/conf/worker
 

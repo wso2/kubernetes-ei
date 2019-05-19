@@ -65,8 +65,6 @@ spec:
           mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
         - name: integrator-conf-datasources
           mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
-        - name: integrator-conf-event-publishers
-          mountPath: /home/wso2carbon/wso2-config-volume/repository/deployment/server/eventpublishers
         - name: shared-pd
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
@@ -80,9 +78,6 @@ spec:
       - name: integrator-conf-datasources
         configMap:
           name: integrator-conf-datasources
-      - name: integrator-conf-event-publishers
-        configMap:
-          name: integrator-conf-event-publishers
       - name: shared-pd
         persistentVolumeClaim:
           claimName: integrator-shared-deployment-volume-claim

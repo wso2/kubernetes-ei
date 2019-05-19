@@ -18,7 +18,6 @@ params:
   existing_version: 6.4.0
   new_version: 6.5.0
   wso2ei: wso2ei-6.5.0
-# files based configurations
 files:
   - file_path: integrator-analytics/analytics/integrator-analytics-deployment.yaml
     relative_path: ~
@@ -58,7 +57,7 @@ files:
       - operation: replace
         current_value: "{$arg.existing_version}"
         new_value: "{$arg.new_version}"
-  # integrator-analytics  pattern
+   integrator-analytics  pattern
   - file_path: integrator-analytics/confs/ei-analytics/conf/worker/deployment.yaml
     relative_path: "{$arg.wso2ei}/wso2/analytics/conf/worker/deployment.yaml"
     file_type: yaml
@@ -168,6 +167,12 @@ files:
         xpath: "."
         value: |
           <MgtHostName>wso2ei-integrator</MgtHostName>
+      - operation: replace
+        xpath: "Analytics/ServerURL"
+        value: "tcp://integrator-with-analytics-ei-analytics-service:7612"
+      - operation: replace
+        xpath: "Analytics/AuthServerURL"
+        value: "tcp://integrator-with-analytics-ei-analytics-service:7712"
   - file_path: "integrator-analytics/confs/integrator/conf/registry.xml"
     relative_path: "{$arg.wso2ei}/conf/registry.xml"
     file_type: "xml"
@@ -222,7 +227,7 @@ files:
     file_type: "xml"
     configurations:
       - operation: "replace"
-        xpath: "Realm/Configuration/Property[@name=\"dataSource\"]"
+        xpath: "Realm/Configuration/Property[name=\"dataSource\"]"
         value: "jdbc/WSO2UserDB"
   - file_path: "integrator-analytics/confs/integrator/conf/datasources/master-datasources.xml"
     relative_path: "{$arg.wso2ei}/conf/datasources/master-datasources.xml"
@@ -276,17 +281,3 @@ files:
                   </configuration>
               </definition>
           </datasource>
-#  - file_path: "integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/MessageFlowStatisticsPublisher.xml"
-#    relative_path: "{$arg.wso2ei}/repository/deployment/server/eventpublishers/MessageFlowStatisticsPublisher.xml"
-#    file_type: "xml"
-#    configurations:
-#      - operation: replace
-#        xpath: "to[@eventAdapterType=\"wso2event\"]/property[name=\"receiverURL\"]"
-#        value: "tcp://integrator-with-analytics-ei-analytics-service:7612"
-#  - file_path: "integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/MessageFlowConfigurationPublisher.xml"
-#    relative_path: "{$arg.wso2ei}/repository/deployment/server/eventpublishers/MessageFlowConfigurationPublisher.xml"
-#    file_type: "xml"
-#    configurations:
-#      - operation: replace
-#        xpath: "to[@eventAdapterType=\"wso2event\"]/property[name=\"receiverURL\"]"
-#        value: "tcp://integrator-with-analytics-ei-analytics-service:7612"
