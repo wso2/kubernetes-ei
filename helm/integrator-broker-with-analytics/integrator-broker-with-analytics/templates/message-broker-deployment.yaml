@@ -35,8 +35,8 @@ spec:
         {{- if or (eq .Values.username "") (eq .Values.password "") }}
         image: wso2/wso2ei-broker:6.5.0
         {{- else }}
-	image: docker.wso2.com/wso2ei-broker:6.5.0
-	{{- end }}
+        image: docker.wso2.com/wso2ei-broker:6.5.0
+        {{- end }}
         livenessProbe:
           exec:
             command:
