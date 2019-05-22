@@ -32,7 +32,11 @@ spec:
     spec:
       containers:
       - name: wso2ei-integrator
+        {{- if or (eq .Values.username "") (eq .Values.password "") }}
         image: gcr.io/research-n-development-209206/wso2ei-integrator:6.5.0
+        {{- else }}
+        image: docker.wso2.com/wso2ei-integrator:6.5.0
+        {{- end }}
         livenessProbe:
           exec:
             command:
@@ -66,8 +70,6 @@ spec:
           mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
         - name: integrator-conf-datasources
           mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
-        - name: integrator-conf-event-publishers
-          mountPath: /home/wso2carbon/wso2-config-volume/repository/deployment/server/eventpublishers
         - name: shared-pd
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
       serviceAccountName: {{ .Values.svcaccount }}
@@ -81,9 +83,6 @@ spec:
       - name: integrator-conf-datasources
         configMap:
           name: integrator-conf-datasources
-      - name: integrator-conf-event-publishers
-        configMap:
-          name: integrator-conf-event-publishers
       - name: shared-pd
         persistentVolumeClaim:
           claimName: integrator-shared-deployment-volume-claim

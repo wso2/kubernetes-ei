@@ -30,8 +30,12 @@ spec:
         deployment: wso2ei-with-analytics-dashboard
     spec:
       containers:
-      - image: gcr.io/research-n-development-209206/wso2ei-dashboard:6.5.0
-        name: wso2ei-with-analytics-dashboard
+      - name: wso2ei-with-analytics-dashboard
+        {{- if or (eq .Values.username "") (eq .Values.password "") }}
+        image: gcr.io/research-n-development-209206/wso2ei-dashboard:6.5.0
+        {{- else }}
+        image: docker.wso2.com/wso2ei-dashboard:6.5.0
+        {{- end }}
         imagePullPolicy: Always
         ports:
         -

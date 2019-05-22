@@ -32,7 +32,11 @@ spec:
     spec:
       containers:
       - name: integrator-with-analytics-ei-analytics-1
+        {{- if or (eq .Values.username "") (eq .Values.password "") }}
         image: gcr.io/research-n-development-209206/wso2ei-worker:6.5.0
+        {{- else }}
+        image: docker.wso2.com/wso2ei-worker:6.5.0
+        {{- end }}
         env:
         -
           name: NODE_IP
