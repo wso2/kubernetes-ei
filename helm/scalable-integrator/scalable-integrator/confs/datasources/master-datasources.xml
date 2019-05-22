@@ -48,7 +48,7 @@
         </datasource>
         <datasource>
             <name>WSO2_USER_DB</name>
-            <description>The datasource is used for user mangement and userstore</description>
+            <description>The datasource is used for user management and userstore</description>
             <jndiConfig>
                 <name>jdbc/WSO2UserDB</name>
             </jndiConfig>
