@@ -13,7 +13,7 @@
 # limitations under the License.
 
 apiVersion: v1
-appVersion: "6.4.0-1"
+appVersion: "6.5.0-1"
 description: A Helm chart for the deployment of WSO2 EI Integrator Broker Analytics
 name: integrator-broker-analytics
 version: 6.4.0-1
