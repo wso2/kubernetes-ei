@@ -1,0 +1,59 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wso2ei-with-analytics-dashboard-deployment
+  namespace: "$ns.k8s&wso2.ei"
+  labels:
+    deployment: wso2ei-with-analytics-dashboard
+    product: wso2ei
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      deployment: wso2ei-with-analytics-dashboard
+      product: wso2ei
+  template:
+    metadata:
+      labels:
+        deployment: wso2ei-with-analytics-dashboard
+        product: wso2ei
+    spec:
+      containers:
+        - image: "$image.pull.@.wso2"/wso2ei-analytics-dashboard:6.5.0
+          name: wso2ei-with-analytics-dashboard
+          imagePullPolicy: Always
+          ports:
+            -
+              containerPort: 9643
+              protocol: "TCP"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost 9643
+          volumeMounts:
+            - name: ei-analytics-dashboard-conf-dashboard
+              mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
+          lifecycle:
+            preStop:
+              exec:
+                command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
+      initContainers:
+        - name: init-ei-dashboard
+          image: busybox
+          command: ['sh', '-c', 'echo -e "checking for the availability of Enterprise Integrator Analytics"; while ! nc -z wso2ei-with-analytics-worker-service 7712; do sleep 1; printf "-"; done; echo -e " >> Enterprise Integrator Analytics started";']
+      imagePullSecrets:
+        - name: wso2creds
+      securityContext:
+        runAsUser: 802
+      volumes:
+        - name: ei-analytics-dashboard-conf-dashboard
+          configMap:
+            name: ei-analytics-dashboard-conf-dashboard
+      serviceAccountName: "wso2svc-account"
+---

@@ -1,0 +1,23 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wso2ei-with-analytics-ei-dashboard-service
+  namespace: "$ns.k8s&wso2.ei"
+  labels:
+    deployment: wso2ei-with-analytics-dashboard
+    product: wso2ei
+spec:
+  selector:
+    deployment: wso2ei-with-analytics-dashboard
+    product: wso2ei
+  type: NodePort
+  ports:
+    -
+      name: 'https'
+      port: 9643
+      protocol: TCP
+      nodePort: "$nodeport.k8s.&.3.wso2ei"
+  selector:
+    deployment: wso2ei-with-analytics-dashboard
+---

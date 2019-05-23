@@ -1,0 +1,78 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wso2ei-with-analytics-integrator-deployment
+  namespace: "$ns.k8s&wso2.ei"
+spec:
+  replicas: 1
+  minReadySeconds: 30
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      deployment: wso2ei-integrator
+      product: wso2ei
+  template:
+    metadata:
+      labels:
+        deployment: wso2ei-integrator
+        product: wso2ei
+    spec:
+      containers:
+        - name: wso2ei-integrator
+          image: "$image.pull.@.wso2"/wso2ei-integrator:6.5.0
+          livenessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - nc -z localhost 9443
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - nc -z localhost 9443
+            initialDelaySeconds: 60
+            periodSeconds: 10
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8280
+              protocol: TCP
+            - containerPort: 8243
+              protocol: TCP
+            - containerPort: 9763
+              protocol: TCP
+            - containerPort: 9443
+              protocol: TCP
+          volumeMounts:
+            - name: integrator-conf
+              mountPath: /home/wso2carbon/wso2-config-volume/conf
+            - name: integrator-conf-axis2
+              mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
+            - name: integrator-conf-datasources
+              mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
+      initContainers:
+        - name: init-ei
+          image: busybox
+          command: ['sh', '-c', 'echo -e "checking for the availability of Enterprise Integrator Analytics"; while ! nc -z wso2ei-with-analytics-worker-service 7712; do sleep 1; printf "-"; done; echo -e " >> Enterprise Integrator Analytics started";']
+      serviceAccountName: "wso2svc-account"
+      imagePullSecrets:
+        - name: wso2creds
+      volumes:
+        - name: integrator-conf
+          configMap:
+            name: integrator-conf
+        - name: integrator-conf-axis2
+          configMap:
+            name: integrator-conf-axis2
+        - name: integrator-conf-datasources
+          configMap:
+            name: integrator-conf-datasources
+---
