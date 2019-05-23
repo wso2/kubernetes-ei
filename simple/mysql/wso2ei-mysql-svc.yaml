@@ -1,0 +1,17 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: wso2ei-integrator-with-analytics-rdbms-service
+  namespace: "$ns.k8s&wso2.ei"
+spec:
+  type: ClusterIP
+  selector:
+    deployment: wso2ei-with-analytics-mysql
+    product: wso2ei
+  ports:
+    - name: mysql-port
+      port: 3306
+      targetPort: 3306
+      protocol: TCP
+---
