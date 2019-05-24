@@ -50,7 +50,7 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 ##### 3. Setup a Network File System (NFS) to be used for persistent storage.
 
 Create and export unique directories within the NFS server instance for each Kubernetes Persistent Volume resource defined in the
-`<KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml` file.
+`<KUBERNETES_HOME>/advanced/integrator-analytics/volumes/persistent-volumes.yaml` file.
 
 Grant ownership to `wso2carbon` user and `wso2` group, for each of the previously created directories.
 
@@ -83,7 +83,7 @@ for deploying the product databases, using MySQL in Kubernetes. However, this ap
   Provide read-write-execute permissions to other users for the created folder.
         
   Update the Kubernetes Persistent Volume resource with the corresponding NFS server IP (`NFS_SERVER_IP`) and exported,
-  NFS server directory path (`NFS_LOCATION_PATH`) in `<KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
+  NFS server directory path (`NFS_LOCATION_PATH`) in `<KUBERNETES_HOME>/advanced/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
   
 In a **production grade setup**,
 
@@ -93,15 +93,15 @@ In a **production grade setup**,
   Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
   the following files:
   
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
-  * `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
+  * `<KUBERNETES_HOME>/advanced/integrator-analytics/confs/ei-analytics-1/conf/worker/deployment.yaml`
+  * `<KUBERNETES_HOME>/advanced/integrator-analytics/confs/dashboard/conf/dashboard/deployment.yaml`
+  * `<KUBERNETES_HOME>/advanced/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
   
   Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
     
 ##### 5. Deploy Kubernetes resources.
 
-Change directory to `<KUBERNETES_HOME>/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal as follows:
+Change directory to `<KUBERNETES_HOME>/advanced/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal as follows:
 
 ```
 ./deploy.sh 
@@ -148,7 +148,7 @@ Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator.
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.
 
 ```
-kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-deployment.yaml
+kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/advanced/integrator-analytics/integrator/integrator-deployment.yaml
 ```
 
 For example, If `<n>` is 2, you are here scaling up this deployment from 1 to 2 container replicas.
