@@ -71,7 +71,6 @@ if [[ ${REPLY} =~ ^[Yy]$ ]]; then
          if ! sed -i.bak -e '/serviceAccount/a \      imagePullSecrets:' \
             ../analytics/integrator-analytics-deployment.yaml  \
             ../dashboard/integrator-server-dashboard-deployment.yaml \
-            ../broker/message-broker-deployment.yaml \
             ../integrator/integrator-deployment.yaml; then
             echoBold "Could not configure Kubernetes Docker image pull secret: Failed to create \"imagePullSecrets:\" attribute"
             exit 1
@@ -80,7 +79,6 @@ if [[ ${REPLY} =~ ^[Yy]$ ]]; then
          if ! sed -i.bak -e '/imagePullSecrets/a \      - name: wso2creds' \
             ../analytics/integrator-analytics-deployment.yaml  \
             ../dashboard/integrator-server-dashboard-deployment.yaml \
-            ../broker/message-broker-deployment.yaml \
             ../integrator/integrator-deployment.yaml; then
             echoBold "Could not configure Kubernetes Docker image pull secret: Failed to create secret name"
             exit 1
