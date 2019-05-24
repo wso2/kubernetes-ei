@@ -18,15 +18,15 @@ given below:
 
 ### Advance
 
-* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advance/integrator-analytics/README.md)
+* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advanced/integrator-analytics/README.md)
 
-* [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advance/integrator-broker-analytics/README.md)
+* [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advanced/integrator-broker-analytics/README.md)
 
 ## Deploy Helm resources
 
 In order to deploy Helm resources for each deployment pattern, follow the **Quick Start Guide**s for each deployment pattern
 given below:
 
-* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advance/helm/integrator-with-analytics/README.md)
+* [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advanced/helm/integrator-with-analytics/README.md)
 
-* [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advance/helm/integrator-broker-with-analytics/README.md)
+* [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advanced/helm/integrator-broker-with-analytics/README.md)
