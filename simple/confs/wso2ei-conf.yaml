@@ -1,0 +1,349 @@
+
+apiVersion: v1
+data:
+  carbon.xml: |
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <Server xmlns="http://wso2.org/projects/carbon/carbon.xml">
+        <Name>WSO2 Enterprise Integrator</Name>
+        <ServerKey>EI</ServerKey>
+        <Version>6.5.0</Version>
+        <HostName>"ip.node.k8s.&.wso2.ei"</HostName>
+        <MgtHostName>wso2ei-integrator</MgtHostName>
+        <ServerURL>local:/${carbon.context}/services/</ServerURL>
+        <ServerRoles>
+            <Role>EnterpriseIntegrator</Role>
+            <Role>EnterpriseServiceBus</Role>
+            <Role>DataServicesServer</Role>
+        </ServerRoles>
+        <Package>org.wso2.carbon</Package>
+        <WebContextRoot>/</WebContextRoot>
+        <ItemsPerPage>15</ItemsPerPage>
+        <Ports>
+            <Offset>0</Offset>
+            <JMX>
+                <RMIRegistryPort>9999</RMIRegistryPort>
+                <RMIServerPort>11111</RMIServerPort>
+            </JMX>
+            <EmbeddedLDAP>
+                <LDAPServerPort>10389</LDAPServerPort>
+                <KDCServerPort>8000</KDCServerPort>
+            </EmbeddedLDAP>
+            <ThriftEntitlementReceivePort>10500</ThriftEntitlementReceivePort>
+        </Ports>
+        <JNDI>
+            <DefaultInitialContextFactory>org.wso2.carbon.tomcat.jndi.CarbonJavaURLContextFactory</DefaultInitialContextFactory>
+            <Restrictions>
+                <AllTenants>
+                    <UrlContexts>
+                        <UrlContext>
+                            <Scheme>java</Scheme>
+                        </UrlContext>
+                    </UrlContexts>
+                </AllTenants>
+            </Restrictions>
+        </JNDI>
+        <IsCloudDeployment>false</IsCloudDeployment>
+        <EnableMetering>false</EnableMetering>
+        <MaxThreadExecutionTime>600</MaxThreadExecutionTime>
+        <GhostDeployment>
+            <Enabled>false</Enabled>
+        </GhostDeployment>
+        <Tenant>
+            <LoadingPolicy>
+                <LazyLoading>
+                    <IdleTime>30</IdleTime>
+                </LazyLoading>
+            </LoadingPolicy>
+        </Tenant>
+        <Cache>
+            <DefaultCacheTimeout>15</DefaultCacheTimeout>
+        </Cache>
+        <Axis2Config>
+            <RepositoryLocation>${carbon.home}/repository/deployment/server/</RepositoryLocation>
+            <DeploymentUpdateInterval>15</DeploymentUpdateInterval>
+            <ConfigurationFile>${carbon.home}/conf/axis2/axis2.xml</ConfigurationFile>
+            <ServiceGroupContextIdleTime>30000</ServiceGroupContextIdleTime>
+            <ClientRepositoryLocation>${carbon.home}/repository/deployment/client/</ClientRepositoryLocation>
+            <clientAxis2XmlLocation>${carbon.home}/conf/axis2/axis2_client.xml</clientAxis2XmlLocation>
+            <HideAdminServiceWSDLs>true</HideAdminServiceWSDLs>
+        </Axis2Config>
+        <ServiceUserRoles>
+            <Role>
+                <Name>admin</Name>
+                <Description>Default Administrator Role</Description>
+            </Role>
+            <Role>
+                <Name>user</Name>
+                <Description>Default User Role</Description>
+            </Role>
+        </ServiceUserRoles>
+        <CryptoService>
+            <Enabled>true</Enabled>
+            <InternalCryptoProviderClassName>org.wso2.carbon.crypto.provider.KeyStoreBasedInternalCryptoProvider</InternalCryptoProviderClassName>
+            <ExternalCryptoProviderClassName>org.wso2.carbon.core.encryption.KeyStoreBasedExternalCryptoProvider</ExternalCryptoProviderClassName>
+            <KeyResolvers>
+                <KeyResolver className="org.wso2.carbon.crypto.defaultProvider.resolver.ContextIndependentKeyResolver" priority="-1"/>
+            </KeyResolvers>
+        </CryptoService>
+        <Security>
+            <KeyStore>
+                <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
+                <Type>JKS</Type>
+                <Password>wso2carbon</Password>
+                <KeyAlias>wso2carbon</KeyAlias>
+                <KeyPassword>wso2carbon</KeyPassword>
+            </KeyStore>
+            <InternalKeyStore>
+                <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
+                <Type>JKS</Type>
+                <Password>wso2carbon</Password>
+                <KeyAlias>wso2carbon</KeyAlias>
+                <KeyPassword>wso2carbon</KeyPassword>
+            </InternalKeyStore>
+            <TrustStore>
+                <Location>${carbon.home}/repository/resources/security/client-truststore.jks</Location>
+                <Type>JKS</Type>
+                <Password>wso2carbon</Password>
+            </TrustStore>
+            <NetworkAuthenticatorConfig>
+            </NetworkAuthenticatorConfig>
+            <TomcatRealm>UserManager</TomcatRealm>
+      <DisableTokenStore>false</DisableTokenStore>
+            <XSSPreventionConfig>
+                <Enabled>true</Enabled>
+                <Rule>allow</Rule>
+                <Patterns>
+                </Patterns>
+            </XSSPreventionConfig>
+        </Security>
+        <WorkDirectory>${carbon.home}/tmp/work</WorkDirectory>
+        <HouseKeeping>
+            <AutoStart>true</AutoStart>
+            <Interval>10</Interval>
+            <MaxTempFileLifetime>30</MaxTempFileLifetime>
+        </HouseKeeping>
+        <FileUploadConfig>
+            <TotalFileSizeLimit>100</TotalFileSizeLimit>
+            <Mapping>
+                <Actions>
+                    <Action>keystore</Action>
+                    <Action>certificate</Action>
+                    <Action>*</Action>
+                </Actions>
+                <Class>org.wso2.carbon.ui.transports.fileupload.AnyFileUploadExecutor</Class>
+            </Mapping>
+            <Mapping>
+                <Actions>
+                    <Action>jarZip</Action>
+                </Actions>
+                <Class>org.wso2.carbon.ui.transports.fileupload.JarZipUploadExecutor</Class>
+            </Mapping>
+            <Mapping>
+                <Actions>
+                    <Action>dbs</Action>
+                </Actions>
+                <Class>org.wso2.carbon.ui.transports.fileupload.DBSFileUploadExecutor</Class>
+            </Mapping>
+            <Mapping>
+                <Actions>
+                    <Action>tools</Action>
+                </Actions>
+                <Class>org.wso2.carbon.ui.transports.fileupload.ToolsFileUploadExecutor</Class>
+            </Mapping>
+            <Mapping>
+                <Actions>
+                    <Action>toolsAny</Action>
+                </Actions>
+                <Class>org.wso2.carbon.ui.transports.fileupload.ToolsAnyFileUploadExecutor</Class>
+            </Mapping>
+        </FileUploadConfig>
+        <HttpGetRequestProcessors>
+            <Processor>
+                <Item>info</Item>
+                <Class>org.wso2.carbon.core.transports.util.InfoProcessor</Class>
+            </Processor>
+            <Processor>
+                <Item>wsdl</Item>
+                <Class>org.wso2.carbon.core.transports.util.Wsdl11Processor</Class>
+            </Processor>
+            <Processor>
+                <Item>wsdl2</Item>
+                <Class>org.wso2.carbon.core.transports.util.Wsdl20Processor</Class>
+            </Processor>
+            <Processor>
+                <Item>xsd</Item>
+                <Class>org.wso2.carbon.core.transports.util.XsdProcessor</Class>
+            </Processor>
+        </HttpGetRequestProcessors>
+        <DeploymentSynchronizer>
+            <Enabled>false</Enabled>
+            <AutoCommit>false</AutoCommit>
+            <AutoCheckout>true</AutoCheckout>
+            <RepositoryType>svn</RepositoryType>
+            <SvnUrl>http://svnrepo.example.com/repos/</SvnUrl>
+            <SvnUser>username</SvnUser>
+            <SvnPassword>password</SvnPassword>
+            <SvnUrlAppendTenantId>true</SvnUrlAppendTenantId>
+        </DeploymentSynchronizer>
+        <ServerInitializers>
+        </ServerInitializers>
+        <RequireCarbonServlet>${require.carbon.servlet}</RequireCarbonServlet>
+        <StatisticsReporterDisabled>true</StatisticsReporterDisabled>
+        <FeatureRepository>
+          <RepositoryName>default repository</RepositoryName>
+          <RepositoryURL>http://product-dist.wso2.com/p2/carbon/releases/wilkes/</RepositoryURL>
+        </FeatureRepository>
+       <APIManagement>
+      <Enabled>true</Enabled>
+      <LoadAPIContextsInServerStartup>true</LoadAPIContextsInServerStartup>
+       </APIManagement>
+
+       <Analytics>
+
+            <ServerURL>tcp://wso2ei-with-analytics-worker-service:7612</ServerURL>
+            <AuthServerURL>ssl://wso2ei-with-analytics-worker-service:7712</AuthServerURL>
+
+            <Username>admin</Username>
+            <Password>admin</Password>
+       </Analytics>
+    </Server>
+  registry.xml: |
+    <?xml version="1.0" encoding="ISO-8859-1"?>
+    <wso2registry>
+        <currentDBConfig>wso2registry</currentDBConfig>
+        <readOnly>false</readOnly>
+        <enableCache>true</enableCache>
+        <registryRoot>/</registryRoot>
+        <dbConfig name="wso2registry">
+            <dataSource>jdbc/WSO2CarbonDB</dataSource>
+        </dbConfig>
+        <dbConfig name="wso2config">
+            <dataSource>jdbc/WSO2ConfigDB</dataSource>
+        </dbConfig>
+        <remoteInstance url="https://localhost:9453/registry">
+            <id>wso2config</id>
+            <dbConfig>wso2config</dbConfig>
+            <readOnly>false</readOnly>
+            <registryRoot>/</registryRoot>
+        </remoteInstance>
+        <mount path="/_system/config" overwrite="true">
+            <instanceId>wso2config</instanceId>
+            <targetPath>/_system/config/integrator</targetPath>
+        </mount>
+        <mount path="/_system/governance" overwrite="true">
+            <instanceId>wso2config</instanceId>
+            <targetPath>/_system/governance/integrator</targetPath>
+        </mount>
+        <indexingConfiguration>
+            <skipCache>false</skipCache>
+            <startIndexing>false</startIndexing>
+            <startingDelayInSeconds>35</startingDelayInSeconds>
+            <indexingFrequencyInSeconds>3</indexingFrequencyInSeconds>
+            <batchSize>50</batchSize>
+            <indexerPoolSize>50</indexerPoolSize>
+            <lastAccessTimeLocation>/_system/local/repository/components/org.wso2.carbon.registry/indexing/lastaccesstime</lastAccessTimeLocation>
+            <indexers>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.MSExcelIndexer" mediaTypeRegEx="application/vnd.ms-excel"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.MSPowerpointIndexer" mediaTypeRegEx="application/vnd.ms-powerpoint"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.MSWordIndexer" mediaTypeRegEx="application/msword"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.PDFIndexer" mediaTypeRegEx="application/pdf"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.XMLIndexer" mediaTypeRegEx="application/xml"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.XMLIndexer" mediaTypeRegEx="application/(.)+\+xml"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.PlainTextIndexer" mediaTypeRegEx="application/swagger\+json"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.PlainTextIndexer" mediaTypeRegEx="application/(.)+\+json"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.PlainTextIndexer" mediaTypeRegEx="text/(.)+"/>
+                <indexer class="org.wso2.carbon.registry.indexing.indexer.PlainTextIndexer" mediaTypeRegEx="application/x-javascript"/>
+            </indexers>
+            <exclusions>
+                <exclusion pathRegEx="/_system/config/repository/dashboards/gadgets/swfobject1-5/.*[.]html"/>
+                <exclusion pathRegEx="/_system/local/repository/components/org[.]wso2[.]carbon[.]registry/mount/.*"/>
+            </exclusions>
+        </indexingConfiguration>
+        <handler class="org.wso2.carbon.mediation.library.RegistryCachingHandler">
+            <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.URLMatcher">
+                <property name="putPattern">.*</property>
+                <property name="movePattern">.*</property>
+                <property name="renamePattern">.*</property>
+                <property name="deletePattern">.*</property>
+            </filter>
+        </handler>
+        <versionResourcesOnChange>false</versionResourcesOnChange>
+        <staticConfiguration>
+            <versioningProperties>true</versioningProperties>
+            <versioningComments>true</versioningComments>
+            <versioningTags>true</versioningTags>
+            <versioningRatings>true</versioningRatings>
+        </staticConfiguration>
+    </wso2registry>
+  synapse.properties: |
+    synapse.sal.endpoints.sesssion.timeout.default=600000
+    synapse.global_timeout_interval=120000
+    statistics.clean.enable=true
+    statistics.clean.interval=1000
+    synapse.observers=org.wso2.carbon.mediation.dependency.mgt.DependencyTracker
+    synapse.commons.json.preserve.namespace=false
+    synapse.temp_data.chunk.size=3072
+    synapse.carbon.ext.tenant.info=org.wso2.carbon.mediation.initializer.handler.CarbonTenantInfoConfigurator
+    synapse.carbon.ext.tenant.info.initiator=org.wso2.carbon.mediation.initializer.handler.CarbonTenantInfoInitiator
+    synapse.xpath.func.extensions=org.wso2.carbon.mediation.security.vault.xpath.SecureVaultLookupXPathFunctionProvider
+    synapse.debugger.port.command=9005
+    synapse.debugger.port.event=9006
+    mediation.flow.statistics.enable=true
+    mediation.flow.statistics.tracer.collect.payloads=true
+    mediation.flow.statistics.tracer.collect.properties=true
+    mediation.flow.statistics.event.consume.interval=1000
+    mediation.flow.statistics.event.clean.interval=15000
+    mediation.flow.statistics.collect.all=true
+    internal.http.api.enabled=true
+    internal.http.api.port=9191
+    internal.https.api.port=9154
+  user-mgt.xml: |
+    <UserManager>
+        <Realm>
+            <Configuration>
+    		<AddAdmin>true</AddAdmin>
+                <AdminRole>admin</AdminRole>
+                <AdminUser>
+                    <UserName>admin</UserName>
+                    <Password>admin</Password>
+                </AdminUser>
+                <EveryOneRoleName>everyone</EveryOneRoleName> <!-- By default users in this role sees the registry root -->
+                <Property name="isCascadeDeleteEnabled">true</Property>
+                <Property name="dataSource">jdbc/WSO2UserDB</Property>
+            </Configuration>
+            <UserStoreManager class="org.wso2.carbon.user.core.jdbc.JDBCUserStoreManager">
+                <Property name="TenantManager">org.wso2.carbon.user.core.tenant.JDBCTenantManager</Property>
+                <Property name="ReadOnly">false</Property>
+                <Property name="ReadGroups">true</Property>
+                <Property name="WriteGroups">true</Property>
+                <Property name="UsernameJavaRegEx">^[\S]{3,30}$</Property>
+                <Property name="UsernameJavaScriptRegEx">^[\S]{3,30}$</Property>
+                <Property name="UsernameJavaRegExViolationErrorMsg">Username pattern policy violated</Property>
+                <Property name="PasswordJavaRegEx">^[\S]{5,30}$</Property>
+                <Property name="PasswordJavaScriptRegEx">^[\S]{5,30}$</Property>
+                <Property name="PasswordJavaRegExViolationErrorMsg">Password length should be within 5 to 30 characters</Property>
+                <Property name="RolenameJavaRegEx">^[\S]{3,30}$</Property>
+                <Property name="RolenameJavaScriptRegEx">^[\S]{3,30}$</Property>
+                <Property name="CaseInsensitiveUsername">true</Property>
+                <Property name="SCIMEnabled">false</Property>
+                <Property name="IsBulkImportSupported">true</Property>
+                <Property name="PasswordDigest">SHA-256</Property>
+                <Property name="StoreSaltedPassword">true</Property>
+                <Property name="MultiAttributeSeparator">,</Property>
+                <Property name="MaxUserNameListLength">100</Property>
+                <Property name="MaxRoleNameListLength">100</Property>
+                <Property name="UserRolesCacheEnabled">true</Property>
+                <Property name="UserNameUniqueAcrossTenants">false</Property>
+            </UserStoreManager>
+            <AuthorizationManager class="org.wso2.carbon.user.core.authorization.JDBCAuthorizationManager">
+                <Property name="AdminRoleManagementPermissions">/permission</Property>
+                <Property name="AuthorizationCacheEnabled">true</Property>
+                <Property name="GetAllRolesOfUserEnabled">false</Property>
+            </AuthorizationManager>
+        </Realm>
+    </UserManager>
+kind: ConfigMap
+metadata:
+  name: integrator-conf
+  namespace: "$ns.k8s&wso2.ei"
+---
