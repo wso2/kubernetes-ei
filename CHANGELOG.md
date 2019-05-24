@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ### Added
 - Kubernetes resources for a simplified, WSO2 Integrator deployment
 - Kubernetes resources for WSO2 Integrator (EI) 
-- Helm resources for WSO2 Integrator (IAM)
+- Helm resources for WSO2 Integrator (EI)
 - Integrate support in Kubernetes resources for users with and without WSO2 subscriptions
 - Integrate support in Helm resources for users with and without WSO2 subscriptions
 
