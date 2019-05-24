@@ -42,7 +42,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
     if ! grep -q "imagePullSecrets" ../analytics/integrator-analytics-deployment.yaml; then
 
-        if ! sed -i.bak -e 's|wso2/|gcr.io/research-n-development-209206/|' \
+        if ! sed -i.bak -e 's|wso2/|docker.wso2.com/|' \
             ../analytics/integrator-analytics-deployment.yaml  \
             ../dashboard/integrator-server-dashboard-deployment.yaml \
             ../broker/message-broker-deployment.yaml \
@@ -81,7 +81,7 @@ elif [[ ${REPLY} =~ ^[Nn]$ || -z "${REPLY}" ]]; then
          exit 1
      fi
 
-     if ! sed -i.bak -e 's|gcr.io/research-n-development-209206|wso2|' \
+     if ! sed -i.bak -e 's|docker.wso2.com|wso2|' \
          ../analytics/integrator-analytics-deployment.yaml  \
          ../dashboard/integrator-server-dashboard-deployment.yaml \
          ../broker/message-broker-deployment.yaml \

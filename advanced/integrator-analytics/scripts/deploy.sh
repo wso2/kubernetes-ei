@@ -42,7 +42,7 @@ if [[ ${REPLY} =~ ^[Yy]$ ]]; then
 
     if ! ${GREP} -q "imagePullSecrets" ../analytics/integrator-analytics-deployment.yaml; then
 
-        if ! ${SED} -i.bak -e 's|wso2/|gcr.io/research-n-development-209206/|' \
+        if ! ${SED} -i.bak -e 's|wso2/|docker.wso2.com/|' \
             ../analytics/integrator-analytics-deployment.yaml  \
             ../dashboard/integrator-server-dashboard-deployment.yaml \
             ../integrator/integrator-deployment.yaml; then
@@ -76,7 +76,7 @@ elif [[ ${REPLY} =~ ^[Nn]$ || -z "${REPLY}" ]]; then
          echoBold "Failed to remove the Kubernetes Docker image pull secret"
          exit 1
      fi
-     if ! ${SED} -i.bak -e 's|gcr.io/research-n-development-209206|wso2|' \
+     if ! ${SED} -i.bak -e 's|docker.wso2.com|wso2|' \
          ../analytics/integrator-analytics-deployment.yaml  \
          ../dashboard/integrator-server-dashboard-deployment.yaml \
          ../integrator/integrator-deployment.yaml; then
