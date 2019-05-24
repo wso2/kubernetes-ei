@@ -52,7 +52,45 @@ Then, switch the context to new `wso2` namespace.
 kubectl config set-context $(kubectl config current-context) --namespace=wso2
 ```
 
-##### 3. Setup product database(s).
+##### 3. [Optional] If you are using Docker images with WSO2 updates, perform the following changes.
+
+* Change the Docker image names such that each Kubernetes Deployment use WSO2 product Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com).
+
+  Change the Docker image name, i.e. the `image` attribute under the [container specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.14/#container-v1-core)
+  of each Kubernetes Deployment resource.
+  
+  For example, change the default `wso2/wso2ei-integrator:6.5.0` WSO2 API Manager Docker image available at [DockerHub](https://hub.docker.com/u/wso2/) to
+  `docker.wso2.com/wso2ei-integrator:6.5.0` WSO2 Identity Server Docker image available at [`WSO2 Docker Registry`](https://docker.wso2.com).
+
+* Create a Kubernetes Secret for pulling the required Docker images from [`WSO2 Docker Registry`](https://docker.wso2.com).
+
+  Create a Kubernetes Secret named `wso2creds` in the cluster to authenticate with the WSO2 Docker Registry, to pull the required images.
+
+  ```
+  kubectl create secret docker-registry wso2creds --docker-server=docker.wso2.com --docker-username=<WSO2_USERNAME> --docker-password=<WSO2_PASSWORD> --docker-email=<WSO2_USERNAME>
+  ```
+
+  `WSO2_USERNAME`: Your WSO2 username<br>
+  `WSO2_PASSWORD`: Your WSO2 password
+
+  Please see [Kubernetes official documentation](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token)
+  for further details.
+    
+  Also, add the created `wso2creds` Kubernetes Secret as an entry to Kubernetes Deployment resources. Please add the following entry
+  under the [Kubernetes Pod Specification](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.14/#podspec-v1-core) `PodSpec` in each Deployment resource.
+    
+  ```
+  imagePullSecrets:
+  - name: wso2creds
+  ```
+
+The Kubernetes Deployment definition file(s) that need to be updated are as follows:
+
+* `<KUBERNETES_HOME>/advance/integrator-analytics/analytics/integrator-analytics-deployment.yaml`
+* `<KUBERNETES_HOME>/advance/integrator-analytics/dashboard/integrator-server-dashboard-deployment.yaml`
+* `<KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-deployment.yaml`
+
+##### 4. Setup product database(s).
 
 Setup the external product databases. Please refer to WSO2's official documentation [1](https://docs.wso2.com/display/EI620/Clustering+the+ESB+Profile#ClusteringtheESBProfile-Creatingthedatabases)
 and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment) on creating the required databases for the deployment.
@@ -60,15 +98,15 @@ and [2](https://docs.wso2.com/display/EI620/Minimum+High+Availability+Deployment
 Provide appropriate connection URLs, corresponding to the created external databases and the relevant driver class names for the data sources defined in
 the following files:
 
-* `<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics/conf/worker/deployment.yaml`
-* `<KUBERNETES_HOME>/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
+* `<KUBERNETES_HOME>/advance/integrator-analytics/confs/ei-analytics/conf/worker/deployment.yaml`
+* `<KUBERNETES_HOME>/advance/integrator-analytics/confs/integrator/datasources/master-datasources.xml`
 
 Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN44x/Configuring+master-datasources.xml) on configuring data sources.
 
 **Note**:
 
 * For **evaluation purposes**, you can use Kubernetes resources provided in the directory<br>
-`<KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
+`<KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/mysql` for deploying the product databases, using MySQL in Kubernetes. However, this approach of product database deployment is
 **not recommended** for a production setup.
 
 * For using these Kubernetes resources,
@@ -76,7 +114,7 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
     first create a Kubernetes ConfigMap for passing database script(s) to the deployment.
     
     ```
-    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/integrator-analytics/extras/confs/mysql/dbscripts/
+    kubectl create configmap mysql-dbscripts --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/extras/confs/mysql/dbscripts/
     ```
     
     Here, a Network File System (NFS) is needed to be used for persisting MySQL DB data.
@@ -86,32 +124,32 @@ Please refer WSO2's [official documentation](https://docs.wso2.com/display/ADMIN
     Provide read-write-execute permissions to other users for the created folder.
     
     Update the Kubernetes Persistent Volume resource with the corresponding NFS server IP (`NFS_SERVER_IP`) and exported,
-    NFS server directory path (`NFS_LOCATION_PATH`) in `<KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
+    NFS server directory path (`NFS_LOCATION_PATH`) in `<KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml`.
     
     Deploy the persistent volume resource and volume claim as follows:
     
     ```
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml
+    kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/mysql/mysql-persistent-volume-claim.yaml
+    kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/volumes/persistent-volumes.yaml
     ```
 
     Then, create a Kubernetes service (accessible only within the Kubernetes cluster) and followed by the MySQL Kubernetes deployment, as follows:
     
     ```
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-service.yaml
-    kubectl create -f <KUBERNETES_HOME>/integrator-analytics/extras/rdbms/mysql/mysql-deployment.yaml
+    kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/mysql/mysql-service.yaml
+    kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/extras/rdbms/mysql/mysql-deployment.yaml
     ```
     
-##### 4. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
+##### 5. Create a Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/rbac/rbac.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/rbac/rbac.yaml
 ```
 
-##### 5. Setup a Network File System (NFS) to be used for persistent storage.
+##### 6. Setup a Network File System (NFS) to be used for persistent storage.
 
 Create and export unique directories within the NFS server instance for each Kubernetes Persistent Volume resource defined in the
-`<KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml` file.
+`<KUBERNETES_HOME>/advance/integrator-analytics/volumes/persistent-volumes.yaml` file.
 
 Grant ownership to `wso2carbon` user and `wso2` group, for each of the previously created directories.
 
@@ -130,38 +168,38 @@ Update each Kubernetes Persistent Volume resource with the corresponding NFS ser
 Then, deploy the persistent volume resources and volume claims as follows:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-volume-claims.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/volumes/persistent-volumes.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-volume-claims.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/volumes/persistent-volumes.yaml
 ```
     
-##### 6. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster.
+##### 7. Create Kubernetes ConfigMaps for passing WSO2 product configurations into the Kubernetes cluster.
 
 ```
-kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/conf
-kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/conf/axis2/
-kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/conf/datasources/
-kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/
+kubectl create configmap integrator-conf --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/integrator/conf
+kubectl create configmap integrator-conf-axis2 --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/integrator/conf/axis2/
+kubectl create configmap integrator-conf-datasources --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/integrator/conf/datasources/
+kubectl create configmap integrator-conf-event-publishers --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/integrator/repository/deployment/server/eventpublishers/
 
-kubectl create configmap ei-analytics-conf-worker --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/ei-analytics/conf/worker
+kubectl create configmap ei-analytics-conf-worker --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/ei-analytics/conf/worker
 
-kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/integrator-analytics/confs/dashboard/conf/dashboard
+kubectl create configmap ei-analytics-dashboard-conf-dashboard --from-file=<KUBERNETES_HOME>/advance/integrator-analytics/confs/dashboard/conf/dashboard
 ```
 
-##### 7. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator and Analytics.
+##### 8. Create Kubernetes Services and Deployments for WSO2 Enterprise Integrator and Analytics.
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/analytics/integrator-analytics-service.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/analytics/integrator-analytics-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/analytics/integrator-analytics-service.yaml
 
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/dashboard/integrator-server-dashboard-deployment.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/dashboard/integrator-server-dashboard-service.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/dashboard/integrator-server-dashboard-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/dashboard/integrator-server-dashboard-service.yaml
 
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-service.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-gateway-service.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-deployment.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-service.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-gateway-service.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-deployment.yaml
 ```
 
-##### 8. Deploy Kubernetes Ingress resource.
+##### 9. Deploy Kubernetes Ingress resource.
 
 The WSO2 Enterprise Integrator Kubernetes Ingress resource uses the NGINX Ingress Controller.
 
@@ -171,12 +209,12 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 Finally, deploy the WSO2 Enterprise Integrator Kubernetes Ingress resources as follows:
 
 ```
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-server-dashboard-ingress.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-gateway-ingress.yaml
-kubectl create -f <KUBERNETES_HOME>/integrator-analytics/ingresses/integrator-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/ingresses/integrator-server-dashboard-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/ingresses/integrator-gateway-ingress.yaml
+kubectl create -f <KUBERNETES_HOME>/advance/integrator-analytics/ingresses/integrator-ingress.yaml
 ```
 
-##### 9. Access Management Consoles.
+##### 10. Access Management Consoles.
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
 
@@ -207,13 +245,13 @@ b. Add the above host as an entry in /etc/hosts file as follows:
 
 c. Try navigating to `https://wso2ei-integrator/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
 
-##### 10. Scale up using `kubectl scale`.
+##### 11. Scale up using `kubectl scale`.
 
 Default deployment runs a single replica (or pod) of WSO2 Enterprise Integrator's Integrator profile. To scale this deployment into any `<n>` number of
 container replicas, upon your requirement, simply run following Kubernetes client command on the terminal.
 
 ```
-kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/integrator-analytics/integrator/integrator-deployment.yaml
+kubectl scale --replicas=<n> -f <KUBERNETES_HOME>/advance/integrator-analytics/integrator/integrator-deployment.yaml
 ```
 
 For example, If `<n>` is 2, you are here scaling up this deployment from 1 to 2 container replicas.
