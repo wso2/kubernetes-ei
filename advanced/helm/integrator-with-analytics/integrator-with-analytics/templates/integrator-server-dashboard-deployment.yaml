@@ -32,9 +32,9 @@ spec:
       containers:
       - name: wso2ei-with-analytics-dashboard
         {{- if or (eq .Values.username "") (eq .Values.password "") }}
-        image: wso2/wso2ei-dashboard:6.5.0
+        image: wso2/wso2ei-analytics-dashboard:6.5.0
         {{- else }}
-        image: docker.wso2.com/wso2ei-dashboard:6.5.0
+        image: docker.wso2.com/wso2ei-analytics-dashboard:6.5.0
         {{- end }}
         imagePullPolicy: Always
         ports:
