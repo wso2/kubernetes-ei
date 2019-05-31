@@ -73,8 +73,10 @@ spec:
         - name: shared-pd
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
       serviceAccountName: {{ .Values.svcaccount }}
+      {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
       imagePullSecrets:
       - name: wso2creds
+      {{ end }}
       volumes:
       - name: integrator-conf
         configMap:
