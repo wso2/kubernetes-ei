@@ -56,8 +56,10 @@ spec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
       securityContext:
         runAsUser: 802
+      {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
       imagePullSecrets:
       - name: wso2creds
+      {{ end }}
       volumes:
       - name: ei-analytics-dashboard-conf-dashboard
         configMap:
