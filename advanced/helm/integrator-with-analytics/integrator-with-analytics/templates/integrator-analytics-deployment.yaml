@@ -103,6 +103,8 @@ spec:
         - name: ei-analytics-conf-worker
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
       serviceAccountName: {{ .Values.svcaccount }}
+      imagePullSecrets:
+      - name: wso2creds
       volumes:
       - name: ei-analytics-conf-worker
         configMap:

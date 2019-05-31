@@ -56,6 +56,8 @@ spec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
       securityContext:
         runAsUser: 802
+      imagePullSecrets:
+      - name: wso2creds
       volumes:
       - name: ei-analytics-dashboard-conf-dashboard
         configMap:
