@@ -50,6 +50,8 @@ spec:
         volumeMounts:
         - name: ei-analytics-dashboard-conf-dashboard
           mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
+      imagePullSecrets:
+      - name: wso2creds
       volumes:
       - name: ei-analytics-dashboard-conf-dashboard
         configMap:
