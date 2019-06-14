@@ -8,3 +8,5 @@ serverIp: ""
 sharedDeploymentLocationPath: ""
 sharedTenantsLocationPath: ""
 brokerSharedDeploymentLocationPath: ""
+
+# cloudProvider: Azure

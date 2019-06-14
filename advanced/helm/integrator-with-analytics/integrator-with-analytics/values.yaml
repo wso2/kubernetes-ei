@@ -6,3 +6,5 @@ svcaccount: "wso2svc-account"
 serverIp: ""
 sharedDeploymentLocationPath: ""
 sharedTenantsLocationPath: ""
+
+# cloudProvider: Azure
