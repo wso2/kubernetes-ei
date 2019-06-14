@@ -186,3 +186,4 @@ sleep 30s
 echoBold 'Finished'
 echo 'To access the WSO2 Enterprise Integrator management console, try https://wso2ei-integrator/carbon in your browser.'
 echo 'To access the WSO2 Enterprise Integrator Analytics management console, try https://wso2ei-analytics/carbon in your browser.'
+
