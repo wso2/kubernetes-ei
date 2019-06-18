@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ------------------------------------------------------------------------
-# Copyright 2017 WSO2, Inc. (http://wso2.com)
+# Copyright 2019 WSO2, Inc. (http://wso2.com)
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -186,4 +186,3 @@ sleep 30s
 echoBold 'Finished'
 echo 'To access the WSO2 Enterprise Integrator management console, try https://wso2ei-integrator/carbon in your browser.'
 echo 'To access the WSO2 Enterprise Integrator Analytics management console, try https://wso2ei-analytics/carbon in your browser.'
-
