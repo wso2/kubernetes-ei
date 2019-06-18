@@ -49,6 +49,8 @@ please refer the official documentation, [NGINX Ingress Controller Installation 
 
 ##### 3. Setup a Network File System (NFS) to be used for persistent storage.
 
+> If you are using AKS(Azure Kubernetes Service) as the kubernetes provider, it is possible to use Azurefiles for persistent storage instead of an NFS. If doing so, skip this step.
+
 Create and export unique directories within the NFS server instance for each Kubernetes Persistent Volume resource defined in the
 `<KUBERNETES_HOME>/advanced/integrator-analytics/volumes/persistent-volumes.yaml` file.
 
@@ -76,6 +78,8 @@ for deploying the product databases, using MySQL in Kubernetes. However, this ap
 
 * For using these Kubernetes resources,
 
+    > If you are using AKS(Azure Kubernetes Service) as the kubernetes provider, it is possible to use Azurefiles for persistent storage instead of an NFS. If doing so, skip this step.
+
   Here, a Network File System (NFS) is needed to be used for persisting MySQL DB data.    
   
   Create and export a directory within the NFS server instance.
@@ -101,15 +105,19 @@ In a **production grade setup**,
     
 ##### 5. Deploy Kubernetes resources.
 
-Change directory to `<KUBERNETES_HOME>/advanced/integrator-analytics/scripts` and execute the `deploy.sh` shell script on the terminal as follows:
+Change directory to `<KUBERNETES_HOME>/advanced/integrator-analytics/scripts` and execute the `deploy.sh` or kubernetes provider specific shell script on the terminal.
 
 ```
-./deploy.sh 
+./deploy.sh
+```
+or
+```
+./azure-deploy.sh
 ```
 
 * A Kubernetes role and a role binding necessary for the Kubernetes API requests made from Kubernetes membership scheme. In order to create these resource an user with Kubernetes cluster-admin role is required.
 
->To un-deploy, be on the same directory and execute the `undeploy.sh` shell script on the terminal.
+>To un-deploy, be on the same directory and execute the `undeploy.sh` or kubernetes provider specific undeploy shell script on the terminal.
 
 ##### 6. Access Management Consoles:
 
