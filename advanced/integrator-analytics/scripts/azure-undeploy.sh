@@ -40,13 +40,11 @@ sleep 2m
 echoBold 'Deleting the MySQL deployment...'
 ${KUBECTL} delete -f ../extras/rdbms/mysql/mysql-service.yaml
 ${KUBECTL} delete -f ../extras/rdbms/mysql/mysql-deployment.yaml
-# ${KUBECTL} delete -f ../extras/rdbms/volumes/persistent-volumes.yaml
 sleep 50s
 
 # persistent storage
 echoBold 'Deleting persistent volume and volume claim...'
 ${KUBECTL} delete -f ../integrator/integrator-volume-claims-azure.yaml
-# ${KUBECTL} delete -f ../volumes/persistent-volumes.yaml
 
 # delete the created Kubernetes Namespace
 ${KUBECTL} delete namespace wso2

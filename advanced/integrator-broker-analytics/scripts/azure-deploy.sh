@@ -174,9 +174,7 @@ ${KUBERNETES_CLIENT} apply -f ../../../azure/mysql-storage-class.yaml
 echoBold 'Creating persistent volume and volume claim...'
 ${KUBERNETES_CLIENT} create -f ../broker/message-broker-volume-claim-azure.yaml
 ${KUBERNETES_CLIENT} create -f ../integrator/integrator-volume-claims-azure.yaml
-# ${KUBERNETES_CLIENT} create -f ../volumes/persistent-volumes.yaml
 ${KUBERNETES_CLIENT} create -f ../extras/rdbms/mysql/mysql-persistent-volume-claim-azure.yaml
-# ${KUBERNETES_CLIENT} create -f ../extras/rdbms/volumes/persistent-volumes.yaml
 sleep 40s
 
 # MySQL

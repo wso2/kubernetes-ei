@@ -43,13 +43,11 @@ sleep 2m
 echoBold 'Deleting persistent volume and volume claim...'
 ${KUBECTL} delete -f ../integrator/integrator-volume-claims-azure.yaml
 ${KUBECTL} delete -f ../broker/message-broker-volume-claim-azure.yaml
-# ${KUBECTL} delete -f ../volumes/persistent-volumes.yaml
 
 # MySQL
 echoBold 'Deleting the MySQL deployment...'
 ${KUBECTL} delete -f ../extras/rdbms/mysql/mysql-service.yaml
 ${KUBECTL} delete -f ../extras/rdbms/mysql/mysql-deployment.yaml
-# ${KUBECTL} delete -f ../extras/rdbms/volumes/persistent-volumes.yaml
 sleep 50s
 
 # delete the created Kubernetes Namespace
