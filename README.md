@@ -30,3 +30,7 @@ given below:
 * [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advanced/helm/integrator-with-analytics/README.md)
 
 * [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advanced/helm/integrator-broker-with-analytics/README.md)
+
+## Changelog
+
+**Change log** from previous v6.5.0.2 release: [View Here](CHANGELOG.md)
