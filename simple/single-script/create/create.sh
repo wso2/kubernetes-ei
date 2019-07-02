@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IS_OPEN_SOURCE=true
+IS_OPEN_SOURCE=FALSE
 
 if $IS_OPEN_SOURCE; then
     SCRIPT="../wso2ei-ga.sh"
