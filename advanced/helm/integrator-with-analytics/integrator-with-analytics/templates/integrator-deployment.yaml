@@ -102,13 +102,46 @@ spec:
           mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
         - name: integrator-conf-datasources
           mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
-        - name: shared-pd
-          mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/deployment/server
-      serviceAccountName: {{ .Values.svcaccount }}
-      {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
+      {{ if .Values.wso2.centralizedLogging.enabled }}
+        - name: shared-logs
+          mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/logs/
+      - name: wso2ei-logstash
+        image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        volumeMounts:
+          - name: shared-logs
+            mountPath: /usr/share/logstash/wso2-logs/
+          - name: logstash-yml
+            mountPath: /usr/share/logstash/config/logstash.yml
+            subPath: logstash.yml
+          - name: c4-logstash-conf
+            mountPath: /usr/share/logstash/pipeline/logstash.conf
+            subPath: logstash.conf
+          - name: shared-plugins
+            mountPath: /usr/share/logstash/plugins/
+        env:
+          - name: NODE_ID
+            value: {{ default "wso2ei-node" .Values.wso2.centralizedLogging.logstash.indexNodeID.wso2EINode }}
+          - name: NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: ELASTICSEARCH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: logstash-elasticsearch-creds
+                key: username
+          - name: ELASTICSEARCH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: logstash-elasticsearch-creds
+                key: password
+          - name: ELASTICSEARCH_HOST
+            value: {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }}
+      {{ end }}
+      serviceAccountName: {{ .Values.kubernetes.svcaccount }}
+      {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
-      - name: wso2creds
-        - name: wso2ei-deployment-creds
+      - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
       - name: integrator-conf
@@ -120,6 +153,18 @@ spec:
       - name: integrator-conf-datasources
         configMap:
           name: integrator-conf-datasources
-      - name: shared-pd
-        persistentVolumeClaim:
-          claimName: integrator-shared-deployment-volume-claim
+      {{ if .Values.wso2.centralizedLogging.enabled }}
+      - name: shared-logs
+        emptyDir: {}
+      - name: logstash-yml
+        configMap:
+          name: logstash-yml
+      - name: c4-logstash-conf
+        configMap:
+          name: c4-logstash-conf
+      - name: shared-plugins
+        emptyDir: {}
+      - name: logstash-elasticsearch-creds
+        secret:
+          secretName: logstash-elasticsearch-creds
+      {{ end }}
