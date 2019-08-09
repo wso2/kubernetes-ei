@@ -35,75 +35,54 @@ Git repository. <br>
 git clone https://github.com/wso2/kubernetes-ei.git
 ```
 
-##### 2. Setup persistent storage.
-
-* Using Azurefiles
-  
-  Add the following parameter and value to the values.yaml.
-  ```
-  cloudProvider: Azure
-  ```
-  
-* Using a Network File System (NFS)
-
-  Create and export unique directories within the NFS server instance for each of the following Kubernetes Persistent Volume
-  resources defined in the `<HELM_HOME>/integrator-with-analytics/values.yaml` file:
-
-  * `sharedDeploymentLocationPath`
-  * `sharedTenantsLocationPath`
-
-
-  Grant ownership to `wso2carbon` user and `wso2` group, for each of the previously created directories.
-
-    ```
-    sudo chown -R wso2carbon:wso2 <directory_name>
-    ```
-
-  Grant read-write-execute permissions to the `wso2carbon` user, for each of the previously created directories.
-
-    ```
-    chmod -R 700 <directory_name>
-  ```
-
-##### 3. Provide configurations.
+##### 2. Provide configurations.
 
 a. The default product configurations are available at `<HELM_HOME>/integrator-with-analytics/confs` folder. Change the
 configurations as necessary.
 
 b. Open the `<HELM_HOME>/integrator-with-analytics/values.yaml` and provide the following values. If you do not have active 
-WSO2 subscription do not change the parameters `username`, `password` and `email`.
+WSO2 subscription do not change the parameters `wso2.deployment.username`, `wso2.deployment.password`. 
 
-| Parameter                       | Description                                                                               |
-|---------------------------------|-------------------------------------------------------------------------------------------|
-| `username`                      | Your WSO2 username                                                                        |
-| `password`                      | Your WSO2 password                                                                        |
-| `email`                         | Docker email                                                                              |
-| `namespace`                     | Kubernetes Namespace in which the resources are deployed                                  |
-| `svcaccount`                    | Kubernetes Service Account in the `namespace` to which product instance pods are attached |
-| `serverIp`                      | NFS Server IP                                                                             |
-| `sharedDeploymentLocationPath`  | NFS shared deployment directory(`<EI_HOME>/repository/ei-deployment`) location for EI        |
-| `sharedTenantsLocationPath`     | NFS shared tenants directory(`<EI_HOME>/repository/tenants`) location for EI              |
+| Parameter                                                                   | Description                                                                               | Default Value               |
+|-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
+| `wso2.mysql.enabled`                                                        | Enable MySQL chart as a dependency                                                        | true                        |
+| `wso2.mysql.host`                                                           | Set MySQL server host                                                                     | wso2ei-rdbms-service-mysql  |
+| `wso2.mysql.username`                                                       | Set MySQL server username                                                                 | wso2carbon                  |
+| `wso2.mysql.password`                                                       | Set MySQL server password                                                                 | wso2carbon                  |
+| `wso2.mysql.driverClass`                                                    | Set JDBC driver class for MySQL                                                           | com.mysql.jdbc.Driver       |
+| `wso2.mysql.validationQuery`                                                | Validation query for the MySQL server                                                     | SELECT 1                    |
+| `wso2.subscription.username`                                                | Your WSO2 username                                                                        | ""                          |
+| `wso2.subscription.password`                                                | Your WSO2 password                                                                        | ""                          |                                            |
+| `wso2.deployment.persistentRuntimeArtifacts.nfsServerIP`                    | NFS Server IP                                                                             | **None**                    | 
+| `wso2.deployment.persistentRuntimeArtifacts.sharedDeploymentLocationPath`   | NFS shared deployment directory (`<IS_HOME>/repository/deployment`) location for IS       | **None**                    |
+| `wso2.deployment.persistentRuntimeArtifacts.sharedTenantsLocationPath`      | NFS shared deployment directory (`<IS_HOME>/repository/tenants`) location for IS          | **None**                    |
+| `wso2.deployment.wso2ei.imageName`                                          | Image name for EI node                                                                    | wso2is                      |
+| `wso2.deployment.wso2ei.imageTag`                                           | Image tag for EI node                                                                     | 5.8.0                       |
+| `wso2.deployment.wso2ei.replicas`                                           | Number of replicas for EI node                                                            | 1                           |
+| `wso2.deployment.wso2ei.minReadySeconds`                                    | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 30                           |
+| `wso2.deployment.wso2ei.strategy.rollingUpdate.maxSurge`                    | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                           |
+| `wso2.deployment.wso2ei.strategy.rollingUpdate.maxUnavailable`              | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
+| `wso2.deployment.wso2ei.livenessProbe.initialDelaySeconds`                  | Initial delay for the live-ness probe for IS node                                         | 250                           |
+| `wso2.deployment.wso2ei.livenessProbe.periodSeconds`                        | Period of the live-ness probe for IS node                                                 | 10                           |
+| `wso2.deployment.wso2ei.readinessProbe.initialDelaySeconds`                 | Initial delay for the readiness probe for IS node                                         | 250                           |
+| `wso2.deployment.wso2ei.readinessProbe.periodSeconds`                       | Period of the readiness probe for IS node                                                 | 10                           |
+| `wso2.centralizedLogging.enabled`                                           | Enable Centralized logging for WSO2 components                                            | true                        |                                                                                         |                             |    
+| `wso2.centralizedLogging.logstash.imageTag`                                 | Logstash Sidecar container image tag                                                      | 7.2.0                       |  
+| `wso2.centralizedLogging.logstash.elasticsearch.username`                   | Elasticsearch username                                                                    | elastic                     |  
+| `wso2.centralizedLogging.logstash.elasticsearch.password`                   | Elasticsearch password                                                                    | changeme                    |  
+| `wso2.centralizedLogging.logstash.indexNodeID.wso2ISNode`                   | Elasticsearch IS Node log index ID(index name: ${NODE_ID}-${NODE_IP})                           | wso2                        |
+| `kubernetes.svcaccount`                                                     | Kubernetes Service Account in the `namespace` to which product instance pods are attached | wso2svc-account             |
 
 
-##### 4. Deploy product database(s) using MySQL in Kubernetes.
+##### 3. Deploy WSO2 Enterprise Integrator with Analytics.
 
 ```
-helm install --name wso2ei-integrator-with-analytics-rdbms-service -f <HELM_HOME>/mysql/values.yaml stable/mysql --namespace <NAMESPACE>
+helm install --dep-up --name <RELEASE_NAME> <HELM_HOME>/integrator-with-analytics --namespace <NAMESPACE>
 ```
 
-`NAMESPACE` should be same as in `step 3.b`.
+`NAMESPACE` should be the Kubernetes Namespace in which the resources are deployed.
 
-For a serious deployment (e.g. production grade setup), it is recommended to connect product instances to a user owned and managed RDBMS instance.
-
-##### 5. Deploy WSO2 Enterprise Integrator with Analytics.
-
-```
-helm install --name <RELEASE_NAME> <HELM_HOME>/integrator-with-analytics --namespace <NAMESPACE>
-```
-
-`NAMESPACE` should be same as in `step 3.b`.
-
-##### 6. Access Management Console.
+##### 4. Access Management Console.
 
 Default deployment will expose `wso2ei-integrator`, `wso2ei-integrator-gateway` and `wso2ei-analytics` hosts.
 
@@ -112,7 +91,7 @@ To access the console in the environment,
 a. Obtain the external IP (`EXTERNAL-IP`) of the Ingress resources by listing down the Kubernetes Ingresses.
 
 ```
-kubectl get ing
+kubectl get ing -n <NAMESPACE>
 ```
 
 e.g.
