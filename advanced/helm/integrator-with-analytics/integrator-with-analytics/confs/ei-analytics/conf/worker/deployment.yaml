@@ -288,14 +288,14 @@ wso2.datasources:
     definition:
       type: RDBMS
       configuration:
-        connectionTestQuery: SELECT 1
-        driverClassName: com.mysql.jdbc.Driver
+        connectionTestQuery: {{ VALIDATION_QUERY }}
+        driverClassName: {{ DRIVER_CLASSNAME }}
         idleTimeout: 60000
         isAutoCommit: false
-        jdbcUrl: jdbc:mysql://wso2ei-rdbms-service-mysql:3306/WSO2_CLUSTER_DB?useSSL=false
+        jdbcUrl: {{ CLUSTER_DB_URL }}
         maxPoolSize: 10
-        password: wso2carbon
-        username: wso2carbon
+        password: {{ DB_PASSWORD }}
+        username: {{ DB_USERNAME }}
         validationTimeout: 30000
     # carbon metrics data source
   - name: WSO2_METRICS_DB
@@ -338,25 +338,26 @@ wso2.datasources:
     definition:
       type: RDBMS
       configuration:
-        jdbcUrl: jdbc:mysql://wso2ei-rdbms-service-mysql:3306/EI_ANALYTICS?useSSL=false
-        username: wso2carbon
-        password: wso2carbon
-        driverClassName: com.mysql.jdbc.Driver
+        jdbcUrl: {{ ANALYTICS_DB_URL }}
+        username: {{ DB_USERNAME }}
+        password: {{ DB_PASSWORD }}
+        driverClassName: {{ DRIVER_CLASSNAME }}
+        connectionTestQuery: {{ VALIDATION_QUERY }}
         maxPoolSize: 50
         idleTimeout: 60000
         validationTimeout: 30000
         isAutoCommit: false
   - definition:
       configuration:
-        username: wso2carbon
-        driverClassName: com.mysql.jdbc.Driver
+        username: {{ DB_USERNAME }}
+        driverClassName: {{ DRIVER_CLASSNAME }}
         validationTimeout: 30000
-        connectionTestQuery: SELECT 1
+        connectionTestQuery: {{ VALIDATION_QUERY }}
         idleTimeout: 60000
         isAutoCommit: false
         maxPoolSize: 50
-        password: wso2carbon
-        jdbcUrl: jdbc:mysql://wso2ei-rdbms-service-mysql:3306/WSO2_PERSISTENCE_DB?useSSL=false
+        password: {{ DB_PASSWORD }}
+        jdbcUrl: {{ PERSISTENCE_DB_URL }}
       type: RDBMS
     name: WSO2_PERSISTENCE_DB
     jndiConfig:
