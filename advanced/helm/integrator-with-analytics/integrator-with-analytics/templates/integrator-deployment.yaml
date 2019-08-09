@@ -12,48 +12,80 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wso2ei-integrator-deployment
-  namespace : {{ .Values.namespace }}
+  namespace : {{ .Release.Namespace }}
 spec:
-  replicas: 1
-  minReadySeconds: 30
+  replicas:  {{ default 1 .Values.wso2.deployment.wso2ei.replicas }}
+  minReadySeconds: {{ default 30 .Values.wso2.deployment.wso2ei.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: {{ default 1 .Values.wso2.deployment.wso2ei.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2ei.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
+  selector:
+    matchLabels:
+      deployment: wso2ei-integrator
   template:
     metadata:
       labels:
         deployment: wso2ei-integrator
     spec:
+      initContainers:
+        - name: init-is-db
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z wso2ei-rdbms-service-mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL Server has started";']
+        {{ if .Values.wso2.centralizedLogging.enabled }}
+        - name: init-logstash-plugins-install
+          image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+          command:
+            - /bin/bash
+            - "-c"
+            - |
+              set -e
+              ./bin/logstash-plugin install logstash-codec-multiline logstash-filter-grok
+          volumeMounts:
+            - name: shared-plugins
+              mountPath: /usr/share/logstash/plugins/
+        - name: init-elasticsearch
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
+      {{ end }}
       containers:
       - name: wso2ei-integrator
-        {{- if or (eq .Values.username "") (eq .Values.password "") }}
-        image: wso2/wso2ei-integrator:6.5.0
-        {{- else }}
-        image: docker.wso2.com/wso2ei-integrator:6.5.0
-        {{- end }}
+        {{ if .Values.wso2.dockerRegistry }}
+        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
+        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
+        image: wso2/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
+        {{ else }}
+        image: docker.wso2.com/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
+        {{ end }}
         livenessProbe:
           exec:
             command:
             - /bin/bash
             - -c
             - nc -z localhost 9443
-          initialDelaySeconds: 100
-          periodSeconds: 10
+          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2ei.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2ei.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
             command:
               - /bin/bash
               - -c
               - nc -z localhost 9443
-          initialDelaySeconds: 100
-          periodSeconds: 10
+          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2ei.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2ei.readinessProbe.periodSeconds }}
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+          limits:
+            memory: {{ .Values.wso2.deployment.wso2ei.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2ei.resources.limits.cpu }}
         ports:
         - containerPort: 8280
           protocol: TCP
@@ -76,6 +108,7 @@ spec:
       {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
       imagePullSecrets:
       - name: wso2creds
+        - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
       - name: integrator-conf

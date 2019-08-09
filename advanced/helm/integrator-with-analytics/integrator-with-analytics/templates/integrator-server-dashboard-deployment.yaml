@@ -16,7 +16,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: wso2ei-with-analytics-dashboard
-  namespace : {{ .Values.namespace }}
+  namespace : {{ .Release.Namespace }}
   labels:
     deployment: wso2ei-with-analytics-dashboard
 spec:
@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
       - name: wso2ei-with-analytics-dashboard
-        {{- if or (eq .Values.username "") (eq .Values.password "") }}
+        {{- if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
         image: wso2/wso2ei-analytics-dashboard:6.5.0
         {{- else }}
         image: docker.wso2.com/wso2ei-analytics-dashboard:6.5.0
@@ -56,7 +56,7 @@ spec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
       securityContext:
         runAsUser: 802
-      {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
+      {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
       - name: wso2creds
       {{ end }}
@@ -64,4 +64,4 @@ spec:
       - name: ei-analytics-dashboard-conf-dashboard
         configMap:
           name: ei-analytics-dashboard-conf-dashboard
-      serviceAccountName: {{ .Values.svcaccount }}
+      serviceAccountName: {{ .Values.kubernetes.svcaccount }}

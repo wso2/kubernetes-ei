@@ -16,7 +16,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: integrator-with-analytics-ei-analytics-deployment
-  namespace : {{ .Values.namespace }}
+  namespace : {{ .Release.Namespace }}
 spec:
   replicas: 2
   minReadySeconds: 30
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: integrator-with-analytics-ei-analytics-1
-        {{- if or (eq .Values.username "") (eq .Values.password "") }}
+        {{- if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
         image: wso2/wso2ei-analytics-worker:6.5.0
         {{- else }}
         image: docker.wso2.com/wso2ei-analytics-worker:6.5.0
@@ -102,8 +102,8 @@ spec:
         volumeMounts:
         - name: ei-analytics-conf-worker
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
-      serviceAccountName: {{ .Values.svcaccount }}
-      {{ if and (not (eq .Values.username "")) (not (eq .Values.password "")) }}
+      serviceAccountName: {{ .Values.kubernetes.svcaccount }}
+      {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
       - name: wso2creds
       {{ end }}
