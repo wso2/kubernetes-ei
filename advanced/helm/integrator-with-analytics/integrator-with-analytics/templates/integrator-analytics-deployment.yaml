@@ -12,31 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: integrator-with-analytics-ei-analytics-deployment
   namespace : {{ .Release.Namespace }}
 spec:
-  replicas: 2
-  minReadySeconds: 30
+  replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
+  minReadySeconds: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+      maxSurge: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
+  selector:
+    matchLabels:
+      deployment: integrator-with-analytics-ei-analytics
   template:
     metadata:
       labels:
         deployment: integrator-with-analytics-ei-analytics
     spec:
+      initContainers:
+      - name: init-is-db
+        image: busybox:1.31
+        command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z wso2ei-rdbms-service-mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL Server has started";']
+      {{ if .Values.wso2.centralizedLogging.enabled }}
+      - name: init-logstash-plugins-install
+        image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        command:
+          - /bin/bash
+          - "-c"
+          - |
+            set -e
+            ./bin/logstash-plugin install logstash-codec-multiline logstash-filter-grok
+        volumeMounts:
+          - name: shared-plugins
+            mountPath: /usr/share/logstash/plugins/
+      - name: init-elasticsearch
+        image: busybox:1.31
+        command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
+      {{ end }}
       containers:
       - name: integrator-with-analytics-ei-analytics-1
-        {{- if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/wso2ei-analytics-worker:6.5.0
-        {{- else }}
-        image: docker.wso2.com/wso2ei-analytics-worker:6.5.0
-        {{- end }}
+        {{ if .Values.wso2.dockerRegistry }}
+        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
+        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        {{ else }}
+        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        {{ end }}
         env:
         -
           name: NODE_IP
@@ -45,25 +70,27 @@ spec:
               fieldPath: status.podIP
         resources:
           limits:
-            memory: "4Gi"
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.cpu }}
           requests:
             memory: "4Gi"
+            cpu: "2000m"
         livenessProbe:
           exec:
             command:
             - /bin/sh
             - -c
             - nc -z localhost 9444
-          initialDelaySeconds: 40
-          periodSeconds: 10
+          initialDelaySeconds: {{ default 40 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
             command:
               - /bin/sh
               - -c
               - nc -z localhost 7712
-          initialDelaySeconds: 45
-          periodSeconds: 10
+          initialDelaySeconds: {{ default 45 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.periodSeconds }}
         lifecycle:
           preStop:
             exec:
@@ -105,7 +132,7 @@ spec:
       serviceAccountName: {{ .Values.kubernetes.svcaccount }}
       {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
-      - name: wso2creds
+      - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
       - name: ei-analytics-conf-worker

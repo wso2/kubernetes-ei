@@ -36,6 +36,25 @@ wso2:
         limits:
           memory: "6Gi"
           cpu: "4000m"
+    wso2eiAnalyticsWorker:
+      imageName: "wso2ei-analytics-worker"
+      imageTag: "6.5.0"
+      replicas: 2
+      minReadySeconds: 30
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 0
+      livenessProbe:
+        initialDelaySeconds: 40
+        periodSeconds: 10
+      readinessProbe:
+        initialDelaySeconds: 45
+        periodSeconds: 10
+      resources:
+        limits:
+          memory: "4Gi"
+          cpu: "4000m"
   centralizedLogging:
     enabled: false
     logstash:
