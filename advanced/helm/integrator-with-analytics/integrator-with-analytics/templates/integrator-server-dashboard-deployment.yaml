@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wso2ei-with-analytics-dashboard
@@ -20,33 +20,66 @@ metadata:
   labels:
     deployment: wso2ei-with-analytics-dashboard
 spec:
-  replicas: 1
-  minReadySeconds: 30
+  replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.replicas }}
+  minReadySeconds: {{ default 30 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds }}
   strategy:
     type: Recreate
+  selector:
+    matchLabels:
+      deployment: wso2ei-with-analytics-dashboard
   template:
     metadata:
       labels:
         deployment: wso2ei-with-analytics-dashboard
     spec:
+      initContainers:
+      - name: init-is-db
+        image: busybox:1.31
+        command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z wso2ei-rdbms-service-mysql 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL Server has started";']
+      {{ if .Values.wso2.centralizedLogging.enabled }}
+      - name: init-logstash-plugins-install
+        image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        command:
+          - /bin/bash
+          - "-c"
+          - |
+            set -e
+            ./bin/logstash-plugin install logstash-codec-multiline logstash-filter-grok
+        volumeMounts:
+          - name: shared-plugins
+            mountPath: /usr/share/logstash/plugins/
+      - name: init-elasticsearch
+        image: busybox:1.31
+        command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
+      {{ end }}
       containers:
       - name: wso2ei-with-analytics-dashboard
-        {{- if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/wso2ei-analytics-dashboard:6.5.0
-        {{- else }}
-        image: docker.wso2.com/wso2ei-analytics-dashboard:6.5.0
-        {{- end }}
-        imagePullPolicy: Always
-        ports:
-        -
-          containerPort: 9643
-          protocol: "TCP"
+        {{ if .Values.wso2.dockerRegistry }}
+        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
+        image: wso2/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        {{ else }}
+        image: docker.wso2.com/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        {{ end }}
         livenessProbe:
           exec:
             command:
-            - /bin/sh
-            - -c
-            - nc -z localhost 9643
+              - /bin/bash
+              - -c
+              - nc -z localhost 9443
+          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.periodSeconds }}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu }}
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+        ports:
+        - containerPort: 9643
+          protocol: "TCP"
         volumeMounts:
         - name: ei-analytics-dashboard-conf-dashboard
           mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
@@ -58,7 +91,7 @@ spec:
         runAsUser: 802
       {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
-      - name: wso2creds
+      - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
       - name: ei-analytics-dashboard-conf-dashboard
