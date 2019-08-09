@@ -11,8 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-dependencies:
-  - name: mysql-ei
-    version: "6.5.0-1"
-    repository: "https://helm.wso2.com"
-    condition: wso2.mysqlEnabled
+    {{ if .Values.wso2.centralizedLogging.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: logstash-yml
+    namespace : {{ .Release.Namespace }}
+data:
+    {{- (.Files.Glob "confs/logstash/logstash.yml").AsConfig | nindent 2 }}
+    {{ end }}

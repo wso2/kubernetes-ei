@@ -84,6 +84,5 @@ wso2:
         password: "changeme"
       indexNodeID:
         wso2EINode: "wso2ei-node"
-
 kubernetes:
   svcaccount: "wso2svc-account"
