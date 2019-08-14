@@ -82,6 +82,7 @@ spec:
           initialDelaySeconds: {{ default 40 .Values.wso2.deployment.wso2ei.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2ei.readinessProbe.periodSeconds }}
         imagePullPolicy: {{ default "Always" .Values.wso2.deployment.wso2ei.imagePullPolicy }}
+        command: ["/home/wso2carbon/entrypoint.sh"]
         resources:
           requests:
             memory: {{ .Values.wso2.deployment.wso2ei.resources.requests.memory }}
@@ -105,6 +106,9 @@ spec:
           mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
         - name: integrator-conf-datasources
           mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
+        - name: integrator-conf-entrypoint
+          mountPath: /home/wso2carbon/entrypoint.sh
+          subPath: docker-entrypoint.sh
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/logs/
@@ -168,6 +172,10 @@ spec:
       - name: integrator-conf-datasources
         configMap:
           name: integrator-conf-datasources
+      - name: integrator-conf-entrypoint
+        configMap:
+          name: integrator-conf-entrypoint
+          defaultMode: 0407
       {{ if .Values.wso2.centralizedLogging.enabled }}
       - name: shared-logs
         emptyDir: {}
