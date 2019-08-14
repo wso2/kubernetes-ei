@@ -25,7 +25,7 @@
 >In the context of this document, <br>
 >* `KUBERNETES_HOME` will refer to a local copy of the [`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/)
 Git repository. <br>
->* `HELM_HOME` will refer to `<KUBERNETES_HOME>/advanced/helm/integrator-broker-with-analytics`. <br>
+>* `HELM_HOME` will refer to `<KUBERNETES_HOME>/advanced/helm/ei-pattern-2`. <br>
 
 ##### 1. Clone Kubernetes Resources for WSO2 Enterprise Integrator Git repository.
 
@@ -35,10 +35,10 @@ git clone https://github.com/wso2/kubernetes-ei.git
 
 ##### 2. Provide configurations.
 
-a. The default product configurations are available at `<HELM_HOME>/integrator-broker-with-analytics/confs` folder. Change the
+a. The default product configurations are available at `<HELM_HOME>/confs` folder. Change the
 configurations as necessary.
 
-b. Open the `<HELM_HOME>/integrator-broker-with-analytics/values.yaml` and provide the following values.
+b. Open the `<HELM_HOME>/values.yaml` and provide the following values.
 
 ###### MySQL Configurations
 
@@ -168,7 +168,7 @@ based Performance Analysis and Resource recommendations and tune the limits acco
 ##### 3. Deploy WSO2 Enterprise Integrator and Broker with Analytics.
 
 ```
-helm install --dep-up --name <RELEASE_NAME> <HELM_HOME>/integrator-broker-with-analytics --namespace <NAMESPACE>
+helm install --dep-up --name <RELEASE_NAME> <HELM_HOME>/ei-pattern-2 --namespace <NAMESPACE>
 ```
 
 `NAMESPACE` should be the Kubernetes Namespace in which the resources are deployed.
