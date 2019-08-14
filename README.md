@@ -18,6 +18,8 @@ given below:
 
 ### Advance
 
+**Note**: We consider Helm to be the primary source of installation of WSO2 product deployment patterns in Kubernetes environments. Hence, pure Kubernetes resources for product deployment patterns will be deprecated from 6.5.0.3 onwards. Please adjust your usage accordingly.
+
 * [A clustered deployment of WSO2 Enterprise Integrator's Integrator profile with Integrator Analytics support](advanced/integrator-analytics/README.md)
 
 * [Clustered deployments of WSO2 Enterprise Integrator's Integrator and Broker profile with Integrator Analytics support](advanced/integrator-broker-analytics/README.md)
