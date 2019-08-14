@@ -15,33 +15,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: integrator-with-analytics-ei-analytics-deployment
+  name: wso2ei-pattern-1-analytics-worker-deployment
   namespace : {{ .Release.Namespace }}
 spec:
   replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
-  minReadySeconds: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
+      maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
       maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: integrator-with-analytics-ei-analytics
+      deployment: wso2ei-pattern-1-analytics-worker
   template:
     metadata:
       labels:
-        deployment: integrator-with-analytics-ei-analytics
+        deployment: wso2ei-pattern-1-analytics-worker
     spec:
       initContainers:
-      - name: init-is-db
+      - name: init-ei-db
         image: busybox:1.31
         command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z {{ default "wso2ei-rdbms-service-mysql" .Values.wso2.mysql.host }} 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL Server has started";']
       {{ if .Values.wso2.centralizedLogging.enabled }}
       - name: init-logstash-plugins-install
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
         command:
-          - /bin/bash
+          - /bin/sh
           - "-c"
           - |
             set -e
@@ -81,7 +81,7 @@ spec:
             - /bin/sh
             - -c
             - nc -z localhost 9444
-          initialDelaySeconds: {{ default 40 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
@@ -89,7 +89,7 @@ spec:
               - /bin/sh
               - -c
               - nc -z localhost 7712
-          initialDelaySeconds: {{ default 45 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.periodSeconds }}
         lifecycle:
           preStop:
@@ -127,13 +127,25 @@ spec:
             containerPort: 9894
             protocol: TCP
         volumeMounts:
-        - name: ei-analytics-conf-worker
+        - name: analytics-conf-worker
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/worker/logs
       - name: wso2ei-logstash
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
         volumeMounts:
           - name: shared-logs
             mountPath: /usr/share/logstash/wso2-logs/
@@ -171,9 +183,9 @@ spec:
       - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
-      - name: ei-analytics-conf-worker
+      - name: analytics-conf-worker
         configMap:
-          name: ei-analytics-conf-worker
+          name: analytics-conf-worker
       {{ if .Values.wso2.centralizedLogging.enabled }}
       - name: shared-logs
         emptyDir: {}
