@@ -56,7 +56,9 @@ spec:
       containers:
       - name: wso2ei-with-analytics-dashboard
         {{ if .Values.wso2.dockerRegistry }}
-        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}
+        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
         image: wso2/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
         {{ else }}

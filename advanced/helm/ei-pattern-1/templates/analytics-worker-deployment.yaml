@@ -56,7 +56,9 @@ spec:
       containers:
       - name: integrator-with-analytics-ei-analytics-1
         {{ if .Values.wso2.dockerRegistry }}
-        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}
+        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
         image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
         {{ else }}

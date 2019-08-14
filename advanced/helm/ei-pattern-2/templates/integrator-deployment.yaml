@@ -62,7 +62,9 @@ spec:
       containers:
         - name: wso2ei-integrator
           {{ if .Values.wso2.dockerRegistry }}
-          image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
+          image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}
+          {{- $tag := .Values.wso2.deployment.wso2ei.imageTag }}
+          {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
           {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
           image: wso2/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
           {{ else }}
