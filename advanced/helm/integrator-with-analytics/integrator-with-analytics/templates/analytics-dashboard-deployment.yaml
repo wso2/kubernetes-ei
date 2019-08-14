@@ -15,22 +15,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-with-analytics-dashboard
+  name: wso2ei-pattern-1-analytics-dashboard
   namespace : {{ .Release.Namespace }}
-  labels:
-    deployment: wso2ei-with-analytics-dashboard
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.replicas }}
-  minReadySeconds: {{ default 30 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      deployment: wso2ei-with-analytics-dashboard
+      deployment: wso2ei-pattern-1-analytics-dashboard
   template:
     metadata:
       labels:
-        deployment: wso2ei-with-analytics-dashboard
+        deployment: wso2ei-pattern-1-analytics-dashboard
     spec:
       initContainers:
       - name: init-is-db
@@ -64,30 +62,50 @@ spec:
         livenessProbe:
           exec:
             command:
-              - /bin/bash
+              - /bin/sh
               - -c
-              - nc -z localhost 9443
-          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds }}
+              - nc -z localhost 9643
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.periodSeconds }}
-        imagePullPolicy: Always
+        readinessProbe:
+          exec:
+            command:
+              - /bin/sh
+              - -c
+              - nc -z localhost 9643
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.periodSeconds }}
+        imagePullPolicy: {{ default "Always" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullPolicy }}
         resources:
+          requests:
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.cpu }}
           limits:
             memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory }}
             cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu }}
-          requests:
-            memory: "4Gi"
-            cpu: "2000m"
         ports:
         - containerPort: 9643
           protocol: "TCP"
         volumeMounts:
-        - name: ei-analytics-dashboard-conf-dashboard
+        - name: analytics-conf-dashboard
           mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/dashboard/logs
       - name: wso2ei-logstash
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
         volumeMounts:
           - name: shared-logs
             mountPath: /usr/share/logstash/wso2-logs/
@@ -130,9 +148,9 @@ spec:
       - name: wso2ei-deployment-creds
       {{ end }}
       volumes:
-      - name: ei-analytics-dashboard-conf-dashboard
+      - name: analytics-conf-dashboard
         configMap:
-          name: ei-analytics-dashboard-conf-dashboard
+          name: analytics-conf-dashboard
       {{ if .Values.wso2.centralizedLogging.enabled }}
       - name: shared-logs
         emptyDir: {}

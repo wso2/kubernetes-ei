@@ -19,7 +19,7 @@ metadata:
   namespace : {{ .Release.Namespace }}
 spec:
   selector:
-    deployment: integrator-with-analytics-ei-analytics
+    deployment: wso2ei-pattern-1-analytics-worker
   ports:
   - name: data-receiver-2
     port: 7612

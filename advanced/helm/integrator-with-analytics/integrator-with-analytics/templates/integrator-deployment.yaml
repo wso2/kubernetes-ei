@@ -19,7 +19,7 @@ metadata:
   namespace : {{ .Release.Namespace }}
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2ei.replicas }}
-  minReadySeconds: {{ default 30 .Values.wso2.deployment.wso2ei.minReadySeconds }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2ei.minReadySeconds }}
   strategy:
     rollingUpdate:
       maxSurge: {{ default 1 .Values.wso2.deployment.wso2ei.strategy.rollingUpdate.maxSurge }}
@@ -37,6 +37,9 @@ spec:
         - name: init-is-db
           image: busybox:1.31
           command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z {{ default "wso2ei-rdbms-service-mysql" .Values.wso2.mysql.host }} 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL Server has started";']
+        - name: init-ei-analytics
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z integrator-with-analytics-ei-analytics-service 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
         {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: init-logstash-plugins-install
           image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
@@ -68,7 +71,7 @@ spec:
             - /bin/bash
             - -c
             - nc -z localhost 9443
-          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2ei.livenessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 40 .Values.wso2.deployment.wso2ei.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2ei.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
@@ -76,13 +79,13 @@ spec:
               - /bin/bash
               - -c
               - nc -z localhost 9443
-          initialDelaySeconds: {{ default 100 .Values.wso2.deployment.wso2ei.readinessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 40 .Values.wso2.deployment.wso2ei.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 10 .Values.wso2.deployment.wso2ei.readinessProbe.periodSeconds }}
-        imagePullPolicy: Always
+        imagePullPolicy: {{ default "Always" .Values.wso2.deployment.wso2ei.imagePullPolicy }}
         resources:
           requests:
-            memory: "4Gi"
-            cpu: "2000m"
+            memory: {{ .Values.wso2.deployment.wso2ei.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2ei.resources.requests.cpu }}
           limits:
             memory: {{ .Values.wso2.deployment.wso2ei.resources.limits.memory }}
             cpu: {{ .Values.wso2.deployment.wso2ei.resources.limits.cpu }}
@@ -107,6 +110,18 @@ spec:
           mountPath: /home/wso2carbon/wso2ei-6.5.0/repository/logs/
       - name: wso2ei-logstash
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
+        livenessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /
+            port: monitor
+          initialDelaySeconds: 20
+          periodSeconds: 30
         volumeMounts:
           - name: shared-logs
             mountPath: /usr/share/logstash/wso2-logs/

@@ -17,8 +17,6 @@ kind: Service
 metadata:
   name: wso2ei-with-analytics-ei-dashboard-service
   namespace : {{ .Release.Namespace }}
-  labels:
-    deployment: wso2ei-with-analytics-dashboard
 spec:
   ports:
     # ports that this service should serve on
@@ -29,4 +27,4 @@ spec:
 
   # label keys and values that must match in order to receive traffic for this service
   selector:
-    deployment: wso2ei-with-analytics-dashboard
+    deployment: wso2ei-pattern-1-analytics-dashboard
