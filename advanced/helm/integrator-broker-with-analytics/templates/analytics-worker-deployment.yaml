@@ -19,7 +19,7 @@ metadata:
   namespace : {{ .Release.Namespace }}
 spec:
   replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
-  minReadySeconds: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
   strategy:
     rollingUpdate:
       maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
