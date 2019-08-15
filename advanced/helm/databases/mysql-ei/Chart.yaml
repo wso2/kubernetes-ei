@@ -16,4 +16,4 @@ apiVersion: v1
 appVersion: "5.7"
 description: A Helm chart for WSO2 Enterprise Integrator Datasources
 name: mysql-ei
-version: 6.5.0-1
+version: 6.5.0-3
