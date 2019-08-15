@@ -1,5 +1,7 @@
 # Kubernetes Resources for a deployment of Integrator and Broker profiles of WSO2 Enterprise Integrator with Analytics
 
+**Note**: We consider Helm to be the primary source of installation of WSO2 product deployment patterns in Kubernetes environments. Hence, pure Kubernetes resources for product deployment patterns will be deprecated from 6.5.0.3 onwards. Please adjust your usage accordingly.
+
 Core Kubernetes resources for a clustered deployment of Integrator and Broker profiles of WSO2 Enterprise Integrator with Integrator Analytics support.
 
 ![A clustered deployment WSO2 Enterprise Integator's Integrator and Broker profiles with Integrator Analytics support](integrator-broker-analytics.png)
