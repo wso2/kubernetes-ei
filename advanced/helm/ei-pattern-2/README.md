@@ -175,7 +175,7 @@ helm install --dep-up --name <RELEASE_NAME> <HELM_HOME>/ei-pattern-2 --namespace
 
 ##### 4. Access product management consoles.
 
-Default deployment will expose `wso2ei-integrator`, `wso2ei-broker`, `wso2ei-integrator-gateway` and `wso2ei-analytics-dashboard` hosts.
+Default deployment will expose `<RELEASE_NAME>-integrator`, `<RELEASE_NAME>-broker`, `<RELEASE_NAME>-gateway` and `<RELEASE_NAME>-analytics-dashboard` hosts.
 
 To access the console in the environment,
 
@@ -187,20 +187,20 @@ kubectl get ing --namespace <NAMESPACE>
 e.g.
 
 ```
-NAME                                        HOSTS                       ADDRESS        PORTS     AGE
-wso2ei-analytics-dashboard-ingress          wso2ei-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-gateway-tls-ingress       wso2ei-integrator-gateway   <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-ingress                   wso2ei-integrator           <EXTERNAL-IP>  80, 443   2m
-wso2ei-mb-ingress                           wso2ei-broker               <EXTERNAL-IP>  80, 443   2m
+NAME                                        HOSTS                               ADDRESS        PORTS     AGE
+wso2ei-analytics-dashboard-ingress          <RELEASE_NAME>-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-gateway-tls-ingress       <RELEASE_NAME>-gateway              <EXTERNAL-IP>  80, 443   2m
+wso2ei-integrator-ingress                   <RELEASE_NAME>-integrator           <EXTERNAL-IP>  80, 443   2m
+wso2ei-mb-ingress                           <RELEASE_NAME>-broker               <EXTERNAL-IP>  80, 443   2m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:
 
 ```
-<EXTERNAL-IP>	wso2ei-analytics-dashboard
-<EXTERNAL-IP>	wso2ei-integrator-gateway
-<EXTERNAL-IP>	wso2ei-integrator
-<EXTERNAL-IP>	wso2ei-broker
+<EXTERNAL-IP>	<RELEASE_NAME>-analytics-dashboard
+<EXTERNAL-IP>	<RELEASE_NAME>-gateway
+<EXTERNAL-IP>	<RELEASE_NAME>-integrator
+<EXTERNAL-IP>	<RELEASE_NAME>-broker
 ```
 
-c. Try navigating to `https://wso2ei-integrator/carbon`, `https://wso2ei-broker/carbon` and `https://wso2ei-analytics-dashboard/portal` from your favorite browser.
+c. Try navigating to `https://<RELEASE_NAME>-integrator/carbon`, `https://<RELEASE_NAME>-broker/carbon` and `https://<RELEASE_NAME>-analytics-dashboard/portal` from your favorite browser.
