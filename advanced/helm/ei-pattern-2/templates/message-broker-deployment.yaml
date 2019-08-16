@@ -57,8 +57,8 @@ spec:
         {{ end }}
       containers:
       - name: wso2ei-mb
-        {{ if .Values.wso2.dockerRegistry }}
-        image: {{ .Values.wso2.dockerRegistry }}/{{ default "wso2ei-broker" .Values.wso2.deployment.wso2eiBroker.imageName }}
+        {{ if .Values.wso2.deployment.wso2eiBroker.dockerRegistry }}
+        image: {{ .Values.wso2.deployment.wso2eiBroker.dockerRegistry }}/{{ default "wso2ei-broker" .Values.wso2.deployment.wso2eiBroker.imageName }}
         {{- $tag := .Values.wso2.deployment.wso2eiBroker.imageTag }}
         {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
