@@ -18,13 +18,15 @@ metadata:
   name: integrator-conf
   namespace : {{ .Release.Namespace }}
 data:
+  {{- $hostname := printf "%s%s" .Release.Name "-gateway" }}
+  {{- $mgtHostname := printf "%s%s" .Release.Name "-integrator" }}
   {{- $file := .Files }}
   {{- range $path, $byte := .Files.Glob "confs/integrator/conf/*" }}
   {{- $list := $path | splitList "/"}}
   {{- $length := len $list }}
   {{- $last := add $length -1 }}
   {{ index $list $last }}: |-
-    {{- range $file.Lines $path }}
-    {{ . }}
+    {{- range $line := $file.Lines $path }}
+      {{ $line | replace "{{ HOSTNAME }}" $hostname | replace "{{ MGT_HOSTNAME }}" $mgtHostname }}
     {{- end }}
   {{- end }}

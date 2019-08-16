@@ -23,9 +23,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - wso2ei-integrator-gateway
+    - {{ .Release.Name }}-gateway
   rules:
-  - host: wso2ei-integrator-gateway
+  - host: {{ .Release.Name }}-gateway
     http:
       paths:
       - path: /

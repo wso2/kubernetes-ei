@@ -26,9 +26,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - wso2ei-integrator
+    - {{ .Release.Name }}-integrator
   rules:
-  - host: wso2ei-integrator
+  - host: {{ .Release.Name }}-integrator
     http:
       paths:
       - path: /

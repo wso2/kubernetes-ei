@@ -26,9 +26,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - wso2ei-broker
+    - {{ .Release.Name }}-broker
   rules:
-  - host: wso2ei-broker
+  - host: {{ .Release.Name }}-broker
     http:
       paths:
       - path: /

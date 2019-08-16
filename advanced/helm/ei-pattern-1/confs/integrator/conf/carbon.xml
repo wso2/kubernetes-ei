@@ -663,6 +663,6 @@
     <Username>admin</Username>
     <Password>admin</Password>
   </Analytics>
-  <HostName>wso2ei-integrator-gateway</HostName>
-  <MgtHostName>wso2ei-integrator</MgtHostName>
+  <HostName>{{ HOSTNAME }}</HostName>
+  <MgtHostName>{{ MGT_HOSTNAME }}</MgtHostName>
 </Server>
