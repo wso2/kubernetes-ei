@@ -141,13 +141,13 @@ spec:
         livenessProbe:
           httpGet:
             path: /
-            port: monitor
+            port: 9600
           initialDelaySeconds: 20
           periodSeconds: 30
         readinessProbe:
           httpGet:
             path: /
-            port: monitor
+            port: 9600
           initialDelaySeconds: 20
           periodSeconds: 30
         volumeMounts:
