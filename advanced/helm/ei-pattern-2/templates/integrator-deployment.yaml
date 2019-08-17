@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-2-integrator-deployment
+  name: {{ template "fullname" . }}-integrator-deployment
   namespace : {{ .Release.Namespace }}
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2ei.replicas }}
@@ -27,11 +27,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: wso2ei-pattern-2-integrator
+      deployment: {{ template "fullname" . }}-integrator
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern-2-integrator
+        deployment: {{ template "fullname" . }}-integrator
     spec:
       initContainers:
         {{ if .Values.wso2.mysql.enabled }}
@@ -41,10 +41,10 @@ spec:
         {{ end }}
         - name: init-ei-analytics
           image: busybox:1.31
-          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z integrator-with-analytics-ei-analytics-service 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-analytics-worker-service 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
         - name: init-ei-broker
           image: busybox:1.31
-          command: ['sh', '-c', 'echo -e "Checking for the availability of Broker profile of WSO2 Enterprise Integrator deployment"; while ! nc -z wso2ei-mb-service 5675; do sleep 1; printf "-"; done; echo -e "  >> Broker profile of WSO2 Enterprise Integrator has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Broker profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-mb-service 5675; do sleep 1; printf "-"; done; echo -e "  >> Broker profile of WSO2 Enterprise Integrator has started";']
         {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: init-logstash-plugins-install
           image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}

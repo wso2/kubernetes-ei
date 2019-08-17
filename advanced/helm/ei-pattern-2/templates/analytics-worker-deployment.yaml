@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-2-analytics-worker-deployment
+  name: {{ template "fullname" . }}-analytics-worker-deployment
   namespace : {{ .Release.Namespace }}
 spec:
   replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
@@ -27,11 +27,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: wso2ei-pattern-2-analytics-worker
+      deployment: {{ template "fullname" . }}-analytics-worker
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern-2-analytics-worker
+        deployment: {{ template "fullname" . }}-analytics-worker
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}

@@ -655,8 +655,8 @@
             enable publishing events to the servers in a round robin manner.
             e.g.; tcp://analytics-server-1:7612,tcp://analytics-server-2:7612
          -->
-    <ServerURL>tcp://integrator-with-analytics-ei-analytics-service:7612</ServerURL>
-    <AuthServerURL>ssl://integrator-with-analytics-ei-analytics-service:7712</AuthServerURL>
+    <ServerURL>tcp://{{ WORKER_SERVICE }}:7612</ServerURL>
+    <AuthServerURL>ssl://{{ WORKER_SERVICE }}:7712</AuthServerURL>
     <!--
             Credentails of the admin user of the analytics server.
         -->

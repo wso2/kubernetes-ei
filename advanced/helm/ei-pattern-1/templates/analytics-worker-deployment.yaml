@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-1-analytics-worker-deployment
+  name: {{ template "fullname" . }}-analytics-worker-deployment
   namespace : {{ .Release.Namespace }}
 spec:
   replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
@@ -27,11 +27,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: wso2ei-pattern-1-analytics-worker
+      deployment: {{ template "fullname" . }}-analytics-worker
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern-1-analytics-worker
+        deployment: {{ template "fullname" . }}-analytics-worker
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}
@@ -56,7 +56,7 @@ spec:
         command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
       {{ end }}
       containers:
-      - name: integrator-with-analytics-ei-analytics-1
+      - name: wso2ei-analytics-worker
         {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}
         image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}
         {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}

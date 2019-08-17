@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-2-analytics-dashboard
+  name: {{ template "fullname" . }}-analytics-dashboard
   namespace : {{ .Release.Namespace }}
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.replicas }}
@@ -27,11 +27,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: wso2ei-pattern-2-analytics-dashboard
+      deployment: {{ template "fullname" . }}-analytics-dashboard
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern-2-analytics-dashboard
+        deployment: {{ template "fullname" . }}-analytics-dashboard
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}

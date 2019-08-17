@@ -167,10 +167,10 @@ kubectl get ing -n <NAMESPACE>
 e.g.
 
 ```
-NAME                                             HOSTS                               ADDRESS        PORTS     AGE
-wso2ei-with-analytics-ei-dashboard-ingress   <RELEASE_NAME>-analytics-dashboard      <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-gateway-tls-ingress        <RELEASE_NAME>-gateway                  <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-ingress                    <RELEASE_NAME>-integrator               <EXTERNAL-IP>  80, 443   2m
+NAME                                                   HOSTS                                   ADDRESS        PORTS     AGE
+wso2ei-pattern-1-analytics-dashboard-ingress           <RELEASE_NAME>-analytics-dashboard      <EXTERNAL-IP>  80, 443   2m
+wso2ei-pattern-1-integrator-gateway-tls-ingress        <RELEASE_NAME>-gateway                  <EXTERNAL-IP>  80, 443   2m
+wso2ei-pattern-1-integrator-ingress                    <RELEASE_NAME>-integrator               <EXTERNAL-IP>  80, 443   2m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:

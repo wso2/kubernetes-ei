@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-2-mb-deployment
+  name: {{ template "fullname" . }}-mb-deployment
   namespace : {{ .Release.Namespace }}
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2eiBroker.replicas }}
@@ -27,11 +27,11 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: wso2ei-mb
+      deployment: {{ template "fullname" . }}-mb
   template:
     metadata:
       labels:
-        deployment: wso2ei-mb
+        deployment: {{ template "fullname" . }}-mb
     spec:
       initContainers:
         {{ if .Values.wso2.mysql.enabled }}
