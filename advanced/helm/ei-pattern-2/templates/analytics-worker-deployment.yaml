@@ -188,23 +188,23 @@ spec:
       {{- else if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
         - name: wso2ei-deployment-creds
-      {{ end }}
+      {{- end }}
       volumes:
         - name: analytics-conf-worker
           configMap:
             name: analytics-conf-worker
-      {{ if .Values.wso2.centralizedLogging.enabled }}
-      - name: shared-logs
-        emptyDir: {}
-      - name: logstash-yml
-        configMap:
-          name: logstash-yml
-      - name: c4-logstash-conf
-        configMap:
-          name: c4-logstash-conf
-      - name: shared-plugins
-        emptyDir: {}
-      - name: logstash-elasticsearch-creds
-        secret:
-          secretName: logstash-elasticsearch-creds
-      {{ end }}
+        {{- if .Values.wso2.centralizedLogging.enabled }}
+        - name: shared-logs
+          emptyDir: {}
+        - name: logstash-yml
+          configMap:
+            name: logstash-yml
+        - name: c4-logstash-conf
+          configMap:
+            name: c4-logstash-conf
+        - name: shared-plugins
+          emptyDir: {}
+        - name: logstash-elasticsearch-creds
+          secret:
+            secretName: logstash-elasticsearch-creds
+        {{- end }}
