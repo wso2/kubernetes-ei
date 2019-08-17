@@ -147,7 +147,10 @@ spec:
               command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
       securityContext:
         runAsUser: 802
-      {{ if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
+      {{- if .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullSecrets }}
+      imagePullSecrets:
+      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullSecrets }}
+      {{- else if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
       - name: wso2ei-deployment-creds
       {{ end }}
