@@ -114,5 +114,11 @@ wso2:
         password: "changeme"
       indexNodeID:
         wso2EINode: "wso2ei-node"
+      readinessProbe:
+        initialDelaySeconds: 20
+        periodSeconds: 30
+      livenessProbe:
+        initialDelaySeconds: 20
+        periodSeconds: 30
 kubernetes:
   svcaccount: "wso2svc-account"

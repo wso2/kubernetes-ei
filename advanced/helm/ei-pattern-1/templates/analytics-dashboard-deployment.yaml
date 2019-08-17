@@ -102,14 +102,14 @@ spec:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: 20
-          periodSeconds: 30
+          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: 20
-          periodSeconds: 30
+          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.readinessProbe.periodSeconds }}
         volumeMounts:
           - name: shared-logs
             mountPath: /usr/share/logstash/wso2-logs/
