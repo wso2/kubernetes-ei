@@ -15,7 +15,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: wso2ei-integrator-ingress
+  name: {{ template "fullname" . }}-integrator-ingress
   namespace : {{ .Release.Namespace }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -33,5 +33,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: wso2ei-integrator-service
+          serviceName: {{ template "fullname" . }}-integrator-service
           servicePort: 9443

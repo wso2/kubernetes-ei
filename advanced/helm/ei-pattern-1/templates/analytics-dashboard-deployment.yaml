@@ -15,7 +15,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wso2ei-pattern-1-analytics-dashboard
+  name: {{ template "fullname" . }}-analytics-dashboard
   namespace : {{ .Release.Namespace }}
 spec:
   replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.replicas }}
@@ -24,11 +24,11 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      deployment: wso2ei-pattern-1-analytics-dashboard
+      deployment: {{ template "fullname" . }}-analytics-dashboard
   template:
     metadata:
       labels:
-        deployment: wso2ei-pattern-1-analytics-dashboard
+        deployment: {{ template "fullname" . }}-analytics-dashboard
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}
@@ -53,7 +53,7 @@ spec:
         command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
       {{ end }}
       containers:
-      - name: wso2ei-with-analytics-dashboard
+      - name: wso2ei-analytics-dashboard
         {{ if .Values.wso2.deployment.wso2eiAnalyticsDashbaord.dockerRegistry }}
         image: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}
         {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}

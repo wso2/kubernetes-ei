@@ -15,7 +15,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: wso2ei-mb-ingress
+  name: {{ template "fullname" . }}-mb-ingress
   namespace : {{ .Release.Namespace }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
@@ -33,5 +33,5 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: wso2ei-mb-service
+          serviceName: {{ template "fullname" . }}-mb-service
           servicePort: 9446

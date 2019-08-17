@@ -245,8 +245,8 @@
      <transportReceiver name="http" class="org.apache.synapse.transport.passthru.PassThroughHttpListener">
         <parameter name="port" locked="false">8280</parameter>
         <parameter name="non-blocking" locked="false">true</parameter>
-        <!--<parameter name="bind-address" locked="false">wso2ei-pattern1-integrator-gateway</parameter>-->
-        <parameter name="WSDLEPRPrefix" locked="false">http://wso2ei-integrator-gateway</parameter>
+        <!--<parameter name="bind-address" locked="false">{{ GATEWAY_HOSTNAME }}</parameter>-->
+        <parameter name="WSDLEPRPrefix" locked="false">http://{{ GATEWAY_HOSTNAME }}</parameter>
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
         <!--<parameter name="priorityConfigFile" locked="false">location of priority configuration file</parameter>-->
     </transportReceiver>
@@ -255,8 +255,8 @@
         <parameter name="port" locked="false">8243</parameter>
         <parameter name="non-blocking" locked="false">true</parameter>
         <parameter name="HttpsProtocols">TLSv1,TLSv1.1,TLSv1.2</parameter>
-        <!--<parameter name="bind-address" locked="false">wso2ei-pattern1-integrator-gateway</parameter>-->
-        <parameter name="WSDLEPRPrefix" locked="false">https://wso2ei-integrator-gateway</parameter>
+        <!--<parameter name="bind-address" locked="false">{{ GATEWAY_HOSTNAME }}</parameter>-->
+        <parameter name="WSDLEPRPrefix" locked="false">https://{{ GATEWAY_HOSTNAME }}</parameter>
         <parameter name="httpGetProcessor" locked="false">org.wso2.carbon.mediation.transport.handlers.PassThroughNHttpGetProcessor</parameter>
         <parameter name="keystore" locked="false">
             <KeyStore>
@@ -590,7 +590,7 @@
 
         <parameter name="membershipSchemeClassName">org.wso2.carbon.membership.scheme.kubernetes.KubernetesMembershipScheme</parameter>
         <parameter name="KUBERNETES_NAMESPACE">{{ KUBERNETES_NAMESPACE }}</parameter>
-        <parameter name="KUBERNETES_SERVICES">wso2ei-integrator-service</parameter>
+        <parameter name="KUBERNETES_SERVICES">{{ KUBERNETES_SERVICE }}</parameter>
         <parameter name="KUBERNETES_MASTER_SKIP_SSL_VERIFICATION">true</parameter>
         <parameter name="USE_DNS">false</parameter>
 

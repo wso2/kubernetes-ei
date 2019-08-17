@@ -187,11 +187,11 @@ kubectl get ing --namespace <NAMESPACE>
 e.g.
 
 ```
-NAME                                        HOSTS                               ADDRESS        PORTS     AGE
-wso2ei-analytics-dashboard-ingress          <RELEASE_NAME>-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-gateway-tls-ingress       <RELEASE_NAME>-gateway              <EXTERNAL-IP>  80, 443   2m
-wso2ei-integrator-ingress                   <RELEASE_NAME>-integrator           <EXTERNAL-IP>  80, 443   2m
-wso2ei-mb-ingress                           <RELEASE_NAME>-broker               <EXTERNAL-IP>  80, 443   2m
+NAME                                                  HOSTS                               ADDRESS        PORTS     AGE
+wso2ei-pattern-2-analytics-dashboard-ingress          <RELEASE_NAME>-analytics-dashboard  <EXTERNAL-IP>  80, 443   2m
+wso2ei-pattern-2-integrator-gateway-tls-ingress       <RELEASE_NAME>-gateway              <EXTERNAL-IP>  80, 443   2m
+wso2ei-pattern-2-integrator-ingress                   <RELEASE_NAME>-integrator           <EXTERNAL-IP>  80, 443   2m
+wso2ei-pattern-2-mb-ingress                           <RELEASE_NAME>-broker               <EXTERNAL-IP>  80, 443   2m
 ```
 
 b. Add the above host as an entry in /etc/hosts file as follows:

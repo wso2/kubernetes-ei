@@ -19,6 +19,9 @@ metadata:
   namespace : {{ .Release.Namespace }}
 data:
   {{- $namespace := .Release.Namespace }}
+  {{- $gatewayHostname := printf "%s%s" .Release.Name "-gateway" }}
+  {{- $fullname := include "fullname" . }}
+  {{- $integratorService := printf "%s%s" $fullname "-integrator-service" }}
   {{- $file := .Files }}
   {{- range $path, $byte := .Files.Glob "confs/integrator/conf/axis2/*" }}
   {{- $list := $path | splitList "/"}}
@@ -26,6 +29,6 @@ data:
   {{- $last := add $length -1 }}
   {{ index $list $last }}: |-
     {{- range $line := $file.Lines $path }}
-      {{ $line | replace "{{ KUBERNETES_NAMESPACE }}" $namespace }}
+      {{ $line | replace "{{ KUBERNETES_NAMESPACE }}" $namespace | replace "{{ KUBERNETES_SERVICE }}" $integratorService | replace "{{ GATEWAY_HOSTNAME }}" $gatewayHostname }}
     {{- end }}
   {{- end }}

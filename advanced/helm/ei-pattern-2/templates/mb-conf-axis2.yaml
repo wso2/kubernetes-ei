@@ -19,6 +19,8 @@ metadata:
   namespace : {{ .Release.Namespace }}
 data:
   {{- $namespace := .Release.Namespace }}
+  {{- $fullname := include "fullname" . }}
+  {{- $brokerService := printf "%s%s" $fullname "-mb-service" }}
   {{- $file := .Files }}
   {{- range $path, $byte := .Files.Glob "confs/broker/conf/axis2/*" }}
   {{- $list := $path | splitList "/"}}
@@ -26,6 +28,6 @@ data:
   {{- $last := add $length -1 }}
   {{ index $list $last }}: |-
     {{- range $line := $file.Lines $path }}
-      {{ $line | replace "{{ KUBERNETES_NAMESPACE }}" $namespace }}
+      {{ $line | replace "{{ KUBERNETES_NAMESPACE }}" $namespace | replace "{{ BROKER_SERVICE }}" $brokerService }}
     {{- end }}
   {{- end }}

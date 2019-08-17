@@ -15,11 +15,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: integrator-with-analytics-ei-analytics-service
+  name: {{ template "fullname" . }}-analytics-worker-service
   namespace : {{ .Release.Namespace }}
 spec:
   selector:
-    deployment: wso2ei-pattern-1-analytics-worker
+    deployment: {{ template "fullname" . }}-analytics-worker
   ports:
   - name: data-receiver-2
     port: 7612
