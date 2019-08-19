@@ -15,23 +15,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-analytics-worker-deployment
+  name: {{ template "fullname" . }}-analytics-worker-deployment-1
   namespace : {{ .Release.Namespace }}
 spec:
-  replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
-  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
+  replicas: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsWorker1.replicas }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker1.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker1.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker1.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: {{ template "fullname" . }}-analytics-worker
+      deployment: {{ template "fullname" . }}-analytics-worker-1
   template:
     metadata:
       labels:
-        deployment: {{ template "fullname" . }}-analytics-worker
+        deployment: {{ template "fullname" . }}-analytics-worker-1
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}
@@ -43,7 +43,7 @@ spec:
       - name: init-logstash-plugins-install
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
         command:
-          - /bin/sh
+          - /bin/bash
           - "-c"
           - |
             set -e
@@ -56,15 +56,15 @@ spec:
         command: ['sh', '-c', 'echo -e "Checking for the availability of Elasticsearch Server deployment"; while ! nc -z {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }} 9200; do sleep 1; printf "-"; done; echo -e "  >> Elasticsearch server has started";']
       {{ end }}
       containers:
-      - name: wso2ei-analytics-worker
-        {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+      - name: integrator-with-analytics-ei-analytics
+        {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker1.dockerRegistry }}
+        image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}
+        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
         {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
         {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
         {{ end }}
         env:
         -
@@ -73,28 +73,28 @@ spec:
             fieldRef:
               fieldPath: status.podIP
         resources:
-          limits:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.cpu }}
           requests:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.requests.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.requests.cpu }}
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.resources.limits.cpu }}
         livenessProbe:
           exec:
             command:
-            - /bin/sh
-            - -c
-            - nc -z localhost 9444
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.periodSeconds }}
+              - /bin/sh
+              - -c
+              - nc -z localhost 9444
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker1.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker1.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
             command:
               - /bin/sh
               - -c
-              - nc -z localhost 7712
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.periodSeconds }}
+              - nc -z localhost 9444
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker1.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker1.readinessProbe.periodSeconds }}
         lifecycle:
           preStop:
             exec:
@@ -103,39 +103,39 @@ spec:
         securityContext:
           runAsUser: 802
         ports:
-          -
-            containerPort: 9444
-            protocol: TCP
-          -
-            containerPort: 9091
-            protocol: TCP
-          -
-            containerPort: 9711
-            protocol: TCP
-          -
-            containerPort: 9611
-            protocol: TCP
-          -
-            containerPort: 7712
-            protocol: TCP
-          -
-            containerPort: 7612
-            protocol: TCP
-          -
-            containerPort: 7070
-            protocol: TCP
-          -
-            containerPort: 7443
-            protocol: TCP
-          -
-            containerPort: 9894
-            protocol: TCP
+        -
+          containerPort: 9444
+          protocol: TCP
+        -
+          containerPort: 9091
+          protocol: TCP
+        -
+          containerPort: 9712
+          protocol: TCP
+        -
+          containerPort: 9612
+          protocol: TCP
+        -
+          containerPort: 7712
+          protocol: TCP
+        -
+          containerPort: 7612
+          protocol: TCP
+        -
+          containerPort: 7070
+          protocol: TCP
+        -
+          containerPort: 7443
+          protocol: TCP
+        -
+          containerPort: 9894
+          protocol: TCP
         volumeMounts:
-        - name: analytics-conf-worker
-          mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
+          - name: analytics-conf-worker
+            mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
       {{ if .Values.wso2.centralizedLogging.enabled }}
-        - name: shared-logs
-          mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/worker/logs
+          - name: shared-logs
+            mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/worker/logs
       - name: wso2ei-logstash
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
         livenessProbe:
@@ -180,31 +180,31 @@ spec:
                 key: password
           - name: ELASTICSEARCH_HOST
             value: {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }}
-      {{ end }}
+      {{- end }}
       serviceAccountName: {{ .Values.kubernetes.svcaccount }}
-      {{- if .Values.wso2.deployment.wso2eiAnalyticsWorker.imagePullSecrets }}
+      {{- if .Values.wso2.deployment.wso2eiAnalyticsWorker1.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imagePullSecrets }}
+      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.imagePullSecrets }}
       {{- else if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
-      - name: wso2ei-deployment-creds
-      {{ end }}
+        - name: wso2ei-deployment-creds
+      {{- end }}
       volumes:
-      - name: analytics-conf-worker
-        configMap:
-          name: analytics-conf-worker
-      {{ if .Values.wso2.centralizedLogging.enabled }}
-      - name: shared-logs
-        emptyDir: {}
-      - name: logstash-yml
-        configMap:
-          name: logstash-yml
-      - name: c4-logstash-conf
-        configMap:
-          name: c4-logstash-conf
-      - name: shared-plugins
-        emptyDir: {}
-      - name: logstash-elasticsearch-creds
-        secret:
-          secretName: logstash-elasticsearch-creds
-      {{ end }}
+        - name: analytics-conf-worker
+          configMap:
+            name: analytics-conf-worker
+        {{- if .Values.wso2.centralizedLogging.enabled }}
+        - name: shared-logs
+          emptyDir: {}
+        - name: logstash-yml
+          configMap:
+            name: logstash-yml
+        - name: c4-logstash-conf
+          configMap:
+            name: c4-logstash-conf
+        - name: shared-plugins
+          emptyDir: {}
+        - name: logstash-elasticsearch-creds
+          secret:
+            secretName: logstash-elasticsearch-creds
+        {{- end }}

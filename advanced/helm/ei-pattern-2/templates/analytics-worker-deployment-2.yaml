@@ -15,23 +15,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-analytics-worker-deployment
+  name: {{ template "fullname" . }}-analytics-worker-deployment-2
   namespace : {{ .Release.Namespace }}
 spec:
-  replicas: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.replicas }}
-  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker.minReadySeconds }}
+  replicas: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsWorker2.replicas }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsWorker2.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ default 2 .Values.wso2.deployment.wso2eiAnalyticsWorker2.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsWorker2.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   selector:
     matchLabels:
-      deployment: {{ template "fullname" . }}-analytics-worker
+      deployment: {{ template "fullname" . }}-analytics-worker-2
   template:
     metadata:
       labels:
-        deployment: {{ template "fullname" . }}-analytics-worker
+        deployment: {{ template "fullname" . }}-analytics-worker-2
     spec:
       initContainers:
       {{ if .Values.wso2.mysql.enabled }}
@@ -57,14 +57,14 @@ spec:
       {{ end }}
       containers:
       - name: integrator-with-analytics-ei-analytics
-        {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker2.dockerRegistry }}
+        image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageName }}
+        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageTag }}
         {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageTag }}
         {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imageTag }}
+        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.imageTag }}
         {{ end }}
         env:
         -
@@ -74,27 +74,27 @@ spec:
               fieldPath: status.podIP
         resources:
           requests:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.requests.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.requests.cpu }}
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.resources.requests.cpu }}
           limits:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.resources.limits.cpu }}
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.resources.limits.cpu }}
         livenessProbe:
           exec:
             command:
               - /bin/sh
               - -c
               - nc -z localhost 9444
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.livenessProbe.periodSeconds }}
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker2.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker2.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
             command:
               - /bin/sh
               - -c
-              - nc -z localhost 7712
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker.readinessProbe.periodSeconds }}
+              - nc -z localhost 9444
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsWorker2.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsWorker2.readinessProbe.periodSeconds }}
         lifecycle:
           preStop:
             exec:
@@ -182,9 +182,9 @@ spec:
             value: {{ default "wso2-elasticsearch-master" .Values.wso2.centralizedLogging.logstash.elasticsearch.host }}
       {{- end }}
       serviceAccountName: {{ .Values.kubernetes.svcaccount }}
-      {{- if .Values.wso2.deployment.wso2eiAnalyticsWorker.imagePullSecrets }}
+      {{- if .Values.wso2.deployment.wso2eiAnalyticsWorker2.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker.imagePullSecrets }}
+      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker2.imagePullSecrets }}
       {{- else if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
         - name: wso2ei-deployment-creds
