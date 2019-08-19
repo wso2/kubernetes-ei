@@ -74,14 +74,42 @@ wso2:
         limits:
           memory: "2Gi"
           cpu: "2000m"
-    wso2eiAnalyticsWorker:
+    wso2eiAnalyticsWorker1:
       imageName: "wso2ei-analytics-worker"
       imageTag: "6.5.0"
-      replicas: 2
+      replicas: 1
       minReadySeconds: 30
       strategy:
         rollingUpdate:
-          maxSurge: 2
+          maxSurge: 1
+          maxUnavailable: 0
+      livenessProbe:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+      readinessProbe:
+        initialDelaySeconds: 20
+        periodSeconds: 10
+      imagePullPolicy: Always
+      resources:
+        # These are the minimum resource recommendations for running WSO2 Stream Processor based server profiles
+        # as per official documentation (https://docs.wso2.com/display/SP440/Installation+Prerequisites).
+        requests:
+          memory: "4Gi"
+          cpu: "2000m"
+        # Please see the official documentation on WSO2 Stream Processor based Performance Analysis and Resource recommendations
+        # (https://docs.wso2.com/display/SP440/Performance+Analysis+Results) and tune the limits according to your needs
+        # where necessary.
+        limits:
+          memory: "4Gi"
+          cpu: "2000m"
+    wso2eiAnalyticsWorker2:
+      imageName: "wso2ei-analytics-worker"
+      imageTag: "6.5.0"
+      replicas: 1
+      minReadySeconds: 30
+      strategy:
+        rollingUpdate:
+          maxSurge: 1
           maxUnavailable: 0
       livenessProbe:
         initialDelaySeconds: 20

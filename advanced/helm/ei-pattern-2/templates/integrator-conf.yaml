@@ -22,7 +22,8 @@ data:
   {{- $mgtHostname := printf "%s%s" .Release.Name "-integrator" }}
   {{- $fullname := include "fullname" . }}
   {{- $brokerService := printf "%s%s" $fullname "-mb-service" }}
-  {{- $workerService := printf "%s%s" $fullname "-analytics-worker-service" }}
+  {{- $workerService1 := printf "%s%s" $fullname "-analytics-worker-service-1" }}
+  {{- $workerService2 := printf "%s%s" $fullname "-analytics-worker-service-2" }}
   {{- $file := .Files }}
   {{- range $path, $byte := .Files.Glob "confs/integrator/conf/*" }}
   {{- $list := $path | splitList "/"}}
@@ -30,6 +31,6 @@ data:
   {{- $last := add $length -1 }}
   {{ index $list $last }}: |-
     {{- range $line := $file.Lines $path }}
-      {{ $line | replace "{{ HOSTNAME }}" $hostname | replace "{{ MGT_HOSTNAME }}" $mgtHostname | replace "{{ BROKER_SERVICE }}" $brokerService | replace "{{ WORKER_SERVICE }}" $workerService }}
+      {{ $line | replace "{{ HOSTNAME }}" $hostname | replace "{{ MGT_HOSTNAME }}" $mgtHostname | replace "{{ BROKER_SERVICE }}" $brokerService | replace "{{ WORKER_SERVICE-1 }}" $workerService1 | replace "{{ WORKER_SERVICE-2 }}" $workerService2  }}
     {{- end }}
   {{- end }}
