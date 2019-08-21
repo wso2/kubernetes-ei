@@ -41,7 +41,7 @@ spec:
         {{ end }}
         - name: init-ei-analytics
           image: busybox:1.31
-          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-analytics-worker-service-1 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-analytics-worker-service-1 7712 && ! nc -z {{ template "fullname" . }}-analytics-worker-service-2 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
         - name: init-ei-broker
           image: busybox:1.31
           command: ['sh', '-c', 'echo -e "Checking for the availability of Broker profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-mb-service 5675; do sleep 1; printf "-"; done; echo -e "  >> Broker profile of WSO2 Enterprise Integrator has started";']
