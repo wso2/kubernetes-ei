@@ -41,7 +41,7 @@ spec:
         {{ end }}
         - name: init-ei-analytics
           image: busybox:1.31
-          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-analytics-worker-service-1 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Analytics profile of WSO2 Enterprise Integrator deployment"; while ! nc -z {{ template "fullname" . }}-analytics-worker-service-1 7712 && ! nc -z {{ template "fullname" . }}-analytics-worker-service-2 7712; do sleep 1; printf "-"; done; echo -e "  >> Analytics profile of WSO2 Enterprise Integrator has started";']
         {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: init-logstash-plugins-install
           image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
