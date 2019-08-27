@@ -15,7 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 [v6.5.0.2]: https://github.com/wso2/kubernetes-ei/compare/v6.5.0.1...v6.5.0.2
 
-## [V6.5.0.3] - Unchanged
+## [V6.5.0.3] - Unreleased
 
 ### Added
 - Added MySQL Helm chart as dependencies for deployment patterns.
