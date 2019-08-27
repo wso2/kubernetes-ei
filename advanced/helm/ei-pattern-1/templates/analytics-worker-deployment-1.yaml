@@ -163,7 +163,7 @@ spec:
             mountPath: /usr/share/logstash/plugins/
         env:
           - name: NODE_ID
-            value: {{ .Release.Name }}-analytics-worker-node2
+            value: {{ .Release.Name }}-analytics-worker-node-1
           - name: NODE_IP
             valueFrom:
               fieldRef:
