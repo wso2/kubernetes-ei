@@ -18,18 +18,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 ## [V6.5.0.3] - Unchanged
 
 ### Added
-- Added MySQL Helm chart as dependencies for deployment patterns
-- Added InitContainer support in Helm resources
-- Introduced Logstash for log aggregation and analysis
+- Added MySQL Helm chart as dependencies for deployment patterns.
+- Added InitContainer support in Helm resources.
+- Introduced Logstash for log aggregation and analysis.
+- Added datasource configurations to values.yaml files.
+- Added descriptive comments to the values.yaml file of each Helm chart.
 
 ### Changed
-- Promoted Helm resources as the single source of Kubernetes resource installation
-- Parameterized datasource and clustering configurations
-- Parameterized Kubernetes deployment definitions
-- Set resource requests and limits for Kubernetes deployments
+- Promoted Helm resources as the single source of Kubernetes resource installation.
+- Parameterized datasource and clustering configurations.
+- Parameterized Kubernetes deployment definitions.
+- Set resource requests and limits for Kubernetes deployments.
+- Parameterized Ingress host names.
+- Formalized naming conventions for Helm resources.
 
 ### Removed
-- Removed sharing of persistent volumes in deployment patterns
+- Removed sharing of persistent volumes in deployment patterns.
 
 [v6.5.0.3]: https://github.com/wso2/kubernetes-ei/compare/v6.5.0.2...v6.5.0.3
 
