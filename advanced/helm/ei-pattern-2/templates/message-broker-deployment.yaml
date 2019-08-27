@@ -151,7 +151,7 @@ spec:
             mountPath: /usr/share/logstash/plugins/
         env:
           - name: NODE_ID
-            value: {{ default "wso2ei-node" .Values.wso2.centralizedLogging.logstash.indexNodeID.wso2EINode }}
+            value: {{ .Release.Name }}-broker-node
           - name: NODE_IP
             valueFrom:
               fieldRef:

@@ -251,8 +251,6 @@ wso2:
         host: wso2-elasticsearch-master
         username: "elastic"
         password: "changeme"
-      indexNodeID:
-        wso2EINode: "wso2ei-node"
       readinessProbe:
         initialDelaySeconds: 20
         periodSeconds: 30
