@@ -153,6 +153,46 @@ If you do not have an active WSO2 subscription do not change the parameters `wso
 | `wso2.deployment.wso2eiAnalyticsWorker.resources.limits.memory`                      | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
 | `wso2.deployment.wso2eiAnalyticsWorker.resources.limits.cpu`                         | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
 
+###### Analytics Worker Instance One Runtime Configurations
+
+| Parameter                                                                    | Description                                                                               | Default Value               |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
+| `wso2.deployment.wso2eiAnalyticsWorker1.imageName`                           | Image name for EI Analytics Worker node                                                   | wso2ei-analytics-worker     |
+| `wso2.deployment.wso2eiAnalyticsWorker1.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.5.0                       |
+| `wso2.deployment.wso2eiAnalyticsWorker1.replicas`                            | Number of replicas for EI node                                                            | 1                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.minReadySeconds`                     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)|  30        |
+| `wso2.deployment.wso2eiAnalyticsWorker1.strategy.rollingUpdate.maxSurge`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2     |
+| `wso2.deployment.wso2eiAnalyticsWorker1.strategy.rollingUpdate.maxUnavailable`  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.livenessProbe.initialDelaySeconds`   | Initial delay for the live-ness probe for EI Analytics Worker node                        | 20                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.livenessProbe.periodSeconds`         | Period of the live-ness probe for EI Analytics Worker node                                | 10                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.readinessProbe.initialDelaySeconds`  | Initial delay for the readiness probe for EI Analytics Worker node                        | 20                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.readinessProbe.periodSeconds`        | Period of the readiness probe for EI Analytics Worker node                                | 10                           |
+| `wso2.deployment.wso2eiAnalyticsWorker1.imagePullPolicy`                     | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
+| `wso2.deployment.wso2eiAnalyticsWorker1.resources.requests.memory`           | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsWorker1.resources.requests.cpu`              | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsWorker1.resources.limits.memory`             | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsWorker1.resources.limits.cpu`                | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+
+###### Analytics Worker Instance Two Runtime Configurations
+
+| Parameter                                                                    | Description                                                                               | Default Value               |
+|------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
+| `wso2.deployment.wso2eiAnalyticsWorker2.imageName`                           | Image name for EI Analytics Worker node                                                   | wso2ei-analytics-worker     |
+| `wso2.deployment.wso2eiAnalyticsWorker2.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.5.0                       |
+| `wso2.deployment.wso2eiAnalyticsWorker2.replicas`                            | Number of replicas for EI node                                                            | 1                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.minReadySeconds`                     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)|  30        |
+| `wso2.deployment.wso2eiAnalyticsWorker2.strategy.rollingUpdate.maxSurge`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2     |
+| `wso2.deployment.wso2eiAnalyticsWorker2.strategy.rollingUpdate.maxUnavailable`  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.livenessProbe.initialDelaySeconds`   | Initial delay for the live-ness probe for EI Analytics Worker node                        | 20                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.livenessProbe.periodSeconds`         | Period of the live-ness probe for EI Analytics Worker node                                | 10                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.readinessProbe.initialDelaySeconds`  | Initial delay for the readiness probe for EI Analytics Worker node                        | 20                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.readinessProbe.periodSeconds`        | Period of the readiness probe for EI Analytics Worker node                                | 10                           |
+| `wso2.deployment.wso2eiAnalyticsWorker2.imagePullPolicy`                     | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
+| `wso2.deployment.wso2eiAnalyticsWorker2.resources.requests.memory`           | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsWorker2.resources.requests.cpu`              | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsWorker2.resources.limits.memory`             | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsWorker2.resources.limits.cpu`                | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+
 **Note**: The above mentioned default, minimum resource amounts for running WSO2 Stream Processor server profiles
 (Dashboard and Worker)are based on its [official documentation](https://docs.wso2.com/display/SP440/Installation+Prerequisites).
 Also, see the [official documentation](https://docs.wso2.com/display/SP440/Performance+Analysis+Results) on WSO2 Stream Processor
