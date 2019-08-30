@@ -25,12 +25,29 @@ spec:
   selector:
     matchLabels:
       deployment: {{ template "fullname" . }}-analytics-dashboard
+      app: {{ template "fullname" . }}
+      monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
   template:
     metadata:
       labels:
         deployment: {{ template "fullname" . }}-analytics-dashboard
+        app: {{ template "fullname" . }}
+        monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
     spec:
       initContainers:
+      {{ if .Values.wso2.monitoring.enabled }}
+      - name: init-jmx-exporter
+        image: busybox:1.31
+        command:
+          - /bin/sh
+          - "-c"
+          - |
+            set -e
+            wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar -P /jmx-jar/
+        volumeMounts:
+          - name: shared-prometheus-jmx-jar
+            mountPath: /jmx-jar
+      {{ end }}
       {{ if .Values.wso2.mysql.enabled }}
       - name: init-is-db
         image: busybox:1.31
@@ -93,6 +110,15 @@ spec:
         volumeMounts:
         - name: analytics-conf-dashboard
           mountPath: "/home/wso2carbon/wso2-config-volume/wso2/analytics/conf/dashboard"
+        {{ if .Values.wso2.monitoring.enabled }}
+        - name: shared-prometheus-jmx-jar
+          mountPath: /home/wso2carbon/prometheus
+        - name: integrator-prometheus-exporter-conf
+          mountPath: /home/wso2carbon/prometheus/config.yaml
+          subPath: config.yaml
+        - name: analytics-dashboard-bin
+          mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/wso2/dashboard/bin
+        {{ end }}
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/dashboard/logs
@@ -172,5 +198,15 @@ spec:
       - name: logstash-elasticsearch-creds
         secret:
           secretName: logstash-elasticsearch-creds
+      {{ end }}
+      {{ if .Values.wso2.monitoring.enabled }}
+      - name: shared-prometheus-jmx-jar
+        emptyDir: {}
+      - name: integrator-prometheus-exporter-conf
+        configMap:
+          name: integrator-prometheus-exporter-conf
+      - name: analytics-dashboard-bin
+        configMap:
+          name: analytics-dashboard-bin
       {{ end }}
       serviceAccountName: {{ .Values.kubernetes.svcaccount }}

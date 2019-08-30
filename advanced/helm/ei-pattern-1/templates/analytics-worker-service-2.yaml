@@ -17,9 +17,14 @@ kind: Service
 metadata:
   name: {{ template "fullname" . }}-analytics-worker-service-2
   namespace : {{ .Release.Namespace }}
+  labels:
+    app: {{ template "fullname" . }}
+    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
 spec:
   selector:
     deployment: {{ template "fullname" . }}-analytics-worker-2
+    app: {{ template "fullname" . }}
+    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
   ports:
   - name: data-receiver-2
     port: 7612
@@ -53,3 +58,10 @@ spec:
     port: 9611
     targetPort: 9611
     protocol: TCP
+  {{ if .Values.wso2.monitoring.enabled }}
+  - name: metrics
+    port: 2222
+    targetPort: 2222
+    protocol: TCP
+  {{ end }}
+
