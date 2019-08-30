@@ -105,6 +105,11 @@ spec:
             memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory }}
             cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu }}
         ports:
+        {{- if .Values.wso2.monitoring.enabled }}
+        - containerPort: 2222
+          protocol: TCP
+          name: metrics
+        {{ end }}
         - containerPort: 9643
           protocol: "TCP"
         volumeMounts:

@@ -28,12 +28,29 @@ spec:
   selector:
     matchLabels:
       deployment: {{ template "fullname" . }}-integrator
+      app: {{ template "fullname" . }}
+      monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
   template:
     metadata:
       labels:
         deployment: {{ template "fullname" . }}-integrator
+        app: {{ template "fullname" . }}
+        monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
     spec:
       initContainers:
+        {{ if .Values.wso2.monitoring.enabled }}
+        - name: init-jmx-exporter
+          image: busybox:1.31
+          command:
+            - /bin/sh
+            - "-c"
+            - |
+              set -e
+              wget https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.12.0/jmx_prometheus_javaagent-0.12.0.jar -P /jmx-jar/
+          volumeMounts:
+            - name: shared-prometheus-jmx-jar
+              mountPath: /jmx-jar
+        {{ end }}
         {{ if .Values.wso2.mysql.enabled }}
         - name: init-ei-db
           image: busybox:1.31
@@ -103,6 +120,11 @@ spec:
               memory: {{ .Values.wso2.deployment.wso2ei.resources.limits.memory }}
               cpu: {{ .Values.wso2.deployment.wso2ei.resources.limits.cpu }}
           ports:
+            {{ if .Values.wso2.monitoring.enabled }}
+            - containerPort: 2222
+              protocol: TCP
+              name: metrics
+            {{ end }}
             - containerPort: 8280
               protocol: TCP
             - containerPort: 8243
@@ -112,6 +134,15 @@ spec:
             - containerPort: 9443
               protocol: TCP
           volumeMounts:
+            {{ if .Values.wso2.monitoring.enabled }}
+            - name: shared-prometheus-jmx-jar
+              mountPath: /home/wso2carbon/prometheus
+            - name: integrator-prometheus-exporter-conf
+              mountPath: /home/wso2carbon/prometheus/config.yaml
+              subPath: config.yaml
+            - name: integrator-bin
+              mountPath: /home/wso2carbon/wso2-config-volume/bin
+            {{ end }}
             - name: integrator-conf
               mountPath: /home/wso2carbon/wso2-config-volume/conf
             - name: integrator-conf-axis2
@@ -205,4 +236,14 @@ spec:
         - name: logstash-elasticsearch-creds
           secret:
             secretName: logstash-elasticsearch-creds
+      {{ end }}
+      {{ if .Values.wso2.monitoring.enabled }}
+        - name: shared-prometheus-jmx-jar
+          emptyDir: {}
+        - name: integrator-prometheus-exporter-conf
+          configMap:
+            name: integrator-prometheus-exporter-conf
+        - name: integrator-bin
+          configMap:
+            name: integrator-bin
       {{ end }}
