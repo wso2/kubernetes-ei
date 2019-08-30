@@ -64,4 +64,3 @@ spec:
     targetPort: 2222
     protocol: TCP
   {{ end }}
-

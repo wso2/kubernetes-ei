@@ -257,5 +257,18 @@ wso2:
       livenessProbe:
         initialDelaySeconds: 20
         periodSeconds: 30
+  monitoring:
+    # Enable Prometheus monitoring. This will start Prometheus exporter on port 2222 and deploy Service monitors
+    # for JVM, JMX and Blackbox exporter for Login calls
+    enabled: false
+    prometheus:
+      serviceMonitor:
+          # If the black box exporter is deployed in a different Namespace
+          # blackBoxNamespace:  
+          # Prometheus Operator labels to identify Service monitors
+          labels:
+            release: monitoring
+      # Job name of the JMX events
+      jmxJobName: "jmx"
 kubernetes:
   svcaccount: "wso2svc-account"

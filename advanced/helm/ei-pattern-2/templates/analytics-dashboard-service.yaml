@@ -17,6 +17,10 @@ kind: Service
 metadata:
   name: {{ template "fullname" . }}-analytics-dashboard-service
   namespace : {{ .Release.Namespace }}
+  labels:
+    deployment: {{ template "fullname" . }}-analytics-dashboard
+    app: {{ template "fullname" . }}
+    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
 spec:
   ports:
     # ports that this service should serve on
@@ -24,7 +28,15 @@ spec:
       name: 'https'
       port: 9643
       protocol: TCP
+    {{ if .Values.wso2.monitoring.enabled }}
+    - name: metrics
+      port: 2222
+      targetPort: 2222
+      protocol: TCP
+    {{ end }}
 
   # label keys and values that must match in order to receive traffic for this service
   selector:
     deployment: {{ template "fullname" . }}-analytics-dashboard
+    app: {{ template "fullname" . }}
+    monitoring: {{ default "jmx" .Values.wso2.monitoring.prometheus.jmxJobName }}
