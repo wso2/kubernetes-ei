@@ -187,7 +187,7 @@ spec:
           - name: logstash-yml
             mountPath: /usr/share/logstash/config/logstash.yml
             subPath: logstash.yml
-          - name: c4-logstash-conf
+          - name: c5-logstash-conf
             mountPath: /usr/share/logstash/pipeline/logstash.conf
             subPath: logstash.conf
           - name: shared-plugins
@@ -230,9 +230,9 @@ spec:
       - name: logstash-yml
         configMap:
           name: logstash-yml
-      - name: c4-logstash-conf
+      - name: c5-logstash-conf
         configMap:
-          name: c4-logstash-conf
+          name: c5-logstash-conf
       - name: shared-plugins
         emptyDir: {}
       - name: logstash-elasticsearch-creds
