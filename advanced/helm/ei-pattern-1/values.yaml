@@ -194,14 +194,14 @@ wso2:
     logstash:
       imageTag: 7.2.0
       elasticsearch:
-        host: wso2-elasticsearch-master
+        host: "wso2-elasticsearch-master:9200"
         username: "elastic"
         password: "changeme"
       readinessProbe:
-        initialDelaySeconds: 20
+        initialDelaySeconds: 90
         periodSeconds: 30
       livenessProbe:
-        initialDelaySeconds: 20
+        initialDelaySeconds: 90
         periodSeconds: 30
     # Configurations for Prometheus monitoring
   monitoring:
