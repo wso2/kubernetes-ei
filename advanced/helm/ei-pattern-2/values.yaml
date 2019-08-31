@@ -252,10 +252,10 @@ wso2:
         username: "elastic"
         password: "changeme"
       readinessProbe:
-        initialDelaySeconds: 20
+        initialDelaySeconds: 90
         periodSeconds: 30
       livenessProbe:
-        initialDelaySeconds: 20
+        initialDelaySeconds: 90
         periodSeconds: 30
   monitoring:
     # Enable Prometheus monitoring. This will start Prometheus exporter on port 2222 and deploy Service monitors

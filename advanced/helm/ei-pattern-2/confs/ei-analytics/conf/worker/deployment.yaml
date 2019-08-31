@@ -107,7 +107,7 @@ databridge.config:
         sslPort: '9711'
         tcpReceiverThreadPoolSize: '100'
         sslReceiverThreadPoolSize: '100'
-        hostName: 0.0.0.0
+        hostName: ${NODE_IP}
   # Configuration of the Data Agents - to publish events through databridge
 data.agent.config:
     # Data agent configurations
