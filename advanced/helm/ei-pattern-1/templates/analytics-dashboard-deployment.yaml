@@ -133,13 +133,13 @@ spec:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.livenessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 90 .Values.wso2.centralizedLogging.logstash.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.readinessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 90 .Values.wso2.centralizedLogging.logstash.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.readinessProbe.periodSeconds }}
         volumeMounts:
           - name: shared-logs
@@ -147,7 +147,7 @@ spec:
           - name: logstash-yml
             mountPath: /usr/share/logstash/config/logstash.yml
             subPath: logstash.yml
-          - name: c5-dashboard-logstash-conf
+          - name: c5-logstash-conf
             mountPath: /usr/share/logstash/pipeline/logstash.conf
             subPath: logstash.conf
           - name: shared-plugins
@@ -195,9 +195,9 @@ spec:
       - name: logstash-yml
         configMap:
           name: logstash-yml
-      - name: c5-dashboard-logstash-conf
+      - name: c5-logstash-conf
         configMap:
-          name: c5-dashboard-logstash-conf
+          name: c5-logstash-conf
       - name: shared-plugins
         emptyDir: {}
       - name: logstash-elasticsearch-creds
