@@ -11,8 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-http.host: "0.0.0.0"
-path.config: /usr/share/logstash/pipeline
-log.level: debug
-path.logs: /usr/share/logstash/log
+  {{ if .Values.wso2.centralizedLogging.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: c4-broker-logstash-conf
+  namespace : {{ .Release.Namespace }}
+data:
+  {{- (.Files.Glob "confs/logstash/c4-broker/logstash.conf").AsConfig | nindent 2 }}
+  {{ end }}

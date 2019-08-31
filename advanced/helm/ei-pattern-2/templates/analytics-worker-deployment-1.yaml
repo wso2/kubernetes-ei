@@ -155,7 +155,7 @@ spec:
         volumeMounts:
           - name: analytics-conf-worker
             mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/conf/worker
-          {{ if .Values.wso2.monitoring.enabled }}
+      {{- if .Values.wso2.monitoring.enabled }}
           - name: shared-prometheus-jmx-jar
             mountPath: /home/wso2carbon/prometheus
           - name: integrator-prometheus-exporter-conf
@@ -163,7 +163,7 @@ spec:
             subPath: config.yaml
           - name: analytics-worker-bin
             mountPath: /home/wso2carbon/wso2-config-volume/wso2/analytics/wso2/worker/bin
-          {{ end }}
+      {{- end }}
       {{ if .Values.wso2.centralizedLogging.enabled }}
           - name: shared-logs
             mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/worker/logs
@@ -173,13 +173,13 @@ spec:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.livenessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 90 .Values.wso2.centralizedLogging.logstash.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.livenessProbe.periodSeconds }}
         readinessProbe:
           httpGet:
             path: /
             port: 9600
-          initialDelaySeconds: {{ default 20 .Values.wso2.centralizedLogging.logstash.readinessProbe.initialDelaySeconds }}
+          initialDelaySeconds: {{ default 90 .Values.wso2.centralizedLogging.logstash.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ default 30 .Values.wso2.centralizedLogging.logstash.readinessProbe.periodSeconds }}
         volumeMounts:
           - name: shared-logs
@@ -187,14 +187,14 @@ spec:
           - name: logstash-yml
             mountPath: /usr/share/logstash/config/logstash.yml
             subPath: logstash.yml
-          - name: c4-logstash-conf
+          - name: c5-logstash-conf
             mountPath: /usr/share/logstash/pipeline/logstash.conf
             subPath: logstash.conf
           - name: shared-plugins
             mountPath: /usr/share/logstash/plugins/
         env:
           - name: NODE_ID
-            value: value: {{ .Release.Name }}-worker-node-1
+            value: {{ .Release.Name }}-analyics-worker-node-1
           - name: NODE_IP
             valueFrom:
               fieldRef:
@@ -230,16 +230,16 @@ spec:
         - name: logstash-yml
           configMap:
             name: logstash-yml
-        - name: c4-logstash-conf
+        - name: c5-logstash-conf
           configMap:
-            name: c4-logstash-conf
+            name: c5-logstash-conf
         - name: shared-plugins
           emptyDir: {}
         - name: logstash-elasticsearch-creds
           secret:
             secretName: logstash-elasticsearch-creds
         {{- end }}
-        {{ if .Values.wso2.monitoring.enabled }}
+        {{- if .Values.wso2.monitoring.enabled }}
         - name: shared-prometheus-jmx-jar
           emptyDir: {}
         - name: integrator-prometheus-exporter-conf
@@ -248,4 +248,4 @@ spec:
         - name: analytics-worker-bin
           configMap:
             name: analytics-worker-bin
-        {{ end }}
+        {{- end }}
