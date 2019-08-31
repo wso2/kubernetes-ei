@@ -36,3 +36,8 @@ given below:
 ## Changelog
 
 **Change log** from previous v6.5.0.2 release: [View Here](CHANGELOG.md)
+
+## Reporting issues
+
+We encourage you to report any issues and documentation faults regarding Kubernetes and Helm resources
+for WSO2 Integration. Please report your issues [here](https://github.com/wso2/kubernetes-ei/issues).
