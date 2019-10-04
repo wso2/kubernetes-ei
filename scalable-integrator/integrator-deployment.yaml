@@ -62,9 +62,9 @@ spec:
         - name: integrator-conf
           mountPath: /home/wso2carbon/wso2-config-volume/conf
         - name: integrator-conf-axis2
-          mountPath: /home/wso2carbon/wso2-config-volume/conf-axis2
+          mountPath: /home/wso2carbon/wso2-config-volume/conf/axis2
         - name: integrator-conf-datasources
-          mountPath: /home/wso2carbon/wso2-config-volume/conf-datasources
+          mountPath: /home/wso2carbon/wso2-config-volume/conf/datasources
         - name: shared-pd
           mountPath: /home/wso2carbon/wso2ei-6.4.0/repository/deployment/server
       serviceAccountName: "wso2svc-account"
