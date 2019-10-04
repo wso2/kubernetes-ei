@@ -15,7 +15,7 @@
 (and Tiller) and [Kubernetes client](https://kubernetes.io/docs/tasks/tools/install-kubectl/) (compatible with v1.10) in order to run the 
 steps provided in the following quick start guide.<br><br>
 
-* An already setup [Kubernetes cluster](https://kubernetes.io/docs/setup/pick-right-solution/).<br><br>
+* An already setup [Kubernetes cluster](https://kubernetes.io/docs/setup).<br><br>
 
 * Install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). Please note that Helm resources for WSO2 product
 deployment patterns are compatible with NGINX Ingress Controller Git release [`nginx-0.22.0`](https://github.com/kubernetes/ingress-nginx/releases/tag/nginx-0.22.0).
@@ -72,7 +72,6 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 | `wso2.centralizedLogging.logstash.imageTag`                                 | Logstash Sidecar container image tag                                                      | 7.2.0                       |  
 | `wso2.centralizedLogging.logstash.elasticsearch.username`                   | Elasticsearch username                                                                    | elastic                     |  
 | `wso2.centralizedLogging.logstash.elasticsearch.password`                   | Elasticsearch password                                                                    | changeme                    |  
-| `wso2.centralizedLogging.logstash.indexNodeID.wso2ISNode`                   | Elasticsearch EI Node log index ID(index name: ${NODE_ID}-${NODE_IP})                           | wso2                        |
 
 ###### Monitoring Configurations
 
