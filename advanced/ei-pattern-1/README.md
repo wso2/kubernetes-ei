@@ -88,7 +88,7 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 | Parameter                                                                   | Description                                                                               | Default Value               |
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
 | `wso2.deployment.wso2ei.imageName`                                          | Image name for EI node                                                                    | wso2ei                      |
-| `wso2.deployment.wso2ei.imageTag`                                           | Image tag for EI node                                                                     | 6.5.0                       |
+| `wso2.deployment.wso2ei.imageTag`                                           | Image tag for EI node                                                                     | 6.6.0                       |
 | `wso2.deployment.wso2ei.replicas`                                           | Number of replicas for EI node                                                            | 1                           |
 | `wso2.deployment.wso2ei.minReadySeconds`                                    | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  75                        |
 | `wso2.deployment.wso2ei.strategy.rollingUpdate.maxSurge`                    | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                           |
@@ -110,7 +110,7 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 | Parameter                                                                    | Description                                                                               | Default Value               |
 |------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
 | `wso2.deployment.wso2eiAnalyticsWorker1.imageName`                           | Image name for EI Analytics Worker node                                                   | wso2ei-analytics-worker     |
-| `wso2.deployment.wso2eiAnalyticsWorker1.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.5.0                       |
+| `wso2.deployment.wso2eiAnalyticsWorker1.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.6.0                       |
 | `wso2.deployment.wso2eiAnalyticsWorker1.replicas`                            | Number of replicas for EI node                                                            | 1                           |
 | `wso2.deployment.wso2eiAnalyticsWorker1.minReadySeconds`                     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)|  30        |
 | `wso2.deployment.wso2eiAnalyticsWorker1.strategy.rollingUpdate.maxSurge`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2     |
@@ -130,7 +130,7 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 | Parameter                                                                    | Description                                                                               | Default Value               |
 |------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
 | `wso2.deployment.wso2eiAnalyticsWorker2.imageName`                           | Image name for EI Analytics Worker node                                                   | wso2ei-analytics-worker     |
-| `wso2.deployment.wso2eiAnalyticsWorker2.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.5.0                       |
+| `wso2.deployment.wso2eiAnalyticsWorker2.imageTag`                            | Image tag for EI Analytics Worker node                                                    | 6.6.0                       |
 | `wso2.deployment.wso2eiAnalyticsWorker2.replicas`                            | Number of replicas for EI node                                                            | 1                           |
 | `wso2.deployment.wso2eiAnalyticsWorker2.minReadySeconds`                     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)|  30        |
 | `wso2.deployment.wso2eiAnalyticsWorker2.strategy.rollingUpdate.maxSurge`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2     |
@@ -150,7 +150,7 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 | Parameter                                                                   | Description                                                                               | Default Value               |
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
 | `wso2.deployment.wso2eiAnalyticsDashbaord.imageName`                        | Image name for EI node                                                                    | wso2ei                      |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imageTag`                         | Image tag for EI node                                                                     | 6.5.0                       |
+| `wso2.deployment.wso2eiAnalyticsDashbaord.imageTag`                         | Image tag for EI node                                                                     | 6.6.0                       |
 | `wso2.deployment.wso2eiAnalyticsDashbaord.replicas`                         | Number of replicas for EI node                                                            | 2                           |
 | `wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds`                  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  30                        |
 | `wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxSurge`  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2                           |

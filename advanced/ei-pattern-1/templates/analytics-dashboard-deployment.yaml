@@ -126,7 +126,7 @@ spec:
         {{ end }}
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
-          mountPath: /home/wso2carbon/wso2ei-6.5.0/wso2/analytics/wso2/dashboard/logs
+          mountPath: /home/wso2carbon/wso2ei-6.6.0/wso2/analytics/wso2/dashboard/logs
       - name: wso2ei-logstash
         image: docker.elastic.co/logstash/logstash:{{ default "7.2.0" .Values.wso2.centralizedLogging.logstash.imageTag }}
         livenessProbe:
