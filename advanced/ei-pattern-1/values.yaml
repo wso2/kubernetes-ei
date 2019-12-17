@@ -34,7 +34,7 @@ wso2:
   deployment:
     wso2ei:
       imageName: "wso2ei-integrator"
-      imageTag: "6.5.0"
+      imageTag: "6.6.0"
       # Number of deployment replicas
       replicas: 1
       # Minimum number of seconds for which a newly created pod should be ready without any of its containers crashing, for it to be considered available.
@@ -74,7 +74,7 @@ wso2:
       imagePullPolicy: Always
     wso2eiAnalyticsWorker1:
       imageName: "wso2ei-analytics-worker"
-      imageTag: "6.5.0"
+      imageTag: "6.6.0"
       # Number of deployment replicas
       replicas: 1
       # Minimum number of seconds for which a newly created pod should be ready without any of its containers crashing, for it to be considered available.
@@ -117,7 +117,7 @@ wso2:
       imagePullPolicy: Always
     wso2eiAnalyticsWorker2:
       imageName: "wso2ei-analytics-worker"
-      imageTag: "6.5.0"
+      imageTag: "6.6.0"
       replicas: 1
       minReadySeconds: 30
       strategy:
@@ -145,7 +145,7 @@ wso2:
       imagePullPolicy: Always
     wso2eiAnalyticsDashbaord:
       imageName: "wso2ei-analytics-dashboard"
-      imageTag: "6.5.0"
+      imageTag: "6.6.0"
       # Number of deployment replicas
       replicas: 1
       # Minimum number of seconds for which a newly created pod should be ready without any of its containers crashing, for it to be considered available.
