@@ -29,4 +29,7 @@
 *.zip
 *jar
 
+*.lock
+*.tgz
+
 **/dockerfiles/**/files/*

@@ -30,7 +30,7 @@ deployment patterns are compatible with NGINX Ingress Controller Git release [`n
 >In the context of this document, <br>
 >* `KUBERNETES_HOME` will refer to a local copy of the [`wso2/kubernetes-ei`](https://github.com/wso2/kubernetes-ei/)
 Git repository. <br>
->* `HELM_HOME` will refer to `<KUBERNETES_HOME>/advanced/helm/ei-pattern-1`. <br>
+>* `HELM_HOME` will refer to `<KUBERNETES_HOME>/advanced/ei-pattern-1`. <br>
 
 ##### 1. Clone Kubernetes Resources for WSO2 Enterprise Integrator Git repository.
 
