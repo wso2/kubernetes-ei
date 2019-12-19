@@ -197,7 +197,7 @@ wso2:
           memory: "4Gi"
           # The maximum amount of CPU that should be allocated for a Pod
           cpu: "2000m"
-    wso2eiAnalyticsDashbaord:
+    wso2eiAnalyticsDashboard:
       imageName: "wso2ei-analytics-dashboard"
       imageTag: "6.6.0"
       # Number of deployment replicas
