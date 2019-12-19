@@ -7,7 +7,7 @@
 
 ## Prerequisites
 * Install [Kubernetes  Client](https://kubernetes.io/docs/tasks/tools/install-kubectl/) in order to run the steps provided in the following quick start guide.
-* An already setup Kubernetes cluster. If you are unfamiliar with this context, you can use [this guide](https://kubernetes.io/docs/setup/pick-right-solution/) to set up the cluster.
+* An already setup Kubernetes cluster. If you are unfamiliar with this context, you can use [this guide](https://kubernetes.io/docs/setup) to set up the cluster.
 * WSO2 subscribed users can run **wso2ei-latest.sh** with latest updates by providing their subscription username and password. If you do not possess an active WSO2 subscription already, run **wso2ei-ga.sh** which does not require subscription credentials.
 
 ## Quick Start Guide
