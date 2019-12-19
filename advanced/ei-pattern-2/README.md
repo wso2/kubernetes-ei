@@ -17,8 +17,7 @@
 
 * An already setup [Kubernetes cluster](https://kubernetes.io/docs/setup/pick-right-solution/).<br><br>
 
-* Install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). Please note that Helm resources for WSO2 product
-  deployment patterns are compatible with NGINX Ingress Controller Git release [`nginx-0.22.0`](https://github.com/kubernetes/ingress-nginx/releases/tag/nginx-0.22.0).
+* Install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). <br><br>
   
 * Add the WSO2 Helm chart repository
 ```
@@ -131,21 +130,21 @@ If you do not have an active WSO2 subscription do not change the parameters `wso
 
 | Parameter                                                                            | Description                                                                               | Default Value               |
 |--------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imageName`                                 | Image name for Analytics Dashbaord node                                                   | wso2ei-analytics-dashboard  |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imageTag`                                  | Image tag for Analytics Dashbaord node                                                    | 6.6.0                       |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.replicas`                                  | Number of Analytics Dashbaord replicas                                                    | 1                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds`                           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 30                      |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxSurge`           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                  |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxUnavailable`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                  |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds`         | Period of initial delay for the liveness probe for Analytics Dashbaord node                   | 20                         |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.periodSeconds`               | Period of the liveness probe for Analytics Dashbaord node                                     | 10                         |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.initialDelaySeconds`        | Period of initial delay for the readiness probe Analytics Dashbaord node                      | 20                         |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.periodSeconds`              | Period of the readiness probe for Analytics Dashbaord node                                    | 10                         |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imagePullPolicy`                           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#container-v1-core)   | Always                    |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.memory`                 | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.cpu`                    | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory`                   | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu`                      | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imageName`                                 | Image name for Analytics Dashbaord node                                                   | wso2ei-analytics-dashboard  |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imageTag`                                  | Image tag for Analytics Dashbaord node                                                    | 6.6.0                       |
+| `wso2.deployment.wso2eiAnalyticsDashboard.replicas`                                  | Number of Analytics Dashbaord replicas                                                    | 1                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.minReadySeconds`                           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 30                      |
+| `wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxSurge`           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 1                  |
+| `wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxUnavailable`     | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                  |
+| `wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.initialDelaySeconds`         | Period of initial delay for the liveness probe for Analytics Dashbaord node                   | 20                         |
+| `wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.periodSeconds`               | Period of the liveness probe for Analytics Dashbaord node                                     | 10                         |
+| `wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.initialDelaySeconds`        | Period of initial delay for the readiness probe Analytics Dashbaord node                      | 20                         |
+| `wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.periodSeconds`              | Period of the readiness probe for Analytics Dashbaord node                                    | 10                         |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imagePullPolicy`                           | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#container-v1-core)   | Always                    |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.memory`                 | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.cpu`                    | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.memory`                   | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.cpu`                      | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
 
 ###### Analytics Worker Runtime Configurations
 

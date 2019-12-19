@@ -18,12 +18,12 @@ metadata:
   name: {{ template "fullname" . }}-analytics-dashboard
   namespace : {{ .Release.Namespace }}
 spec:
-  replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.replicas }}
-  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds }}
+  replicas:  {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashboard.replicas }}
+  minReadySeconds: {{ default 75 .Values.wso2.deployment.wso2eiAnalyticsDashboard.minReadySeconds }}
   strategy:
     rollingUpdate:
-      maxSurge: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ default 1 .Values.wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ default 0 .Values.wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   selector:
     matchLabels:
@@ -74,14 +74,14 @@ spec:
       {{ end }}
       containers:
       - name: wso2ei-with-analytics-dashboard
-        {{ if .Values.wso2.deployment.wso2eiAnalyticsDashbaord.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        {{ if .Values.wso2.deployment.wso2eiAnalyticsDashboard.dockerRegistry }}
+        image: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.dockerRegistry }}/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageName }}
+        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageTag }}
         {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
         {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        image: wso2/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageTag }}
         {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imageTag }}
+        image: docker.wso2.com/{{ default "wso2ei-analytics-dashboard" .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.imageTag }}
         {{ end }}
         livenessProbe:
           exec:
@@ -89,28 +89,28 @@ spec:
               - /bin/sh
               - -c
               - nc -z localhost 9643
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.periodSeconds }}
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
             command:
               - /bin/sh
               - -c
               - nc -z localhost 9643
-          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.initialDelaySeconds }}
-          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.periodSeconds }}
-        imagePullPolicy: {{ default "Always" .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullPolicy }}
+          initialDelaySeconds: {{ default 20 .Values.wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ default 10 .Values.wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.periodSeconds }}
+        imagePullPolicy: {{ default "Always" .Values.wso2.deployment.wso2eiAnalyticsDashboard.imagePullPolicy }}
         lifecycle:
           preStop:
             exec:
                 command:  ['sh', '-c', '${WSO2_SERVER_HOME}/bin/analytics-dashboard.sh stop']
         resources:
           requests:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.cpu }}
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.cpu }}
           limits:
-            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory }}
-            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu }}
+            memory: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.memory }}
+            cpu: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.cpu }}
         ports:
         {{- if .Values.wso2.monitoring.enabled }}
         - containerPort: 2222
@@ -181,9 +181,9 @@ spec:
       {{ end }}
       securityContext:
         runAsUser: 802
-      {{- if .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullSecrets }}
+      {{- if .Values.wso2.deployment.wso2eiAnalyticsDashboard.imagePullSecrets }}
       imagePullSecrets:
-      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsDashbaord.imagePullSecrets }}
+      - name: {{ .Values.wso2.deployment.wso2eiAnalyticsDashboard.imagePullSecrets }}
       {{- else if and (not (eq .Values.wso2.subscription.username "")) (not (eq .Values.wso2.subscription.password "")) }}
       imagePullSecrets:
         - name: wso2ei-deployment-creds

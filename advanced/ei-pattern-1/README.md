@@ -17,8 +17,7 @@ steps provided in the following quick start guide.<br><br>
 
 * An already setup [Kubernetes cluster](https://kubernetes.io/docs/setup/pick-right-solution/).<br><br>
 
-* Install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/). Please note that Helm resources for WSO2 product
-deployment patterns are compatible with NGINX Ingress Controller Git release [`nginx-0.22.0`](https://github.com/kubernetes/ingress-nginx/releases/tag/nginx-0.22.0).
+* Install [NGINX Ingress Controller](https://kubernetes.github.io/ingress-nginx/deploy/).<br><br>
 
 * Add the WSO2 Helm chart repository
 ```
@@ -149,21 +148,21 @@ If you do not have active WSO2 subscription do not change the parameters `wso2.d
 
 | Parameter                                                                   | Description                                                                               | Default Value               |
 |-----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|-----------------------------|
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imageName`                        | Image name for EI node                                                                    | wso2ei                      |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imageTag`                         | Image tag for EI node                                                                     | 6.6.0                       |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.replicas`                         | Number of replicas for EI node                                                            | 2                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.minReadySeconds`                  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  30                        |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxSurge`  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.strategy.rollingUpdate.maxUnavailable`              | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.initialDelaySeconds`| Initial delay for the live-ness probe for EI node                                         | 20                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.livenessProbe.periodSeconds`      | Period of the live-ness probe for EI node                                                 | 10                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.initialDelaySeconds`| Initial delay for the readiness probe for EI node                                        | 20                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.readinessProbe.periodSeconds`     | Period of the readiness probe for EI node                                                 | 10                           |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.imagePullPolicy`                  | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.memory`        | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.requests.cpu`           | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.memory`          | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
-| `wso2.deployment.wso2eiAnalyticsDashbaord.resources.limits.cpu`             | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imageName`                        | Image name for EI node                                                                    | wso2ei                      |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imageTag`                         | Image tag for EI node                                                                     | 6.6.0                       |
+| `wso2.deployment.wso2eiAnalyticsDashboard.replicas`                         | Number of replicas for EI node                                                            | 2                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.minReadySeconds`                  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentspec-v1-apps)| 1  30                        |
+| `wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxSurge`  | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 2                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.strategy.rollingUpdate.maxUnavailable`              | Refer to [doc](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#deploymentstrategy-v1-apps) | 0                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.initialDelaySeconds`| Initial delay for the live-ness probe for EI node                                         | 20                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.livenessProbe.periodSeconds`      | Period of the live-ness probe for EI node                                                 | 10                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.initialDelaySeconds`| Initial delay for the readiness probe for EI node                                        | 20                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.readinessProbe.periodSeconds`     | Period of the readiness probe for EI node                                                 | 10                           |
+| `wso2.deployment.wso2eiAnalyticsDashboard.imagePullPolicy`                  | Refer to [doc](https://kubernetes.io/docs/concepts/containers/images#updating-images)     | Always                       |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.memory`        | The minimum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.requests.cpu`           | The minimum amount of CPU that should be allocated for a Pod                              | 2000m                        |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.memory`          | The maximum amount of memory that should be allocated for a Pod                           | 4Gi                          |
+| `wso2.deployment.wso2eiAnalyticsDashboard.resources.limits.cpu`             | The maximum amount of CPU that should be allocated for a Pod                              | 2000m                        |
 
 **Note**: The above mentioned default, minimum resource amounts for running WSO2 Stream Processor server profiles
 (Dashboard and Worker)are based on its [official documentation](https://docs.wso2.com/display/SP440/Installation+Prerequisites).

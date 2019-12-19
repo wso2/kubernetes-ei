@@ -208,10 +208,11 @@ elif [ "$CMD" = "version" ]; then
 fi
 
 # ---------- Handle the SSL Issue with proper JDK version --------------------
-jdk_17=`$JAVA_HOME/bin/java -version 2>&1 | grep "1.[7|8]"`
-if [ "$jdk_17" = "" ]; then
+java_version=$("$JAVACMD" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+java_version_formatted=$(echo "$java_version" | awk -F. '{printf("%02d%02d",$1,$2);}')
+if [ $java_version_formatted -lt 0107 ] || [ $java_version_formatted -gt 1100 ]; then
    echo " Starting WSO2 Carbon (in unsupported JDK)"
-   echo " [ERROR] CARBON is supported only on JDK 1.7 and 1.8"
+   echo " [ERROR] CARBON is supported only on JDK 1.7, 1.8, 9, 10 and 11"
 fi
 
 CARBON_XBOOTCLASSPATH=""
@@ -221,8 +222,6 @@ do
         CARBON_XBOOTCLASSPATH="$CARBON_XBOOTCLASSPATH":$f
     fi
 done
-
-JAVA_ENDORSED_DIRS="$CARBON_HOME/wso2/lib/endorsed":"$JAVA_HOME/jre/lib/endorsed":"$JAVA_HOME/lib/endorsed"
 
 CARBON_CLASSPATH=""
 if [ -e "$JAVA_HOME/lib/tools.jar" ]; then
@@ -234,17 +233,17 @@ do
         CARBON_CLASSPATH="$CARBON_CLASSPATH":$f
     fi
 done
-for t in "$CARBON_HOME"/wso2/lib/commons-lang*.jar
+for t in "$CARBON_HOME"/wso2/lib/*.jar
 do
     CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
 done
+
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
   JAVA_HOME=`cygpath --absolute --windows "$JAVA_HOME"`
   CARBON_HOME=`cygpath --absolute --windows "$CARBON_HOME"`
   AXIS2_HOME=`cygpath --absolute --windows "$CARBON_HOME"`
   CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
-  JAVA_ENDORSED_DIRS=`cygpath --path --windows "$JAVA_ENDORSED_DIRS"`
   CARBON_CLASSPATH=`cygpath --path --windows "$CARBON_CLASSPATH"`
   CARBON_XBOOTCLASSPATH=`cygpath --path --windows "$CARBON_XBOOTCLASSPATH"`
 fi
@@ -268,13 +267,19 @@ if [ -z "$JVM_MEM_OPTS" ]; then
    java_version=$("$JAVACMD" -version 2>&1 | awk -F '"' '/version/ {print $2}')
    JVM_MEM_OPTS="-Xms256m -Xmx1024m"
    if [ "$java_version" \< "1.8" ]; then
-      JVM_MEM_OPTS="$JVM_MEM_OPTS"
+      JVM_MEM_OPTS="$JVM_MEM_OPTS -XX:MaxPermSize=256m"
    fi
 fi
 echo "Using Java memory options: $JVM_MEM_OPTS"
 
 #To monitor a Carbon server in remote JMX mode on linux host machines, set the below system property.
 #   -Djava.rmi.server.hostname="your.IP.goes.here"
+
+JAVA_VER_BASED_OPTS=""
+
+if [ $java_version_formatted -ge 1100 ]; then
+    JAVA_VER_BASED_OPTS="--add-opens=java.base/java.net=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens java.rmi/sun.rmi.transport=ALL-UNNAMED"
+fi
 
 while [ "$status" = "$START_EXIT_STATUS" ]
 do
@@ -286,7 +291,7 @@ do
     $JAVA_OPTS \
     -Dcom.sun.management.jmxremote \
     -classpath "$CARBON_CLASSPATH" \
-    -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" \
+    $JAVA_VER_BASED_OPTS \
     -Djava.io.tmpdir="$CARBON_HOME/wso2/tmp" \
     -Dcatalina.base="$CARBON_HOME/wso2/lib/tomcat" \
     -Dwso2.server.standalone=true \
@@ -319,9 +324,13 @@ do
     -Djava.net.preferIPv4Stack=true \
     -Dcom.ibm.cacheLocalHost=true \
     -DworkerNode=false \
+    -DenableCorrelationLogs=false \
+    -Dorg.wso2.CorrelationLogInterceptor.BlacklistedThreads=Framework,Start,RegistryLogWritter,Component \
     -Dorg.wso2.ignoreHostnameVerification=true \
     -Dorg.apache.activemq.SERIALIZABLE_PACKAGES="*" \
-    -Dorg.apache.xml.security.ignoreLineBreaks=false \
+    -Djavax.xml.xpath.XPathFactory:http://java.sun.com/jaxp/xpath/dom=net.sf.saxon.xpath.XPathFactoryImpl \
+    -DavoidConfigUpdate=true \
+    -Dproperties.file.path=default 
     -javaagent:/home/wso2carbon/prometheus/jmx_prometheus_javaagent-0.12.0.jar=2222:/home/wso2carbon/prometheus/config.yaml \
     org.wso2.carbon.bootstrap.Bootstrap $*
     status=$?

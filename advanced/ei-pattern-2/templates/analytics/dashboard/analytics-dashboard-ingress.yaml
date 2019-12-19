@@ -15,23 +15,23 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "fullname" . }}-mb-ingress
+  name: {{ template "fullname" . }}-analytics-dashboard-ingress
   namespace : {{ .Release.Namespace }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "route"
     nginx.ingress.kubernetes.io/session-cookie-hash: "sha1"
 spec:
   tls:
   - hosts:
-    - {{ .Release.Name }}-broker
+    - {{ .Release.Name }}-analytics-dashboard
   rules:
-  - host: {{ .Release.Name }}-broker
+  - host: {{ .Release.Name }}-analytics-dashboard
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ template "fullname" . }}-mb-service
-          servicePort: 9446
+          serviceName: {{ template "fullname" . }}-analytics-dashboard-service
+          servicePort: 9643
