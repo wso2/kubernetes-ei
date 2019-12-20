@@ -63,7 +63,7 @@ data:
     <Server xmlns="http://wso2.org/projects/carbon/carbon.xml">
         <Name>WSO2 Enterprise Integrator</Name>
         <ServerKey>EI</ServerKey>
-        <Version>6.5.0</Version>
+        <Version>6.6.0</Version>
         <HostName>"ip.node.k8s.&.wso2.ei"</HostName>
         <MgtHostName>wso2ei-integrator</MgtHostName>
         <ServerURL>local:/${carbon.context}/services/</ServerURL>
@@ -422,8 +422,8 @@ data:
         <parameter name="ServicesDirectory">axis2services</parameter>
         <parameter name="httpContentNegotiation">false</parameter>
         <parameter name="ModulesDirectory">axis2modules</parameter>
-        <parameter name="userAgent" locked="true">WSO2 EI 6.5.0</parameter>
-        <parameter name="server" locked="true">WSO2 EI 6.5.0</parameter>
+        <parameter name="userAgent" locked="true">WSO2 EI 6.6.0</parameter>
+        <parameter name="server" locked="true">WSO2 EI 6.6.0</parameter>
         <parameter name="sendStacktraceDetailsWithFaults" locked="false">false</parameter>
         <parameter name="DrillDownToRootCauseForFaultReason" locked="false">false</parameter>
         <parameter name="manageTransportSession">true</parameter>
@@ -2096,7 +2096,7 @@ spec:
     spec:
       containers:
         - name: wso2ei-with-analytics-worker
-          image: "$image.pull.@.wso2"/wso2ei-analytics-worker:6.5.0
+          image: "$image.pull.@.wso2"/wso2ei-analytics-worker:6.6.0
           env:
             -
               name: NODE_IP
@@ -2199,7 +2199,7 @@ spec:
         product: wso2ei
     spec:
       containers:
-        - image: "$image.pull.@.wso2"/wso2ei-analytics-dashboard:6.5.0
+        - image: "$image.pull.@.wso2"/wso2ei-analytics-dashboard:6.6.0
           name: wso2ei-with-analytics-dashboard
           imagePullPolicy: Always
           ports:
@@ -2259,7 +2259,7 @@ spec:
     spec:
       containers:
         - name: wso2ei-integrator
-          image: "$image.pull.@.wso2"/wso2ei-integrator:6.5.0
+          image: "$image.pull.@.wso2"/wso2ei-integrator:6.6.0
           livenessProbe:
             exec:
               command:
@@ -2427,7 +2427,7 @@ function get_nodePorts(){
       let "NP_1 %= $UPPER"; let "NP_2 %= $UPPER"; let "NP_3 %= $UPPER"
     done
   fi
-  echo -e "[INFO] nodePorts  are set to $NP_1/ $NP_2/ $NP_3"
+  echo -e "[INFO] nodePorts  are set to $NP_1, $NP_2, $NP_3"
 }
 function progress_bar(){
   dep_status=$(kubectl get deployments -n wso2 -o jsonpath='{.items[?(@.spec.selector.matchLabels.product=="wso2ei")].status.conditions[?(@.type=="Available")].status}')
@@ -2578,7 +2578,7 @@ function deploy(){
         echoBold "1. Try navigating to https://$NODE_IP:30443/carbon/ and https://$NODE_IP:30643/portal/ from your favourite browser using\n"
         echoBold "\tusername: admin\n"
         echoBold "\tpassword: admin\n"
-        echoBold "2. Follow \"https://docs.wso2.com/display/EI640/Quick+Start+Guide\" to start using WSO2 Enterprise Integrator.\n\n"
+        echoBold "2. Follow \"https://docs.wso2.com/display/EI660/Quick+Start+Guide\" to start using WSO2 Enterprise Integrator.\n\n"
     fi
 }
 arg=$1

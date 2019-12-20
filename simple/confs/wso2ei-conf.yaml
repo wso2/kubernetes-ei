@@ -6,7 +6,7 @@ data:
     <Server xmlns="http://wso2.org/projects/carbon/carbon.xml">
         <Name>WSO2 Enterprise Integrator</Name>
         <ServerKey>EI</ServerKey>
-        <Version>6.5.0</Version>
+        <Version>6.6.0</Version>
         <HostName>"ip.node.k8s.&.wso2.ei"</HostName>
         <MgtHostName>wso2ei-integrator</MgtHostName>
         <ServerURL>local:/${carbon.context}/services/</ServerURL>

@@ -18,4 +18,4 @@
 4. Run **./wso2ei-latest.sh --deploy** on your terminal. This will deploy WSO2 Enterprise Integrator in your cluster.
 
 5. Try navigating to https://< NODE-IP >:30443/carbon/ your favourite browser using username: admin and password: admin. Your < NODE-IP > will be provided at the end of the deployment.
-6. We welcome you to try out WSO2 Enterprise Integrator by following **[WSO2 Enterprise Integrator- Quick Start Guide](https://docs.wso2.com/display/EI640/Quick+Start+Guide)**.
+6. We welcome you to try out WSO2 Enterprise Integrator by following **[WSO2 Enterprise Integrator- Quick Start Guide](https://docs.wso2.com/display/EI660/Quick+Start+Guide)**.

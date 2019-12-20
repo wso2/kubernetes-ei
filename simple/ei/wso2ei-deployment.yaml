@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: wso2ei-integrator
-          image: "$image.pull.@.wso2"/wso2ei-integrator:6.5.0
+          image: "$image.pull.@.wso2"/wso2ei-integrator:6.6.0
           livenessProbe:
             exec:
               command:
