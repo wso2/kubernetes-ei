@@ -8,7 +8,7 @@ given below:
 
 ### Simple
 
-* [A Simplified setup for WSO2 Enterprise Integrator](simple/single-script/README.md)
+* [A Simplified setup for WSO2 Enterprise Integrator](simple/README.md)
 
 ### Advanced
 
