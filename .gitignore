@@ -18,6 +18,8 @@
 *.iws
 *.swp
 
+.DS_Store
+
 # Backup files
 *~
 *.bck
