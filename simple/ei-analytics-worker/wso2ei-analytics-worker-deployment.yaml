@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: wso2ei-with-analytics-worker
-          image: "$image.pull.@.wso2"/wso2ei-analytics-worker:6.5.0
+          image: "$image.pull.@.wso2"/wso2ei-analytics-worker:6.6.0
           env:
             -
               name: NODE_IP

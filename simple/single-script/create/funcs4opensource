@@ -112,7 +112,7 @@ function get_nodePorts(){
       let "NP_1 %= $UPPER"; let "NP_2 %= $UPPER"; let "NP_3 %= $UPPER"
     done
   fi
-  echo -e "[INFO] nodePorts  are set to $NP_1/ $NP_2/ $NP_3"
+  echo -e "[INFO] nodePorts  are set to $NP_1, $NP_2, $NP_3"
 }
 function progress_bar(){
   dep_status=$(kubectl get deployments -n wso2 -o jsonpath='{.items[?(@.spec.selector.matchLabels.product=="wso2ei")].status.conditions[?(@.type=="Available")].status}')
@@ -263,6 +263,6 @@ function deploy(){
         echoBold "1. Try navigating to https://$NODE_IP:30443/carbon/ and https://$NODE_IP:30643/portal/ from your favourite browser using\n"
         echoBold "\tusername: admin\n"
         echoBold "\tpassword: admin\n"
-        echoBold "2. Follow \"https://docs.wso2.com/display/EI640/Quick+Start+Guide\" to start using WSO2 Enterprise Integrator.\n\n"
+        echoBold "2. Follow \"https://docs.wso2.com/display/EI660/Quick+Start+Guide\" to start using WSO2 Enterprise Integrator.\n\n"
     fi
 }

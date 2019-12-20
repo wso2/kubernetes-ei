@@ -16,8 +16,8 @@ data:
         <parameter name="ServicesDirectory">axis2services</parameter>
         <parameter name="httpContentNegotiation">false</parameter>
         <parameter name="ModulesDirectory">axis2modules</parameter>
-        <parameter name="userAgent" locked="true">WSO2 EI 6.5.0</parameter>
-        <parameter name="server" locked="true">WSO2 EI 6.5.0</parameter>
+        <parameter name="userAgent" locked="true">WSO2 EI 6.6.0</parameter>
+        <parameter name="server" locked="true">WSO2 EI 6.6.0</parameter>
         <parameter name="sendStacktraceDetailsWithFaults" locked="false">false</parameter>
         <parameter name="DrillDownToRootCauseForFaultReason" locked="false">false</parameter>
         <parameter name="manageTransportSession">true</parameter>
