@@ -4,9 +4,12 @@ All notable changes to this project 6.6.x per each release will be documented in
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [v6.6.0.2] - 2020-10-27
-- Upgrade MySQL chart to support newer Kubernetes versions.
-- Add JVM parameter to force the use of TLS 1.2 client.
-- Use correct wso2server.sh for message broker.
+
+### Changed
+
+- Upgrade MySQL chart to support newer Kubernetes versions (refer [issue](https://github.com/wso2/kubernetes-ei/issues/233) ).
+- Add JVM parameter to force the use of TLS 1.2 client (refer [issue](https://github.com/wso2/kubernetes-ei/issues/230)).
+- Use correct wso2server.sh for message broker (refer [issue](https://github.com/wso2/kubernetes-ei/issues/234)).
 
 ## [v6.6.0.1] - 2019-12-20
 - Add Kubernetes/Helm resources for WSO2 Enterprise Integrator v6.6.0
