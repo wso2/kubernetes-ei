@@ -134,14 +134,14 @@ spec:
             - containerPort: 9443
               protocol: TCP
           volumeMounts:
+            - name: integrator-bin
+              mountPath: /home/wso2carbon/wso2-config-volume/bin
             {{ if .Values.wso2.monitoring.enabled }}
             - name: shared-prometheus-jmx-jar
               mountPath: /home/wso2carbon/prometheus
             - name: integrator-prometheus-exporter-conf
               mountPath: /home/wso2carbon/prometheus/config.yaml
               subPath: config.yaml
-            - name: integrator-bin
-              mountPath: /home/wso2carbon/wso2-config-volume/bin
             {{ end }}
             - name: integrator-conf
               mountPath: /home/wso2carbon/wso2-config-volume/conf
@@ -243,7 +243,7 @@ spec:
         - name: integrator-prometheus-exporter-conf
           configMap:
             name: integrator-prometheus-exporter-conf
+        {{ end }}
         - name: integrator-bin
           configMap:
             name: integrator-bin
-      {{ end }}

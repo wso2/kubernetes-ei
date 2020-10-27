@@ -149,9 +149,9 @@ spec:
         - name: integrator-prometheus-exporter-conf
           mountPath: /home/wso2carbon/prometheus/config.yaml
           subPath: config.yaml
+        {{ end }}
         - name: message-broker-bin
           mountPath: /home/wso2carbon/wso2-config-volume/wso2/broker/bin
-        {{ end }}
       {{ if .Values.wso2.centralizedLogging.enabled }}
         - name: shared-logs
           mountPath: /home/wso2carbon/wso2ei-6.6.0/wso2/broker/repository/logs/
@@ -243,7 +243,7 @@ spec:
       - name: integrator-prometheus-exporter-conf
         configMap:
           name: integrator-prometheus-exporter-conf
+      {{ end }}
       - name: message-broker-bin
         configMap:
           name: message-broker-bin
-      {{ end }}
