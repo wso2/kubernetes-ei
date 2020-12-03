@@ -47,3 +47,19 @@ Create chart name and version as used by the chart label.
 {{- define "fullname" -}}
 {{- "wso2ei-pattern-2" }}
 {{- end -}}
+
+{{- define "image" }}
+{{- $dockerRegistry := .deployment.dockerRegistry | default "wso2" }}
+{{- $imageName := .deployment.imageName }}
+{{- $imageTag := .deployment.imageTag }}
+{{ if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") -}}
+image: {{ $dockerRegistry }}/{{ $imageName }}{{- if not (eq $imageTag "") }}{{- printf ":%s" $imageTag -}}{{- end }}
+{{- else -}}
+{{ $parts := len (split "." $imageTag) -}}
+{{ if eq $parts 3 -}}
+image: docker.wso2.com/{{ $imageName }}:{{ $imageTag }}.0
+{{- else -}}
+image: docker.wso2.com/{{ $imageName }}:{{ $imageTag }}
+{{- end -}}
+{{- end -}}
+{{- end -}}

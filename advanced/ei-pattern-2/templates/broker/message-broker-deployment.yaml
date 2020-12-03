@@ -74,15 +74,7 @@ spec:
         {{ end }}
       containers:
       - name: wso2ei-mb
-        {{ if .Values.wso2.deployment.wso2eiBroker.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2eiBroker.dockerRegistry }}/{{ default "wso2ei-broker" .Values.wso2.deployment.wso2eiBroker.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2eiBroker.imageTag }}
-        {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
-        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-broker" .Values.wso2.deployment.wso2eiBroker.imageName }}:{{ .Values.wso2.deployment.wso2eiBroker.imageTag }}
-        {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-broker" .Values.wso2.deployment.wso2eiBroker.imageName }}:{{ .Values.wso2.deployment.wso2eiBroker.imageTag }}
-        {{ end }}
+{{- include "image" (dict "Values" .Values "deployment" .Values.wso2.deployment.wso2eiBroker) | indent 8 }}
         livenessProbe:
           exec:
             command:

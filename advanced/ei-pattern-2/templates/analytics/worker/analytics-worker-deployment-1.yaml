@@ -74,15 +74,7 @@ spec:
       {{ end }}
       containers:
       - name: integrator-with-analytics-ei-analytics
-        {{ if .Values.wso2.deployment.wso2eiAnalyticsWorker1.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.dockerRegistry }}/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
-        {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
-        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
-        {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-analytics-worker" .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageName }}:{{ .Values.wso2.deployment.wso2eiAnalyticsWorker1.imageTag }}
-        {{ end }}
+{{- include "image" (dict "Values" .Values "deployment" .Values.wso2.deployment.wso2eiAnalyticsWorker1) | indent 8 }}
         env:
         -
           name: NODE_IP

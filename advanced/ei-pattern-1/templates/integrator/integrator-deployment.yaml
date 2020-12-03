@@ -77,15 +77,7 @@ spec:
       {{ end }}
       containers:
       - name: wso2ei-integrator
-        {{ if .Values.wso2.deployment.wso2ei.dockerRegistry }}
-        image: {{ .Values.wso2.deployment.wso2ei.dockerRegistry }}/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}
-        {{- $tag := .Values.wso2.deployment.wso2ei.imageTag }}
-        {{- if not (eq $tag "") }}{{- printf ":%s" $tag -}}{{- end }}
-        {{ else if or (eq .Values.wso2.subscription.username "") (eq .Values.wso2.subscription.password "") }}
-        image: wso2/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
-        {{ else }}
-        image: docker.wso2.com/{{ default "wso2ei-integrator" .Values.wso2.deployment.wso2ei.imageName }}:{{ .Values.wso2.deployment.wso2ei.imageTag }}
-        {{ end }}
+{{- include "image" (dict "Values" .Values "deployment" .Values.wso2.deployment.wso2ei) | indent 8 }}
         livenessProbe:
           exec:
             command:
