@@ -212,10 +212,11 @@ elif [ "$CMD" = "version" ]; then
 fi
 
 # ---------- Handle the SSL Issue with proper JDK version --------------------
-jdk_18=`$JAVA_HOME/bin/java -version 2>&1 | grep "1.[8]"`
-if [ "$jdk_18" = "" ]; then
+java_version=$("$JAVACMD" -version 2>&1 | awk -F '"' '/version/ {print $2}')
+java_version_formatted=$(echo "$java_version" | awk -F. '{printf("%02d%02d",$1,$2);}')
+if [ $java_version_formatted -lt 0107 ] || [ $java_version_formatted -gt 1100 ]; then
    echo " Starting WSO2 Carbon (in unsupported JDK)"
-   echo " [ERROR] CARBON is supported only on JDK 1.8"
+   echo " [ERROR] CARBON is supported only on JDK 1.7, 1.8, 9, 10 and 11"
 fi
 
 CARBON_XBOOTCLASSPATH=""
@@ -225,8 +226,6 @@ do
         CARBON_XBOOTCLASSPATH="$CARBON_XBOOTCLASSPATH":$f
     fi
 done
-
-JAVA_ENDORSED_DIRS="$CARBON_HOME/bin/bootstrap/endorsed":"$JAVA_HOME/jre/lib/endorsed":"$JAVA_HOME/lib/endorsed"
 
 CARBON_CLASSPATH=""
 if [ -e "$JAVA_HOME/bin/bootstrap/tools.jar" ]; then
@@ -242,13 +241,28 @@ for t in "$CARBON_HOME"/bin/bootstrap/commons-lang*.jar
 do
     CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
 done
+for t in "$CARBON_HOME"/../lib/jaxb-api*.jar
+do
+    CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
+done
+for t in "$CARBON_HOME"/../components/plugins/org.wso2.orbit.sun.xml.bind.jaxb*.jar
+do
+    CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
+done
+for t in "$CARBON_HOME"/../lib/javax.annotation-api*.jar
+do
+    CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
+done
+for t in "$CARBON_HOME"/wso2/lib/plugins/org.apache.geronimo.specs.geronimo-activation*.jar
+do
+    CARBON_CLASSPATH="$CARBON_CLASSPATH":$t
+done
 # For Cygwin, switch paths to Windows format before running java
 if $cygwin; then
   JAVA_HOME=`cygpath --absolute --windows "$JAVA_HOME"`
   CARBON_HOME=`cygpath --absolute --windows "$CARBON_HOME"`
   RUNTIME_HOME=`cygpath --absolute --windows "$RUNTIME_HOME"`
   CLASSPATH=`cygpath --path --windows "$CLASSPATH"`
-  JAVA_ENDORSED_DIRS=`cygpath --path --windows "$JAVA_ENDORSED_DIRS"`
   CARBON_CLASSPATH=`cygpath --path --windows "$CARBON_CLASSPATH"`
   CARBON_XBOOTCLASSPATH=`cygpath --path --windows "$CARBON_XBOOTCLASSPATH"`
 fi
@@ -276,7 +290,6 @@ do
     -XX:HeapDumpPath="$RUNTIME_HOME/logs/heap-dump.hprof" \
     $JAVA_OPTS \
     -classpath "$CARBON_CLASSPATH" \
-    -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" \
     -Djava.io.tmpdir="$CARBON_HOME/tmp" \
     -Dcarbon.registry.root=/ \
     -Djava.command="$JAVACMD" \
@@ -289,8 +302,8 @@ do
     -Djavax.net.ssl.keyStore="$CARBON_HOME/resources/security/wso2carbon.jks" \
     -Djavax.net.ssl.keyStorePassword="wso2carbon" \
     -Djavax.net.ssl.trustStore="$CARBON_HOME/resources/security/client-truststore.jks" \
-    -Djavax.net.ssl.trustStorePassword="wso2carbon" \
     -javaagent:/home/wso2carbon/prometheus/jmx_prometheus_javaagent-0.12.0.jar=2222:/home/wso2carbon/prometheus/config.yaml \
+    -Djavax.net.ssl.trustStorePassword="wso2carbon" \
     org.wso2.carbon.launcher.Main $*
     status=$?
 done
