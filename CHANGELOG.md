@@ -3,6 +3,14 @@ All notable changes to this project 6.6.x per each release will be documented in
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
+## [v6.6.0.3] - 2020-12-17
+
+### Changed
+
+- Fix incorrect carbon.sh overrides (refer [issue](https://github.com/wso2/kubernetes-ei/issues/238) ).
+- Fix incorrect properties in serviceMonitor (refer [issue](https://github.com/wso2/kubernetes-ei/issues/239)).
+- Fix image name and tag generation to use custom registry (refer [issue](https://github.com/wso2/kubernetes-ei/issues/240)).
+
 ## [v6.6.0.2] - 2020-10-27
 
 ### Changed
@@ -49,3 +57,5 @@ For detailed information on the tasks carried out during this release, please se
 
 [v6.5.0.3]: https://github.com/wso2/kubernetes-ei/compare/v6.5.0.2...v6.5.0.3
 [v6.6.0.1]: https://github.com/wso2/kubernetes-ei/compare/v6.5.0.3...v6.6.0.1
+[v6.6.0.2]: https://github.com/wso2/kubernetes-ei/compare/v6.6.0.2...v6.6.0.1
+[v6.6.0.3]: https://github.com/wso2/kubernetes-ei/compare/v6.6.0.3...v6.6.0.2

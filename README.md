@@ -21,7 +21,7 @@ given below:
 
 ## Changelog
 
-**Change log** from previous v6.6.0.1 release: [View Here](CHANGELOG.md)
+**Change log** from previous release: [View Here](CHANGELOG.md)
 
 ## Reporting issues
 
